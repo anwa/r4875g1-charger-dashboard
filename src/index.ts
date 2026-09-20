@@ -33,4 +33,7 @@ export type {
   SnapshotSubscriptionEvent,
 } from "./api/types";
 
+export { reduceChargerSubscriptionEvent } from "./state/reducer";
+export type { ChargerState } from "./state/reducer";
+
 console.info(`[${DASHBOARD_NAME}] frontend bootstrap loaded`);
