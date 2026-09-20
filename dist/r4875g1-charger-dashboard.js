@@ -689,4 +689,3 @@ export {
   at as reduceChargerSubscriptionEvent,
   ot as subscribeChargerInstance
 };
-//# sourceMappingURL=r4875g1-charger-dashboard.js.map

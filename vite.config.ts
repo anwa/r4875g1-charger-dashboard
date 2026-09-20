@@ -8,6 +8,6 @@ export default defineConfig({
       formats: ["es"],
       fileName: () => "r4875g1-charger-dashboard.js",
     },
-    sourcemap: true,
+    sourcemap: false,
   },
 });
