@@ -44,4 +44,10 @@ export {
   ChargerStatusPreview,
 } from "./components/charger-status-preview";
 
+export {
+  CHARGER_TEST_CARD_TAG,
+  ChargerTestCard,
+} from "./components/charger-test-card";
+export type { ChargerTestCardConfig } from "./components/charger-test-card";
+
 console.info(`[${DASHBOARD_NAME}] frontend bootstrap loaded`);
