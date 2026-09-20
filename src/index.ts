@@ -1,5 +1,18 @@
 export const DASHBOARD_NAME = "R4875G1 Charger Dashboard";
 
+export {
+  controlChargerRole,
+  getChargerInstance,
+  listChargerInstances,
+  subscribeChargerInstance,
+} from "./api/client";
+
+export type {
+  HomeAssistantConnection,
+  HomeAssistantWebSocket,
+  UnsubscribeFunction,
+} from "./api/client";
+
 export type {
   CapabilityStatus,
   CapabilitySummary,
