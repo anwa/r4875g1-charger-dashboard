@@ -1,0 +1,13 @@
+import { defineConfig } from "vite";
+
+export default defineConfig({
+  build: {
+    emptyOutDir: true,
+    lib: {
+      entry: "src/index.ts",
+      formats: ["es"],
+      fileName: () => "r4875g1-charger-dashboard.js",
+    },
+    sourcemap: true,
+  },
+});
