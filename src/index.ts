@@ -36,4 +36,7 @@ export type {
 export { reduceChargerSubscriptionEvent } from "./state/reducer";
 export type { ChargerState } from "./state/reducer";
 
+export { ChargerStore } from "./state/store";
+export type { ChargerStoreListener } from "./state/store";
+
 console.info(`[${DASHBOARD_NAME}] frontend bootstrap loaded`);
