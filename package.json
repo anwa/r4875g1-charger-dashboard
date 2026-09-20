@@ -7,8 +7,14 @@
     "build": "vite build",
     "typecheck": "tsc --noEmit"
   },
+  "dependencies": {
+    "lit": "^3.2.1"
+  },
   "devDependencies": {
     "typescript": "^5.9.0",
     "vite": "^7.1.0"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true
   }
 }

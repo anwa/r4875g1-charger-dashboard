@@ -39,4 +39,9 @@ export type { ChargerState } from "./state/reducer";
 export { ChargerStore } from "./state/store";
 export type { ChargerStoreListener } from "./state/store";
 
+export {
+  CHARGER_STATUS_TAG,
+  ChargerStatusPreview,
+} from "./components/charger-status-preview";
+
 console.info(`[${DASHBOARD_NAME}] frontend bootstrap loaded`);
