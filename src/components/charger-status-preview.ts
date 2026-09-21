@@ -6,6 +6,23 @@ import type { ChargerStore } from "../state/store";
 
 export const CHARGER_STATUS_TAG = "r4875g1-charger-status";
 
+const CHARGER_OVERVIEW_METRICS = [
+  { label: "AC power", role: "charger.ac.power" },
+  { label: "AC voltage", role: "charger.ac.voltage" },
+  { label: "AC current", role: "charger.ac.current" },
+  { label: "DC power", role: "charger.dc.power" },
+  { label: "DC voltage", role: "charger.dc.voltage" },
+  { label: "DC current", role: "charger.dc.current" },
+  {
+    label: "Highest output temperature",
+    role: "charger.highest_output_temperature",
+  },
+  {
+    label: "Conversion efficiency",
+    role: "charger.conversion_efficiency",
+  },
+] as const;
+
 export class ChargerStatusPreview extends LitElement {
   static styles = css`
     :host {
@@ -135,10 +152,9 @@ export class ChargerStatusPreview extends LitElement {
         </div>
 
         <div class="metrics">
-          ${this.renderMetric("AC power", "charger.ac.power")}
-          ${this.renderMetric("DC power", "charger.dc.power")}
-          ${this.renderMetric("DC voltage", "charger.dc.voltage")}
-          ${this.renderMetric("DC current", "charger.dc.current")}
+          ${CHARGER_OVERVIEW_METRICS.map(({ label, role }) =>
+            this.renderMetric(label, role),
+          )}
         </div>
       </div>
     `;
