@@ -65,6 +65,13 @@ export class ChargerStatusPreview extends LitElement {
       font-size: 1.15rem;
       font-weight: 600;
     }
+
+    .metric-unit {
+      margin-left: 0.25rem;
+      color: var(--secondary-text-color, #727272);
+      font-size: 0.85rem;
+      font-weight: 400;
+    }
   `;
 
   private chargerStore: ChargerStore | null = null;
@@ -139,14 +146,22 @@ export class ChargerStatusPreview extends LitElement {
 
   private renderMetric(label: string, role: string) {
     const roleSnapshot = this.chargerState?.roles[role];
-    const value = roleSnapshot?.available === true
+    const available = roleSnapshot?.available === true;
+    const value = available
       ? roleSnapshot.state ?? "unavailable"
       : "unavailable";
+    const unit = available
+      ? roleSnapshot?.unit ?? null
+      : null;
 
     return html`
       <div class="metric">
         <span class="metric-label">${label}</span>
-        <span class="metric-value">${value}</span>
+        <span class="metric-value">
+          ${value}${unit !== null
+            ? html`<span class="metric-unit">${unit}</span>`
+            : ""}
+        </span>
       </div>
     `;
   }

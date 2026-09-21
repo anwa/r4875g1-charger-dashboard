@@ -49,6 +49,7 @@ export type RoleControlMetadata =
 export interface SemanticRoleSnapshot {
   available: boolean;
   state: string | null;
+  unit?: string | null;
   entity_id?: string;
   domain?: string;
   control?: RoleControlMetadata;
