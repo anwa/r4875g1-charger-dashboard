@@ -4,7 +4,7 @@ Frontend dashboard project for the R4875G1 three-phase charger.
 
 ## Development status
 
-Version 0.2.0 provides the first functional Home Assistant overview card.
+Version 0.3.0 adds the first operational controls to the Home Assistant overview card.
 
 The current milestone includes:
 
@@ -16,8 +16,11 @@ The current milestone includes:
 - aggregate AC and DC charger telemetry
 - Home Assistant unit metadata from backend 1.1.0
 - locale-aware numeric display formatting
+- separate available and running rectifier status
+- semantic Charger-wide START/STOP control with confirmation
+- Controller-observed command completion and timeout handling
 
-The dashboard is still under active development. Controls, rectifier detail views, cooling views and trend/history presentation are later milestones.
+The dashboard is still under active development. Setpoint controls, rectifier detail views, cooling views and trend/history presentation are later milestones.
 
 ## Requirements
 

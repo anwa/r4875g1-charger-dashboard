@@ -1,11 +1,13 @@
 import { LitElement, css, html } from "lit";
 
 import {
+  controlChargerRole,
   listChargerInstances,
   type HomeAssistantConnection,
   type HomeAssistantWebSocket,
 } from "../api/client";
 import { ChargerStore } from "../state/store";
+import "./charger-power-control";
 import "./charger-status-preview";
 
 export const CHARGER_OVERVIEW_CARD_TAG = "r4875g1-charger-overview-card";
@@ -57,6 +59,7 @@ export class ChargerOverviewCard extends LitElement {
   set hass(value: HomeAssistantWebSocket | null) {
     this.homeAssistant = value;
     void this.connectIfReady();
+    this.requestUpdate();
   }
 
   setConfig(config: ChargerOverviewCardConfig): void {
@@ -116,6 +119,10 @@ export class ChargerOverviewCard extends LitElement {
         <r4875g1-charger-status
           .store=${this.chargerStore}
         ></r4875g1-charger-status>
+        <r4875g1-charger-power-control
+          .store=${this.chargerStore}
+          .execute=${this.executeControl}
+        ></r4875g1-charger-power-control>
       </ha-card>
     `;
   }
@@ -178,6 +185,27 @@ export class ChargerOverviewCard extends LitElement {
 
     this.requestUpdate();
   }
+
+  private readonly executeControl = (
+    role: string,
+    value?: number,
+  ) => {
+    if (
+      this.homeAssistant === null
+      || this.connectedConfigEntryId === null
+    ) {
+      return Promise.reject(
+        new Error("Charger Instance is not connected"),
+      );
+    }
+
+    return controlChargerRole(
+      this.homeAssistant,
+      this.connectedConfigEntryId,
+      role,
+      value,
+    );
+  };
 
   private async resolveConfigEntryId(
     hass: HomeAssistantWebSocket,

@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.3.0
+
+First operational control milestone.
+
+- add separate available and running rectifier status against the three Contract-1 units
+- align rectifier status presentation with the Controller and HMI semantics
+- add semantic Charger-wide START/STOP control through Backend API v1
+- add START and STOP confirmation dialogs
+- wait for observed Controller state before considering a command complete
+- use the same 10-second command-pending timeout as the local HMI
+- keep Home Assistant transport out of the presentation component
+- preserve Charger Controller authority for lifecycle and safety decisions
+
 ## 0.2.0
 
 First functional Home Assistant dashboard milestone.

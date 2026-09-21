@@ -45,6 +45,14 @@ export {
 } from "./components/charger-status-preview";
 
 export {
+  CHARGER_POWER_CONTROL_TAG,
+  ChargerPowerControl,
+} from "./components/charger-power-control";
+export type {
+  ChargerControlExecutor,
+} from "./components/charger-power-control";
+
+export {
   CHARGER_OVERVIEW_CARD_TAG,
   ChargerOverviewCard,
 } from "./components/charger-overview-card";
