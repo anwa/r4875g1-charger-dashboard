@@ -126,6 +126,12 @@ export class ChargerOverviewCard extends LitElement {
           .role=${"charger.ac.current_limit"}
           .label=${"AC current limit"}
         ></r4875g1-charger-number-control>
+        <r4875g1-charger-number-control
+          .store=${this.chargerStore}
+          .execute=${this.executeControl}
+          .role=${"charger.dc.voltage_setpoint"}
+          .label=${"DC voltage limit"}
+        ></r4875g1-charger-number-control>
         <r4875g1-charger-power-control
           .store=${this.chargerStore}
           .execute=${this.executeControl}

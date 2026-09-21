@@ -24,6 +24,8 @@ These rules apply to the complete `r4875g1-charger-dashboard` repository.
 - Work in small, reviewable functional steps.
 - Before implementing a change, inspect the current branch and relevant repository rules.
 - For implementation changes, provide a downloadable patch that can be checked with `git apply --check`.
+- Generate patches only against the exact current target-branch files read from GitHub; never generate a user patch from synthetic, shortened or reconstructed substitute source files.
+- Before delivering a patch, validate `git apply --check` against those exact target-branch file contents and confirm the target branch/commit used for validation.
 - Run or request `npm run typecheck`, `npm run build` and `git diff --check` before committing functional frontend changes.
 - Rebuild and include `dist/r4875g1-charger-dashboard.js` whenever source changes affect the distributable bundle.
 - Do not claim runtime testing that has not actually been performed in Home Assistant.
