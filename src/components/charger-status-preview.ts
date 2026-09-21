@@ -56,6 +56,15 @@ export class ChargerStatusPreview extends LitElement {
       font-weight: 600;
     }
 
+    .unit-status {
+      display: grid;
+      grid-template-columns: minmax(8rem, auto) 1fr;
+      gap: 1rem;
+      align-items: baseline;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--divider-color, #d0d0d0);
+    }
+
     .metrics {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
@@ -151,11 +160,44 @@ export class ChargerStatusPreview extends LitElement {
           </span>
         </div>
 
+        ${this.renderRectifierStatus()}
+
         <div class="metrics">
           ${CHARGER_OVERVIEW_METRICS.map(({ label, role }) =>
             this.renderMetric(label, role),
           )}
         </div>
+      </div>
+    `;
+  }
+
+  private renderRectifierStatus() {
+    const availableUnits = this.chargerState?.roles["charger.available_units"];
+    const runningUnits = this.chargerState?.roles["charger.running_units"];
+
+    if (
+      availableUnits?.available !== true
+      || runningUnits?.available !== true
+      || availableUnits.state === null
+      || runningUnits.state === null
+    ) {
+      return html`
+        <div class="unit-status">
+          <span class="label">Rectifiers</span>
+          <span class="value">unavailable</span>
+        </div>
+      `;
+    }
+
+    return html`
+      <div class="unit-status">
+        <span class="label">Rectifiers</span>
+        <span class="value">
+          ${this.formatMetricValue(runningUnits.state)}
+          /
+          ${this.formatMetricValue(availableUnits.state)}
+          running
+        </span>
       </div>
     `;
   }
