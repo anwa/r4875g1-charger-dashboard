@@ -30,11 +30,39 @@ export class ChargerStatusPreview extends LitElement {
       align-items: baseline;
     }
 
-    .label {
+    .label,
+    .metric-label {
       color: var(--secondary-text-color, #727272);
     }
 
     .value {
+      font-weight: 600;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+      gap: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--divider-color, #d0d0d0);
+    }
+
+    .metric {
+      display: grid;
+      gap: 0.25rem;
+      min-width: 0;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      background: var(--secondary-background-color, #f5f5f5);
+    }
+
+    .metric-label {
+      font-size: 0.85rem;
+    }
+
+    .metric-value {
+      overflow-wrap: anywhere;
+      font-size: 1.15rem;
       font-weight: 600;
     }
   `;
@@ -98,6 +126,27 @@ export class ChargerStatusPreview extends LitElement {
             ${this.chargerState.contract_version ?? "unavailable"}
           </span>
         </div>
+
+        <div class="metrics">
+          ${this.renderMetric("AC power", "charger.ac.power")}
+          ${this.renderMetric("DC power", "charger.dc.power")}
+          ${this.renderMetric("DC voltage", "charger.dc.voltage")}
+          ${this.renderMetric("DC current", "charger.dc.current")}
+        </div>
+      </div>
+    `;
+  }
+
+  private renderMetric(label: string, role: string) {
+    const roleSnapshot = this.chargerState?.roles[role];
+    const value = roleSnapshot?.available === true
+      ? roleSnapshot.state ?? "unavailable"
+      : "unavailable";
+
+    return html`
+      <div class="metric">
+        <span class="metric-label">${label}</span>
+        <span class="metric-value">${value}</span>
       </div>
     `;
   }
