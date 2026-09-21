@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.4.1
+
+HACS distribution and repository presentation update.
+
+- document HACS installation, migration, updating and removal
+- document the HACS-managed `/hacsfiles/` resource path
+- add project-specific dashboard icon and logo assets
+- add the official HACS repository validation workflow for plugin repositories
+- document the published-release requirement used by HACS updates
+- align repository documentation structure with the backend integration
+
 ## 0.4.0
 
 First complete Charger setpoint-control milestone.

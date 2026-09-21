@@ -56,6 +56,8 @@ These rules apply to the complete `r4875g1-charger-dashboard` repository.
   - verification commands
   - branch cleanup commands when appropriate
 - Patch increments do not require a GitHub Release unless explicitly chosen for that change.
+- Any dashboard version intended to be distributed or offered as an update through HACS must be published as a full GitHub Release; a Git tag alone is not sufficient for the HACS release workflow.
+- Before publishing a HACS-facing release, verify that `dist/r4875g1-charger-dashboard.js` exists and still matches the repository filename expected by HACS.
 - `CHANGELOG.md` and user-facing release documentation must be updated for minor and major releases.
 
 ## Branching
