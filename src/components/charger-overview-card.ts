@@ -132,6 +132,12 @@ export class ChargerOverviewCard extends LitElement {
           .role=${"charger.dc.voltage_setpoint"}
           .label=${"DC voltage limit"}
         ></r4875g1-charger-number-control>
+        <r4875g1-charger-number-control
+          .store=${this.chargerStore}
+          .execute=${this.executeControl}
+          .role=${"charger.dc.sum_power_setpoint"}
+          .label=${"DC sum power"}
+        ></r4875g1-charger-number-control>
         <r4875g1-charger-power-control
           .store=${this.chargerStore}
           .execute=${this.executeControl}
