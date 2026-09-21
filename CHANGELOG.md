@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.4.0
+
+First complete Charger setpoint-control milestone.
+
+- group the normal operating setpoints into one dedicated section
+- provide AC current limit, DC voltage limit and DC sum-power controls
+- add a separate fallback-settings section
+- provide fallback DC voltage and fallback DC current controls
+- reuse the semantic Number-control architecture for all setpoints
+- use Backend API Number metadata for range, step and unit
+- wait for observed semantic state after setpoint writes
+- keep fallback settings visually and architecturally separate from normal operating setpoints
+
 ## 0.3.0
 
 First operational control milestone.

@@ -7,7 +7,7 @@ import {
   type HomeAssistantWebSocket,
 } from "../api/client";
 import { ChargerStore } from "../state/store";
-import "./charger-number-control";
+import "./charger-setpoint-controls";
 import "./charger-power-control";
 import "./charger-status-preview";
 
@@ -120,24 +120,10 @@ export class ChargerOverviewCard extends LitElement {
         <r4875g1-charger-status
           .store=${this.chargerStore}
         ></r4875g1-charger-status>
-        <r4875g1-charger-number-control
+        <r4875g1-charger-setpoint-controls
           .store=${this.chargerStore}
           .execute=${this.executeControl}
-          .role=${"charger.ac.current_limit"}
-          .label=${"AC current limit"}
-        ></r4875g1-charger-number-control>
-        <r4875g1-charger-number-control
-          .store=${this.chargerStore}
-          .execute=${this.executeControl}
-          .role=${"charger.dc.voltage_setpoint"}
-          .label=${"DC voltage limit"}
-        ></r4875g1-charger-number-control>
-        <r4875g1-charger-number-control
-          .store=${this.chargerStore}
-          .execute=${this.executeControl}
-          .role=${"charger.dc.sum_power_setpoint"}
-          .label=${"DC sum power"}
-        ></r4875g1-charger-number-control>
+        ></r4875g1-charger-setpoint-controls>
         <r4875g1-charger-power-control
           .store=${this.chargerStore}
           .execute=${this.executeControl}

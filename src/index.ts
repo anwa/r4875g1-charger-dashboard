@@ -50,6 +50,11 @@ export {
 } from "./components/charger-number-control";
 
 export {
+  CHARGER_SETPOINT_CONTROLS_TAG,
+  ChargerSetpointControls,
+} from "./components/charger-setpoint-controls";
+
+export {
   CHARGER_POWER_CONTROL_TAG,
   ChargerPowerControl,
 } from "./components/charger-power-control";
