@@ -6,6 +6,7 @@ import {
   type HomeAssistantConnection,
   type HomeAssistantWebSocket,
 } from "../api/client";
+import { registerCustomCard } from "../home-assistant/custom-card-registry";
 import { ChargerStore } from "../state/store";
 import "./charger-setpoint-controls";
 import "./charger-power-control";
@@ -19,6 +20,10 @@ export interface ChargerOverviewCardConfig {
 }
 
 export class ChargerOverviewCard extends LitElement {
+  static getStubConfig(): ChargerOverviewCardConfig {
+    return {};
+  }
+
   static styles = css`
     :host {
       display: block;
@@ -251,3 +256,10 @@ export class ChargerOverviewCard extends LitElement {
 if (!customElements.get(CHARGER_OVERVIEW_CARD_TAG)) {
   customElements.define(CHARGER_OVERVIEW_CARD_TAG, ChargerOverviewCard);
 }
+
+registerCustomCard({
+  type: CHARGER_OVERVIEW_CARD_TAG,
+  name: "R4875G1 Charger",
+  description: "Control and monitor an R4875G1 Charger",
+  preview: true,
+});
