@@ -148,7 +148,7 @@ export class ChargerStatusPreview extends LitElement {
     const roleSnapshot = this.chargerState?.roles[role];
     const available = roleSnapshot?.available === true;
     const value = available
-      ? roleSnapshot.state ?? "unavailable"
+      ? this.formatMetricValue(roleSnapshot.state)
       : "unavailable";
     const unit = available
       ? roleSnapshot?.unit ?? null
@@ -164,6 +164,23 @@ export class ChargerStatusPreview extends LitElement {
         </span>
       </div>
     `;
+  }
+
+  private formatMetricValue(state: string | null): string {
+    if (state === null) {
+      return "unavailable";
+    }
+
+    const numericValue = Number(state);
+
+    if (!Number.isFinite(numericValue)) {
+      return state;
+    }
+
+    return new Intl.NumberFormat(undefined, {
+      maximumFractionDigits: 2,
+      useGrouping: false,
+    }).format(numericValue);
   }
 
   private attachStore(): void {
