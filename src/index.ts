@@ -45,6 +45,11 @@ export {
 } from "./components/charger-status-preview";
 
 export {
+  CHARGER_NUMBER_CONTROL_TAG,
+  ChargerNumberControl,
+} from "./components/charger-number-control";
+
+export {
   CHARGER_POWER_CONTROL_TAG,
   ChargerPowerControl,
 } from "./components/charger-power-control";

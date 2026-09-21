@@ -3,11 +3,11 @@ import { LitElement, css, html } from "lit";
 import type {
   UnsubscribeFunction,
 } from "../api/client";
-import type {
-  SemanticControlResult,
-} from "../api/types";
+import type { ChargerControlExecutor } from "../controls/types";
 import type { ChargerState } from "../state/reducer";
 import type { ChargerStore } from "../state/store";
+
+export type { ChargerControlExecutor } from "../controls/types";
 
 export const CHARGER_POWER_CONTROL_TAG =
   "r4875g1-charger-power-control";
@@ -17,11 +17,6 @@ const CHARGER_STOP_ROLE = "charger.command.stop";
 const COMMAND_TIMEOUT_MS = 10_000;
 
 type ChargerPowerAction = "start" | "stop";
-
-export type ChargerControlExecutor = (
-  role: string,
-  value?: number,
-) => Promise<SemanticControlResult>;
 
 export class ChargerPowerControl extends LitElement {
   static styles = css`
