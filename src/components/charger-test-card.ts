@@ -1,8 +1,9 @@
 import { LitElement, css, html } from "lit";
 
-import type {
-  HomeAssistantConnection,
-  HomeAssistantWebSocket,
+import {
+  listChargerInstances,
+  type HomeAssistantConnection,
+  type HomeAssistantWebSocket,
 } from "../api/client";
 import { ChargerStore } from "../state/store";
 import "./charger-status-preview";
@@ -11,7 +12,7 @@ export const CHARGER_TEST_CARD_TAG = "r4875g1-charger-test-card";
 
 export interface ChargerTestCardConfig {
   type?: string;
-  config_entry_id: string;
+  config_entry_id?: string;
 }
 
 export class ChargerTestCard extends LitElement {
@@ -44,6 +45,8 @@ export class ChargerTestCard extends LitElement {
   private config: ChargerTestCardConfig | null = null;
   private connectedConnection: HomeAssistantConnection | null = null;
   private connectedConfigEntryId: string | null = null;
+  private discoveredConnection: HomeAssistantConnection | null = null;
+  private discoveredConfigEntryId: string | null = null;
   private connectionGeneration = 0;
   private connectionError: string | null = null;
 
@@ -58,17 +61,22 @@ export class ChargerTestCard extends LitElement {
 
   setConfig(config: ChargerTestCardConfig): void {
     if (
-      typeof config?.config_entry_id !== "string"
-      || config.config_entry_id.trim() === ""
+      config.config_entry_id !== undefined
+      && (
+        typeof config.config_entry_id !== "string"
+        || config.config_entry_id.trim() === ""
+      )
     ) {
-      throw new Error("config_entry_id is required");
+      throw new Error("config_entry_id must be a non-empty string");
     }
 
     this.config = {
       ...config,
-      config_entry_id: config.config_entry_id.trim(),
+      config_entry_id: config.config_entry_id?.trim(),
     };
 
+    this.discoveredConnection = null;
+    this.discoveredConfigEntryId = null;
     void this.connectIfReady();
     this.requestUpdate();
   }
@@ -87,6 +95,8 @@ export class ChargerTestCard extends LitElement {
     this.chargerStore.disconnect();
     this.connectedConnection = null;
     this.connectedConfigEntryId = null;
+    this.discoveredConnection = null;
+    this.discoveredConfigEntryId = null;
     super.disconnectedCallback();
   }
 
@@ -119,23 +129,30 @@ export class ChargerTestCard extends LitElement {
       return;
     }
 
-    const connection = this.homeAssistant.connection;
-    const configEntryId = this.config.config_entry_id;
-
-    if (
-      this.connectedConnection === connection
-      && this.connectedConfigEntryId === configEntryId
-    ) {
-      return;
-    }
-
     const generation = ++this.connectionGeneration;
-    this.connectedConnection = connection;
-    this.connectedConfigEntryId = configEntryId;
-    this.connectionError = null;
-    this.requestUpdate();
+    const connection = this.homeAssistant.connection;
 
     try {
+      const configEntryId = await this.resolveConfigEntryId(
+        this.homeAssistant,
+      );
+
+      if (generation !== this.connectionGeneration) {
+        return;
+      }
+
+      if (
+        this.connectedConnection === connection
+        && this.connectedConfigEntryId === configEntryId
+      ) {
+        return;
+      }
+
+      this.connectedConnection = connection;
+      this.connectedConfigEntryId = configEntryId;
+      this.connectionError = null;
+      this.requestUpdate();
+
       await this.chargerStore.connect(
         this.homeAssistant,
         configEntryId,
@@ -160,6 +177,41 @@ export class ChargerTestCard extends LitElement {
     }
 
     this.requestUpdate();
+  }
+
+  private async resolveConfigEntryId(
+    hass: HomeAssistantWebSocket,
+  ): Promise<string> {
+    const configuredId = this.config?.config_entry_id;
+
+    if (configuredId !== undefined) {
+      return configuredId;
+    }
+
+    if (
+      this.discoveredConnection === hass.connection
+      && this.discoveredConfigEntryId !== null
+    ) {
+      return this.discoveredConfigEntryId;
+    }
+
+    const response = await listChargerInstances(hass);
+
+    if (response.instances.length === 0) {
+      throw new Error("No R4875G1 Charger Instance is available");
+    }
+
+    if (response.instances.length > 1) {
+      throw new Error(
+        "Multiple R4875G1 Charger Instances found; configure config_entry_id",
+      );
+    }
+
+    const configEntryId = response.instances[0].config_entry_id;
+    this.discoveredConnection = hass.connection;
+    this.discoveredConfigEntryId = configEntryId;
+
+    return configEntryId;
   }
 }
 
