@@ -130,7 +130,7 @@ const ut = (n) => new et(typeof n == "string" ? n : n + "", void 0, D), st = (n,
   for (const s of t.cssRules) e += s.cssText;
   return ut(e);
 })(n) : n;
-const { is: ft, defineProperty: gt, getOwnPropertyDescriptor: $t, getOwnPropertyNames: _t, getOwnPropertySymbols: yt, getPrototypeOf: mt } = Object, I = globalThis, q = I.trustedTypes, vt = q ? q.emptyScript : "", At = I.reactiveElementPolyfillSupport, E = (n, t) => n, M = { toAttribute(n, t) {
+const { is: ft, defineProperty: gt, getOwnPropertyDescriptor: $t, getOwnPropertyNames: _t, getOwnPropertySymbols: yt, getPrototypeOf: mt } = Object, H = globalThis, W = H.trustedTypes, vt = W ? W.emptyScript : "", At = H.reactiveElementPolyfillSupport, E = (n, t) => n, T = { toAttribute(n, t) {
   switch (t) {
     case Boolean:
       n = n ? vt : null;
@@ -158,8 +158,8 @@ const { is: ft, defineProperty: gt, getOwnPropertyDescriptor: $t, getOwnProperty
       }
   }
   return e;
-} }, it = (n, t) => !ft(n, t), W = { attribute: !0, type: String, converter: M, reflect: !1, useDefault: !1, hasChanged: it };
-Symbol.metadata ??= /* @__PURE__ */ Symbol("metadata"), I.litPropertyMetadata ??= /* @__PURE__ */ new WeakMap();
+} }, it = (n, t) => !ft(n, t), q = { attribute: !0, type: String, converter: T, reflect: !1, useDefault: !1, hasChanged: it };
+Symbol.metadata ??= /* @__PURE__ */ Symbol("metadata"), H.litPropertyMetadata ??= /* @__PURE__ */ new WeakMap();
 let m = class extends HTMLElement {
   static addInitializer(t) {
     this._$Ei(), (this.l ??= []).push(t);
@@ -167,7 +167,7 @@ let m = class extends HTMLElement {
   static get observedAttributes() {
     return this.finalize(), this._$Eh && [...this._$Eh.keys()];
   }
-  static createProperty(t, e = W) {
+  static createProperty(t, e = q) {
     if (e.state && (e.attribute = !1), this._$Ei(), this.prototype.hasOwnProperty(t) && ((e = Object.create(e)).wrapped = !0), this.elementProperties.set(t, e), !e.noAccessor) {
       const s = /* @__PURE__ */ Symbol(), i = this.getPropertyDescriptor(t, s, e);
       i !== void 0 && gt(this.prototype, t, i);
@@ -185,7 +185,7 @@ let m = class extends HTMLElement {
     }, configurable: !0, enumerable: !0 };
   }
   static getPropertyOptions(t) {
-    return this.elementProperties.get(t) ?? W;
+    return this.elementProperties.get(t) ?? q;
   }
   static _$Ei() {
     if (this.hasOwnProperty(E("elementProperties"))) return;
@@ -257,14 +257,14 @@ let m = class extends HTMLElement {
   _$ET(t, e) {
     const s = this.constructor.elementProperties.get(t), i = this.constructor._$Eu(t, s);
     if (i !== void 0 && s.reflect === !0) {
-      const r = (s.converter?.toAttribute !== void 0 ? s.converter : M).toAttribute(e, s.type);
+      const r = (s.converter?.toAttribute !== void 0 ? s.converter : T).toAttribute(e, s.type);
       this._$Em = t, r == null ? this.removeAttribute(i) : this.setAttribute(i, r), this._$Em = null;
     }
   }
   _$AK(t, e) {
     const s = this.constructor, i = s._$Eh.get(t);
     if (i !== void 0 && this._$Em !== i) {
-      const r = s.getPropertyOptions(i), o = typeof r.converter == "function" ? { fromAttribute: r.converter } : r.converter?.fromAttribute !== void 0 ? r.converter : M;
+      const r = s.getPropertyOptions(i), o = typeof r.converter == "function" ? { fromAttribute: r.converter } : r.converter?.fromAttribute !== void 0 ? r.converter : T;
       this._$Em = i;
       const h = o.fromAttribute(e, r.type);
       this[i] = h ?? this._$Ej?.get(i) ?? h, this._$Em = null;
@@ -341,10 +341,10 @@ let m = class extends HTMLElement {
   firstUpdated(t) {
   }
 };
-m.elementStyles = [], m.shadowRootOptions = { mode: "open" }, m[E("elementProperties")] = /* @__PURE__ */ new Map(), m[E("finalized")] = /* @__PURE__ */ new Map(), At?.({ ReactiveElement: m }), (I.reactiveElementVersions ??= []).push("2.1.2");
-const z = globalThis, V = (n) => n, T = z.trustedTypes, Z = T ? T.createPolicy("lit-html", { createHTML: (n) => n }) : void 0, nt = "$lit$", g = `lit$${Math.random().toFixed(9).slice(2)}$`, rt = "?" + g, bt = `<${rt}>`, y = document, C = () => y.createComment(""), w = (n) => n === null || typeof n != "object" && typeof n != "function", L = Array.isArray, St = (n) => L(n) || typeof n?.[Symbol.iterator] == "function", k = `[ 	
-\f\r]`, S = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, J = /-->/g, K = />/g, $ = RegExp(`>|${k}(?:([^\\s"'>=/]+)(${k}*=${k}*(?:[^ 	
-\f\r"'\`<>=]|("|')|))|$)`, "g"), F = /'/g, Q = /"/g, ot = /^(?:script|style|textarea|title)$/i, Et = (n) => (t, ...e) => ({ _$litType$: n, strings: t, values: e }), H = Et(1), A = /* @__PURE__ */ Symbol.for("lit-noChange"), d = /* @__PURE__ */ Symbol.for("lit-nothing"), X = /* @__PURE__ */ new WeakMap(), _ = y.createTreeWalker(y, 129);
+m.elementStyles = [], m.shadowRootOptions = { mode: "open" }, m[E("elementProperties")] = /* @__PURE__ */ new Map(), m[E("finalized")] = /* @__PURE__ */ new Map(), At?.({ ReactiveElement: m }), (H.reactiveElementVersions ??= []).push("2.1.2");
+const z = globalThis, V = (n) => n, I = z.trustedTypes, Z = I ? I.createPolicy("lit-html", { createHTML: (n) => n }) : void 0, nt = "$lit$", g = `lit$${Math.random().toFixed(9).slice(2)}$`, rt = "?" + g, bt = `<${rt}>`, y = document, C = () => y.createComment(""), w = (n) => n === null || typeof n != "object" && typeof n != "function", L = Array.isArray, St = (n) => L(n) || typeof n?.[Symbol.iterator] == "function", M = `[ 	
+\f\r]`, S = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, J = /-->/g, K = />/g, $ = RegExp(`>|${M}(?:([^\\s"'>=/]+)(${M}*=${M}*(?:[^ 	
+\f\r"'\`<>=]|("|')|))|$)`, "g"), F = /'/g, Q = /"/g, ot = /^(?:script|style|textarea|title)$/i, Et = (n) => (t, ...e) => ({ _$litType$: n, strings: t, values: e }), O = Et(1), A = /* @__PURE__ */ Symbol.for("lit-noChange"), d = /* @__PURE__ */ Symbol.for("lit-nothing"), X = /* @__PURE__ */ new WeakMap(), _ = y.createTreeWalker(y, 129);
 function at(n, t) {
   if (!L(n) || !n.hasOwnProperty("raw")) throw Error("invalid template strings array");
   return Z !== void 0 ? Z.createHTML(t) : t;
@@ -375,12 +375,12 @@ class U {
       if (i.nodeType === 1) {
         if (i.hasAttributes()) for (const c of i.getAttributeNames()) if (c.endsWith(nt)) {
           const p = u[o++], f = i.getAttribute(c).split(g), P = /([.?@])?(.*)/.exec(p);
-          a.push({ type: 1, index: r, name: P[2], strings: f, ctor: P[1] === "." ? Ut : P[1] === "?" ? xt : P[1] === "@" ? Pt : O }), i.removeAttribute(c);
+          a.push({ type: 1, index: r, name: P[2], strings: f, ctor: P[1] === "." ? Ut : P[1] === "?" ? xt : P[1] === "@" ? Pt : k }), i.removeAttribute(c);
         } else c.startsWith(g) && (a.push({ type: 6, index: r }), i.removeAttribute(c));
         if (ot.test(i.tagName)) {
           const c = i.textContent.split(g), p = c.length - 1;
           if (p > 0) {
-            i.textContent = T ? T.emptyScript : "";
+            i.textContent = I ? I.emptyScript : "";
             for (let f = 0; f < p; f++) i.append(c[f], C()), _.nextNode(), a.push({ type: 2, index: ++r });
             i.append(c[p], C());
           }
@@ -491,7 +491,7 @@ class x {
     this._$AM === void 0 && (this._$Cv = t, this._$AP?.(t));
   }
 }
-class O {
+class k {
   get tagName() {
     return this.element.tagName;
   }
@@ -516,7 +516,7 @@ class O {
     t === d ? this.element.removeAttribute(this.name) : this.element.setAttribute(this.name, t ?? "");
   }
 }
-class Ut extends O {
+class Ut extends k {
   constructor() {
     super(...arguments), this.type = 3;
   }
@@ -524,7 +524,7 @@ class Ut extends O {
     this.element[this.name] = t === d ? void 0 : t;
   }
 }
-class xt extends O {
+class xt extends k {
   constructor() {
     super(...arguments), this.type = 4;
   }
@@ -532,7 +532,7 @@ class xt extends O {
     this.element.toggleAttribute(this.name, !!t && t !== d);
   }
 }
-class Pt extends O {
+class Pt extends k {
   constructor(t, e, s, i, r) {
     super(t, e, s, i, r), this.type = 5;
   }
@@ -556,9 +556,9 @@ class Rt {
     b(this, t);
   }
 }
-const Tt = z.litHtmlPolyfillSupport;
-Tt?.(U, x), (z.litHtmlVersions ??= []).push("3.3.3");
-const Ht = (n, t, e) => {
+const It = z.litHtmlPolyfillSupport;
+It?.(U, x), (z.litHtmlVersions ??= []).push("3.3.3");
+const Ot = (n, t, e) => {
   const s = e?.renderBefore ?? t;
   let i = s._$litPart$;
   if (i === void 0) {
@@ -578,7 +578,7 @@ class v extends m {
   }
   update(t) {
     const e = this.render();
-    this.hasUpdated || (this.renderOptions.isConnected = this.isConnected), super.update(t), this._$Do = Ht(e, this.renderRoot, this.renderOptions);
+    this.hasUpdated || (this.renderOptions.isConnected = this.isConnected), super.update(t), this._$Do = Ot(e, this.renderRoot, this.renderOptions);
   }
   connectedCallback() {
     super.connectedCallback(), this._$Do?.setConnected(!0);
@@ -591,11 +591,11 @@ class v extends m {
   }
 }
 v._$litElement$ = !0, v.finalized = !0, G.litElementHydrateSupport?.({ LitElement: v });
-const It = G.litElementPolyfillSupport;
-It?.({ LitElement: v });
+const Ht = G.litElementPolyfillSupport;
+Ht?.({ LitElement: v });
 (G.litElementVersions ??= []).push("4.2.2");
 const Y = "r4875g1-charger-status";
-class Ot extends v {
+class kt extends v {
   static styles = st`
     :host {
       display: block;
@@ -643,11 +643,11 @@ class Ot extends v {
     this.detachStore(), super.disconnectedCallback();
   }
   render() {
-    return this.chargerState === null ? H`
+    return this.chargerState === null ? O`
         <div class="status">
           <div class="value">Waiting for Charger Instance data…</div>
         </div>
-      ` : H`
+      ` : O`
       <div class="status">
         <div class="row">
           <span class="label">Name</span>
@@ -675,9 +675,9 @@ class Ot extends v {
     this.unsubscribe !== null && (this.unsubscribe(), this.unsubscribe = null);
   }
 }
-customElements.get(Y) || customElements.define(Y, Ot);
-const tt = "r4875g1-charger-test-card";
-class kt extends v {
+customElements.get(Y) || customElements.define(Y, kt);
+const tt = "r4875g1-charger-overview-card";
+class Mt extends v {
   static styles = st`
     :host {
       display: block;
@@ -734,14 +734,14 @@ class kt extends v {
     this.connectionGeneration += 1, this.chargerStore.disconnect(), this.connectedConnection = null, this.connectedConfigEntryId = null, this.discoveredConnection = null, this.discoveredConfigEntryId = null, super.disconnectedCallback();
   }
   render() {
-    return this.connectionError !== null ? H`
+    return this.connectionError !== null ? O`
         <ha-card>
-          <div class="heading">R4875G1 Charger live test</div>
+          <div class="heading">R4875G1 Charger</div>
           <div class="error">${this.connectionError}</div>
         </ha-card>
-      ` : H`
+      ` : O`
       <ha-card>
-        <div class="heading">R4875G1 Charger live test</div>
+        <div class="heading">R4875G1 Charger</div>
         <r4875g1-charger-status
           .store=${this.chargerStore}
         ></r4875g1-charger-status>
@@ -787,16 +787,16 @@ class kt extends v {
     return this.discoveredConnection = t.connection, this.discoveredConfigEntryId = i, i;
   }
 }
-customElements.get(tt) || customElements.define(tt, kt);
-const Mt = "R4875G1 Charger Dashboard";
-console.info(`[${Mt}] frontend bootstrap loaded`);
+customElements.get(tt) || customElements.define(tt, Mt);
+const Tt = "R4875G1 Charger Dashboard";
+console.info(`[${Tt}] frontend bootstrap loaded`);
 export {
+  tt as CHARGER_OVERVIEW_CARD_TAG,
   Y as CHARGER_STATUS_TAG,
-  tt as CHARGER_TEST_CARD_TAG,
-  Ot as ChargerStatusPreview,
+  Mt as ChargerOverviewCard,
+  kt as ChargerStatusPreview,
   dt as ChargerStore,
-  kt as ChargerTestCard,
-  Mt as DASHBOARD_NAME,
+  Tt as DASHBOARD_NAME,
   Dt as controlChargerRole,
   Nt as getChargerInstance,
   ct as listChargerInstances,

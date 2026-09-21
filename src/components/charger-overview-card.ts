@@ -8,14 +8,14 @@ import {
 import { ChargerStore } from "../state/store";
 import "./charger-status-preview";
 
-export const CHARGER_TEST_CARD_TAG = "r4875g1-charger-test-card";
+export const CHARGER_OVERVIEW_CARD_TAG = "r4875g1-charger-overview-card";
 
-export interface ChargerTestCardConfig {
+export interface ChargerOverviewCardConfig {
   type?: string;
   config_entry_id?: string;
 }
 
-export class ChargerTestCard extends LitElement {
+export class ChargerOverviewCard extends LitElement {
   static styles = css`
     :host {
       display: block;
@@ -42,7 +42,7 @@ export class ChargerTestCard extends LitElement {
 
   private readonly chargerStore = new ChargerStore();
   private homeAssistant: HomeAssistantWebSocket | null = null;
-  private config: ChargerTestCardConfig | null = null;
+  private config: ChargerOverviewCardConfig | null = null;
   private connectedConnection: HomeAssistantConnection | null = null;
   private connectedConfigEntryId: string | null = null;
   private discoveredConnection: HomeAssistantConnection | null = null;
@@ -59,7 +59,7 @@ export class ChargerTestCard extends LitElement {
     void this.connectIfReady();
   }
 
-  setConfig(config: ChargerTestCardConfig): void {
+  setConfig(config: ChargerOverviewCardConfig): void {
     if (
       config.config_entry_id !== undefined
       && (
@@ -104,7 +104,7 @@ export class ChargerTestCard extends LitElement {
     if (this.connectionError !== null) {
       return html`
         <ha-card>
-          <div class="heading">R4875G1 Charger live test</div>
+          <div class="heading">R4875G1 Charger</div>
           <div class="error">${this.connectionError}</div>
         </ha-card>
       `;
@@ -112,7 +112,7 @@ export class ChargerTestCard extends LitElement {
 
     return html`
       <ha-card>
-        <div class="heading">R4875G1 Charger live test</div>
+        <div class="heading">R4875G1 Charger</div>
         <r4875g1-charger-status
           .store=${this.chargerStore}
         ></r4875g1-charger-status>
@@ -215,6 +215,6 @@ export class ChargerTestCard extends LitElement {
   }
 }
 
-if (!customElements.get(CHARGER_TEST_CARD_TAG)) {
-  customElements.define(CHARGER_TEST_CARD_TAG, ChargerTestCard);
+if (!customElements.get(CHARGER_OVERVIEW_CARD_TAG)) {
+  customElements.define(CHARGER_OVERVIEW_CARD_TAG, ChargerOverviewCard);
 }
