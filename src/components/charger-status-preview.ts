@@ -6,6 +6,9 @@ import type { ChargerStore } from "../state/store";
 
 export const CHARGER_STATUS_TAG = "r4875g1-charger-status";
 
+// Home Assistant Contract 1 defines exactly three rectifier units.
+const CHARGER_RECTIFIER_COUNT = 3;
+
 const CHARGER_OVERVIEW_METRICS = [
   { label: "AC power", role: "charger.ac.power" },
   { label: "AC voltage", role: "charger.ac.voltage" },
@@ -58,11 +61,16 @@ export class ChargerStatusPreview extends LitElement {
 
     .unit-status {
       display: grid;
+      gap: 0.5rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--divider-color, #d0d0d0);
+    }
+
+    .unit-status-row {
+      display: grid;
       grid-template-columns: minmax(8rem, auto) 1fr;
       gap: 1rem;
       align-items: baseline;
-      padding-top: 0.75rem;
-      border-top: 1px solid var(--divider-color, #d0d0d0);
     }
 
     .metrics {
@@ -175,31 +183,38 @@ export class ChargerStatusPreview extends LitElement {
     const availableUnits = this.chargerState?.roles["charger.available_units"];
     const runningUnits = this.chargerState?.roles["charger.running_units"];
 
-    if (
-      availableUnits?.available !== true
-      || runningUnits?.available !== true
-      || availableUnits.state === null
-      || runningUnits.state === null
-    ) {
-      return html`
-        <div class="unit-status">
-          <span class="label">Rectifiers</span>
-          <span class="value">unavailable</span>
-        </div>
-      `;
-    }
-
     return html`
       <div class="unit-status">
-        <span class="label">Rectifiers</span>
-        <span class="value">
-          ${this.formatMetricValue(runningUnits.state)}
-          /
-          ${this.formatMetricValue(availableUnits.state)}
-          running
-        </span>
+        <div class="unit-status-row">
+          <span class="label">Available rectifiers</span>
+          <span class="value">
+            ${this.formatRectifierCount(availableUnits?.state)}
+            / ${CHARGER_RECTIFIER_COUNT}
+          </span>
+        </div>
+        <div class="unit-status-row">
+          <span class="label">Running rectifiers</span>
+          <span class="value">
+            ${this.formatRectifierCount(runningUnits?.state)}
+            / ${CHARGER_RECTIFIER_COUNT}
+          </span>
+        </div>
       </div>
     `;
+  }
+
+  private formatRectifierCount(state: string | null | undefined): string {
+    if (state === null || state === undefined) {
+      return "-";
+    }
+
+    const numericValue = Number(state);
+
+    if (!Number.isFinite(numericValue)) {
+      return "-";
+    }
+
+    return Math.trunc(numericValue).toString();
   }
 
   private renderMetric(label: string, role: string) {
