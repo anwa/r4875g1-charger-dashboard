@@ -1,6 +1,7 @@
 import { LitElement, css, html } from "lit";
 
 import type { UnsubscribeFunction } from "../api/client";
+import { formatSemanticRole } from "../presentation/semantic-role-format";
 import type { ChargerState } from "../state/reducer";
 import type { ChargerStore } from "../state/store";
 
@@ -218,42 +219,18 @@ export class ChargerStatusPreview extends LitElement {
   }
 
   private renderMetric(label: string, role: string) {
-    const roleSnapshot = this.chargerState?.roles[role];
-    const available = roleSnapshot?.available === true;
-    const value = available
-      ? this.formatMetricValue(roleSnapshot.state)
-      : "unavailable";
-    const unit = available
-      ? roleSnapshot?.unit ?? null
-      : null;
+    const display = formatSemanticRole(this.chargerState?.roles[role]);
 
     return html`
       <div class="metric">
         <span class="metric-label">${label}</span>
         <span class="metric-value">
-          ${value}${unit !== null
-            ? html`<span class="metric-unit">${unit}</span>`
+          ${display.value}${display.unit !== null
+            ? html`<span class="metric-unit">${display.unit}</span>`
             : ""}
         </span>
       </div>
     `;
-  }
-
-  private formatMetricValue(state: string | null): string {
-    if (state === null) {
-      return "unavailable";
-    }
-
-    const numericValue = Number(state);
-
-    if (!Number.isFinite(numericValue)) {
-      return state;
-    }
-
-    return new Intl.NumberFormat(undefined, {
-      maximumFractionDigits: 2,
-      useGrouping: false,
-    }).format(numericValue);
   }
 
   private attachStore(): void {

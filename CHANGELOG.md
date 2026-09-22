@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.5.0
+
+First per-rectifier detail milestone.
+
+- add expandable live detail views for Rectifier Units 1-3
+- show semantic connection, lifecycle, power and thermal states per unit
+- show AC input and DC output telemetry per unit
+- show reported DC current setpoint and maximum current capability
+- show input/output temperatures and fan telemetry per unit
+- show rectifier operating hours
+- reuse one shared semantic role formatter for overview and rectifier values
+- keep rectifier detail presentation independent from installation-specific entity IDs
+- keep per-rectifier controls out of this first read-only detail step
+
 ## 0.4.1
 
 HACS distribution and repository presentation update.

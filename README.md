@@ -125,6 +125,7 @@ The current frontend provides:
 - highest rectifier output temperature
 - conversion efficiency
 - available and running rectifier counts
+- expandable live detail views for Rectifier Units 1-3
 - Charger-wide START and STOP with confirmation
 - AC current-limit control
 - DC voltage-limit control
@@ -132,7 +133,7 @@ The current frontend provides:
 - separate fallback DC voltage and current controls
 - observed-state confirmation after operational commands and setpoint writes
 
-Rectifier detail views, cooling views and trend/history presentation remain later milestones.
+Cooling views and trend/history presentation remain later milestones.
 
 ## Updating
 
@@ -303,7 +304,7 @@ The firmware defines the authoritative Home Assistant Contract. The backend reso
 
 ## Release status and compatibility
 
-Version 0.4.1 keeps the 0.4 runtime feature set and establishes the documented HACS distribution and validation workflow.
+Version 0.5.0 adds the first per-rectifier live detail milestone while preserving the existing semantic Backend API and Charger Controller authority.
 
 The dashboard is still pre-1.0 software. Minor versions may add substantial new frontend capabilities, while the backend API and Home Assistant Contract remain independently versioned.
 

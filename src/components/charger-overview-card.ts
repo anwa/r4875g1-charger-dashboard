@@ -11,6 +11,7 @@ import { ChargerStore } from "../state/store";
 import "./charger-setpoint-controls";
 import "./charger-power-control";
 import "./charger-status-preview";
+import "./rectifier-details";
 
 export const CHARGER_OVERVIEW_CARD_TAG = "r4875g1-charger-overview-card";
 
@@ -91,7 +92,7 @@ export class ChargerOverviewCard extends LitElement {
   }
 
   getCardSize(): number {
-    return 3;
+    return 6;
   }
 
   connectedCallback(): void {
@@ -125,6 +126,9 @@ export class ChargerOverviewCard extends LitElement {
         <r4875g1-charger-status
           .store=${this.chargerStore}
         ></r4875g1-charger-status>
+        <r4875g1-rectifier-details
+          .store=${this.chargerStore}
+        ></r4875g1-rectifier-details>
         <r4875g1-charger-setpoint-controls
           .store=${this.chargerStore}
           .execute=${this.executeControl}

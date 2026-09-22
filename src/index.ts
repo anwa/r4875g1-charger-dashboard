@@ -50,6 +50,11 @@ export {
 } from "./components/charger-number-control";
 
 export {
+  RECTIFIER_DETAILS_TAG,
+  RectifierDetails,
+} from "./components/rectifier-details";
+
+export {
   CHARGER_SETPOINT_CONTROLS_TAG,
   ChargerSetpointControls,
 } from "./components/charger-setpoint-controls";
