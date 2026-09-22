@@ -92,7 +92,7 @@ export class ChargerOverviewCard extends LitElement {
   }
 
   getCardSize(): number {
-    return 6;
+    return 7;
   }
 
   connectedCallback(): void {
@@ -128,6 +128,7 @@ export class ChargerOverviewCard extends LitElement {
         ></r4875g1-charger-status>
         <r4875g1-rectifier-details
           .store=${this.chargerStore}
+          .execute=${this.executeControl}
         ></r4875g1-rectifier-details>
         <r4875g1-charger-setpoint-controls
           .store=${this.chargerStore}

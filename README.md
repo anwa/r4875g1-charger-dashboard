@@ -126,6 +126,7 @@ The current frontend provides:
 - conversion efficiency
 - available and running rectifier counts
 - expandable live detail views for Rectifier Units 1-3
+- per-rectifier START and STOP with confirmation and observed-state completion
 - Charger-wide START and STOP with confirmation
 - AC current-limit control
 - DC voltage-limit control
@@ -304,7 +305,7 @@ The firmware defines the authoritative Home Assistant Contract. The backend reso
 
 ## Release status and compatibility
 
-Version 0.5.0 adds the first per-rectifier live detail milestone while preserving the existing semantic Backend API and Charger Controller authority.
+Version 0.6.0 adds per-rectifier START/STOP control while reusing one observed-state command architecture for Charger-wide and per-unit power commands.
 
 The dashboard is still pre-1.0 software. Minor versions may add substantial new frontend capabilities, while the backend API and Home Assistant Contract remain independently versioned.
 

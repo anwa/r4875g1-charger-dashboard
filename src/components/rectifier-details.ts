@@ -1,13 +1,30 @@
 import { LitElement, css, html } from "lit";
 
 import type { UnsubscribeFunction } from "../api/client";
+import type { ChargerControlExecutor } from "../controls/types";
 import { formatSemanticRole } from "../presentation/semantic-role-format";
 import type { ChargerState } from "../state/reducer";
 import type { ChargerStore } from "../state/store";
+import "./power-command-control";
+import type {
+  PowerCommandControlConfig,
+  PowerCommandControlState,
+} from "./power-command-control";
 
 export const RECTIFIER_DETAILS_TAG = "r4875g1-rectifier-details";
 
 const RECTIFIER_UNITS = [1, 2, 3] as const;
+
+type RectifierUnit = typeof RECTIFIER_UNITS[number];
+
+const RECTIFIER_POWER_CONFIGS: Record<
+  RectifierUnit,
+  PowerCommandControlConfig
+> = {
+  1: createRectifierPowerConfig(1),
+  2: createRectifierPowerConfig(2),
+  3: createRectifierPowerConfig(3),
+};
 
 const RECTIFIER_DETAIL_GROUPS = [
   {
@@ -144,6 +161,10 @@ export class RectifierDetails extends LitElement {
       border-top: 1px solid var(--divider-color, #d0d0d0);
     }
 
+    .unit-control {
+      padding-top: 1rem;
+    }
+
     .group {
       display: grid;
       gap: 0.5rem;
@@ -215,6 +236,7 @@ export class RectifierDetails extends LitElement {
 
   private chargerStore: ChargerStore | null = null;
   private chargerState: ChargerState = null;
+  private executeControl: ChargerControlExecutor | null = null;
   private unsubscribe: UnsubscribeFunction | null = null;
 
   get store(): ChargerStore | null {
@@ -234,6 +256,15 @@ export class RectifierDetails extends LitElement {
       this.attachStore();
     }
 
+    this.requestUpdate();
+  }
+
+  get execute(): ChargerControlExecutor | null {
+    return this.executeControl;
+  }
+
+  set execute(value: ChargerControlExecutor | null) {
+    this.executeControl = value;
     this.requestUpdate();
   }
 
@@ -280,7 +311,7 @@ export class RectifierDetails extends LitElement {
     `;
   }
 
-  private renderUnit(unit: number) {
+  private renderUnit(unit: RectifierUnit) {
     return html`
       <details>
         <summary>
@@ -293,6 +324,13 @@ export class RectifierDetails extends LitElement {
           </span>
         </summary>
         <div class="groups">
+          <div class="unit-control">
+            <r4875g1-power-command-control
+              .config=${RECTIFIER_POWER_CONFIGS[unit]}
+              .state=${this.powerCommandState(unit)}
+              .execute=${this.executeControl}
+            ></r4875g1-power-command-control>
+          </div>
           ${RECTIFIER_DETAIL_GROUPS.map(({ title, metrics }) => html`
             <section class="group">
               <div class="group-title">${title}</div>
@@ -306,6 +344,40 @@ export class RectifierDetails extends LitElement {
         </div>
       </details>
     `;
+  }
+
+  private powerCommandState(
+    unit: RectifierUnit,
+  ): PowerCommandControlState {
+    const prefix = `rectifier.${unit}`;
+    const powerSnapshot = this.chargerState?.roles[`${prefix}.power_state`];
+    const powerState = powerSnapshot?.available === true
+      ? powerSnapshot.state
+      : null;
+    const startRole = `${prefix}.command.start`;
+    const stopRole = `${prefix}.command.stop`;
+
+    let action: PowerCommandControlState["action"] = null;
+    let unavailableLabel = `RECTIFIER ${unit} STATE UNAVAILABLE`;
+
+    if (powerState === "OFF") {
+      action = "start";
+    } else if (powerState === "ON") {
+      action = "stop";
+    } else if (powerState !== null && powerState.trim() !== "") {
+      unavailableLabel = `RECTIFIER ${unit} ${powerState}`;
+    }
+
+    return {
+      action,
+      startAvailable:
+        this.chargerState?.roles[startRole]?.control?.available === true,
+      stopAvailable:
+        this.chargerState?.roles[stopRole]?.control?.available === true,
+      startComplete: powerState === "ON",
+      stopComplete: powerState === "OFF",
+      unavailableLabel,
+    };
   }
 
   private renderSummaryValue(
@@ -367,4 +439,17 @@ export class RectifierDetails extends LitElement {
 
 if (!customElements.get(RECTIFIER_DETAILS_TAG)) {
   customElements.define(RECTIFIER_DETAILS_TAG, RectifierDetails);
+}
+
+function createRectifierPowerConfig(
+  unit: RectifierUnit,
+): PowerCommandControlConfig {
+  return {
+    targetLabel: `RECTIFIER ${unit}`,
+    startRole: `rectifier.${unit}.command.start`,
+    stopRole: `rectifier.${unit}.command.stop`,
+    startConfirmationText:
+      `Start Rectifier ${unit}? All individual safety checks will be applied by the Charger Controller.`,
+    stopConfirmationText: `Stop Rectifier ${unit}?`,
+  };
 }

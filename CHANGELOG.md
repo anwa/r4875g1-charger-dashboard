@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.6.0
+
+Per-rectifier operational control milestone.
+
+- add START and STOP controls for each Rectifier Unit
+- require explicit per-unit OFF or ON state before offering the matching command
+- keep START eligibility and safety enforcement authoritative in the Charger Controller
+- wait for observed per-unit power state before completing commands
+- reuse one shared power-command component for Charger-wide and per-unit controls
+- preserve confirmation dialogs and the 10-second command-pending timeout
+- keep Backend API semantic roles as the only frontend control boundary
+
 ## 0.5.0
 
 First per-rectifier detail milestone.
