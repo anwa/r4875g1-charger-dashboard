@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.7.0
+
+Cooling monitoring milestone.
+
+- add compartment temperature, humidity and sea-level pressure monitoring
+- add optional external cooling status and telemetry when the capability is present
+- show automatic mode, fan power, manual/actual PWM and cooling-controller temperature
+- show external Cooling Fan 1-3 RPM telemetry
+- preserve partial optional-capability visibility instead of hiding missing roles
+- keep this cooling milestone read-only and based only on Backend API semantic roles
+
 ## 0.6.0
 
 Per-rectifier operational control milestone.

@@ -50,6 +50,11 @@ export {
 } from "./components/charger-number-control";
 
 export {
+  COOLING_STATUS_TAG,
+  CoolingStatus,
+} from "./components/cooling-status";
+
+export {
   RECTIFIER_DETAILS_TAG,
   RectifierDetails,
 } from "./components/rectifier-details";
