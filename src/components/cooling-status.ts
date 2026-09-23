@@ -1,9 +1,12 @@
 import { LitElement, css, html } from "lit";
 
 import type { UnsubscribeFunction } from "../api/client";
+import type { ChargerControlExecutor } from "../controls/types";
 import { formatSemanticRole } from "../presentation/semantic-role-format";
 import type { ChargerState } from "../state/reducer";
 import type { ChargerStore } from "../state/store";
+import "./charger-number-control";
+import "./charger-switch-control";
 
 export const COOLING_STATUS_TAG = "r4875g1-cooling-status";
 
@@ -22,10 +25,12 @@ const COOLING_ENVIRONMENT_METRICS = [
   },
 ] as const;
 
-const EXTERNAL_COOLING_METRICS = [
+const EXTERNAL_COOLING_SWITCH_CONTROLS = [
   { label: "Automatic mode", role: "cooling.external.automatic" },
   { label: "Fan power", role: "cooling.external.power" },
-  { label: "Manual PWM", role: "cooling.external.manual_pwm" },
+] as const;
+
+const EXTERNAL_COOLING_METRICS = [
   { label: "Actual PWM", role: "cooling.external.actual_pwm" },
   {
     label: "Controller temperature",
@@ -84,6 +89,24 @@ export class CoolingStatus extends LitElement {
       letter-spacing: 0.04em;
     }
 
+    .subheading {
+      color: var(--secondary-text-color, #727272);
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .controls {
+      display: grid;
+      gap: 0.5rem;
+    }
+
+    .controls > r4875g1-charger-number-control,
+    .controls > r4875g1-charger-switch-control {
+      margin-top: 0;
+    }
+
     .metrics {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
@@ -127,6 +150,7 @@ export class CoolingStatus extends LitElement {
   private chargerStore: ChargerStore | null = null;
   private chargerState: ChargerState = null;
   private unsubscribe: UnsubscribeFunction | null = null;
+  private executeControl: ChargerControlExecutor | null = null;
 
   get store(): ChargerStore | null {
     return this.chargerStore;
@@ -145,6 +169,19 @@ export class CoolingStatus extends LitElement {
       this.attachStore();
     }
 
+    this.requestUpdate();
+  }
+
+  get execute(): ChargerControlExecutor | null {
+    return this.executeControl;
+  }
+
+  set execute(value: ChargerControlExecutor | null) {
+    if (value === this.executeControl) {
+      return;
+    }
+
+    this.executeControl = value;
     this.requestUpdate();
   }
 
@@ -190,12 +227,44 @@ export class CoolingStatus extends LitElement {
 
         ${externalCapability !== undefined
           && externalCapability.status !== "unavailable"
-          ? this.renderPanel(
-              "External cooling",
-              EXTERNAL_COOLING_METRICS,
-              externalCapability.status,
-            )
+          ? this.renderExternalCoolingPanel(externalCapability.status)
           : ""}
+      </section>
+    `;
+  }
+
+  private renderExternalCoolingPanel(capabilityStatus: string) {
+    return html`
+      <section class="panel">
+        <div class="panel-heading">
+          <span class="panel-title">External cooling</span>
+          <span class="capability-status">${capabilityStatus}</span>
+        </div>
+
+        <div class="subheading">Controls</div>
+        <div class="controls">
+          ${EXTERNAL_COOLING_SWITCH_CONTROLS.map(({ label, role }) => html`
+            <r4875g1-charger-switch-control
+              .store=${this.chargerStore}
+              .execute=${this.executeControl}
+              .role=${role}
+              .label=${label}
+            ></r4875g1-charger-switch-control>
+          `)}
+          <r4875g1-charger-number-control
+            .store=${this.chargerStore}
+            .execute=${this.executeControl}
+            .role=${"cooling.external.manual_pwm"}
+            .label=${"Manual PWM"}
+          ></r4875g1-charger-number-control>
+        </div>
+
+        <div class="subheading">Telemetry</div>
+        <div class="metrics">
+          ${EXTERNAL_COOLING_METRICS.map(({ label, role }) =>
+            this.renderMetric(label, role),
+          )}
+        </div>
       </section>
     `;
   }

@@ -29,8 +29,10 @@ export type {
   RoleControlMetadata,
   RoleStateSubscriptionEvent,
   SemanticControlResult,
+  SemanticControlValue,
   SemanticRoleSnapshot,
   SnapshotSubscriptionEvent,
+  SwitchControlMetadata,
 } from "./api/types";
 
 export { reduceChargerSubscriptionEvent } from "./state/reducer";
@@ -48,6 +50,11 @@ export {
   CHARGER_NUMBER_CONTROL_TAG,
   ChargerNumberControl,
 } from "./components/charger-number-control";
+
+export {
+  CHARGER_SWITCH_CONTROL_TAG,
+  ChargerSwitchControl,
+} from "./components/charger-switch-control";
 
 export {
   COOLING_STATUS_TAG,

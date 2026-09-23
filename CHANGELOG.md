@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.8.0
+
+Cooling control milestone.
+
+- add observed-state controls for external cooling automatic mode and fan power
+- add confirmation dialogs for semantic Switch controls
+- add manual external cooling PWM control using Backend API Number metadata
+- wait for observed semantic Switch and PWM state before completing writes
+- extend frontend Backend API typing with the additive `set_switch` action
+- keep partial external-cooling capabilities visible and disable only unavailable controls
+- keep Home Assistant Switch services and entity IDs behind Backend API v1
+- keep cooling behavior and safety authoritative in the Charger Controller
+- require R4875G1 Charger backend 1.2.0 or newer
+
 ## 0.7.0
 
 Cooling monitoring milestone.

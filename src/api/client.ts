@@ -3,6 +3,7 @@ import type {
   ChargerSubscriptionEvent,
   InstancesResponse,
   SemanticControlResult,
+  SemanticControlValue,
 } from "./types";
 
 export type UnsubscribeFunction = () => void;
@@ -41,7 +42,7 @@ export function controlChargerRole(
   hass: HomeAssistantWebSocket,
   configEntryId: string,
   role: string,
-  value?: number,
+  value?: SemanticControlValue,
 ): Promise<SemanticControlResult> {
   const message: Record<string, unknown> = {
     type: "r4875g1_charger/control",

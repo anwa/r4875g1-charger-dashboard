@@ -6,6 +6,7 @@ import {
   type HomeAssistantConnection,
   type HomeAssistantWebSocket,
 } from "../api/client";
+import type { ChargerControlExecutor } from "../controls/types";
 import { registerCustomCard } from "../home-assistant/custom-card-registry";
 import { ChargerStore } from "../state/store";
 import "./charger-setpoint-controls";
@@ -93,7 +94,7 @@ export class ChargerOverviewCard extends LitElement {
   }
 
   getCardSize(): number {
-    return 9;
+    return 11;
   }
 
   connectedCallback(): void {
@@ -133,6 +134,7 @@ export class ChargerOverviewCard extends LitElement {
         ></r4875g1-rectifier-details>
         <r4875g1-cooling-status
           .store=${this.chargerStore}
+          .execute=${this.executeControl}
         ></r4875g1-cooling-status>
         <r4875g1-charger-setpoint-controls
           .store=${this.chargerStore}
@@ -205,9 +207,9 @@ export class ChargerOverviewCard extends LitElement {
     this.requestUpdate();
   }
 
-  private readonly executeControl = (
-    role: string,
-    value?: number,
+  private readonly executeControl: ChargerControlExecutor = (
+    role,
+    value,
   ) => {
     if (
       this.homeAssistant === null

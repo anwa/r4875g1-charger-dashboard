@@ -9,7 +9,9 @@ export type CapabilityStatus =
   | "partial"
   | "unavailable";
 
-export type ControlAction = "press" | "set_value";
+export type ControlAction = "press" | "set_value" | "set_switch";
+
+export type SemanticControlValue = number | boolean;
 
 export interface CapabilitySummary {
   required: boolean;
@@ -42,9 +44,15 @@ export interface PressControlMetadata {
   available: boolean;
 }
 
+export interface SwitchControlMetadata {
+  action: "set_switch";
+  available: boolean;
+}
+
 export type RoleControlMetadata =
   | NumberControlMetadata
-  | PressControlMetadata;
+  | PressControlMetadata
+  | SwitchControlMetadata;
 
 export interface SemanticRoleSnapshot {
   available: boolean;

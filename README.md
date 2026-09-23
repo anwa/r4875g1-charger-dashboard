@@ -36,7 +36,7 @@ It consumes the stable semantic Backend API exposed by the separate `R4875G1 Cha
 
 - Home Assistant 2026.8 or newer
 - HACS for the recommended installation method
-- `R4875G1 Charger` Home Assistant integration 1.1.0 or newer
+- `R4875G1 Charger` Home Assistant integration 1.2.0 or newer
 - a Charger Controller exposing Home Assistant Contract 1
 - Backend API v1 available through the configured Charger integration
 
@@ -129,6 +129,9 @@ The current frontend provides:
 - per-rectifier START and STOP with confirmation and observed-state completion
 - compartment cooling environment telemetry
 - optional external cooling status, PWM and fan telemetry
+- external cooling automatic-mode control with confirmation and observed-state completion
+- external cooling fan-power control with confirmation and observed-state completion
+- external cooling manual-PWM control using Backend API Number metadata
 - Charger-wide START and STOP with confirmation
 - AC current-limit control
 - DC voltage-limit control
@@ -136,7 +139,7 @@ The current frontend provides:
 - separate fallback DC voltage and current controls
 - observed-state confirmation after operational commands and setpoint writes
 
-Cooling controls and trend/history presentation remain later milestones.
+Trend/history presentation remains a later milestone.
 
 ## Updating
 
@@ -209,7 +212,7 @@ If the new version is still unavailable, verify that it was published as a GitHu
 
 The dashboard intentionally does not treat a successful Home Assistant service call as proof that the Charger Controller changed state.
 
-START, STOP and Number controls wait for semantic state updates from the backend. If the expected Controller state is not observed within the configured UI timeout, the dashboard reports a timeout instead of presenting an optimistic state.
+START, STOP, Switch and Number controls wait for semantic state updates from the backend. If the expected Controller state is not observed within the configured UI timeout, the dashboard reports a timeout instead of presenting an optimistic state.
 
 ## Architecture
 
@@ -227,7 +230,7 @@ charger.fallback.voltage_setpoint
 
 It does not use installation-specific ESPHome entity IDs.
 
-The backend resolves semantic roles, enforces Home Assistant permissions and exposes current Number metadata. The frontend renders state and dispatches allow-listed semantic controls through that backend.
+The backend resolves semantic roles, enforces Home Assistant permissions and exposes semantic control metadata for writable Number and Switch roles. The frontend renders state and dispatches allow-listed semantic controls through that backend without knowing Home Assistant entity IDs, domains or service names.
 
 The Charger Controller remains authoritative for:
 
@@ -307,7 +310,7 @@ The firmware defines the authoritative Home Assistant Contract. The backend reso
 
 ## Release status and compatibility
 
-Version 0.7.0 adds capability-aware cooling monitoring for compartment environment data and optional external cooling telemetry.
+Version 0.8.0 adds observed-state external cooling controls for automatic mode, fan power and the manual PWM setpoint.
 
 The dashboard is still pre-1.0 software. Minor versions may add substantial new frontend capabilities, while the backend API and Home Assistant Contract remain independently versioned.
 
@@ -315,7 +318,7 @@ Current baseline:
 
 - Home Assistant 2026.8 or newer
 - Backend API v1
-- R4875G1 Charger backend 1.1.0 or newer
+- R4875G1 Charger backend 1.2.0 or newer
 - Home Assistant Contract 1
 
 A future breaking dashboard configuration change should be documented explicitly in the corresponding release notes.
