@@ -47,6 +47,11 @@ export {
 } from "./components/charger-status-preview";
 
 export {
+  ADVANCED_CHARGER_STATUS_TAG,
+  AdvancedChargerStatus,
+} from "./components/advanced-charger-status";
+
+export {
   CHARGER_NUMBER_CONTROL_TAG,
   ChargerNumberControl,
 } from "./components/charger-number-control";

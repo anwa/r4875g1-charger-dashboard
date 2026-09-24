@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.9.0
+
+Advanced Charger monitoring milestone.
+
+- add capability-aware Advanced Charger monitoring when the optional capability is present
+- show DC current setpoint plus effective, thermal and applied DC current limits
+- show AC and DC energy for the current day
+- show rectifier capability mismatch state
+- preserve partial optional-capability visibility and report missing roles as unavailable
+- reuse shared semantic metric presentation across optional capability views
+- keep this milestone read-only and based only on Backend API semantic roles
+- keep the R4875G1 Charger backend 1.2.0 compatibility baseline
+
 ## 0.8.0
 
 Cooling control milestone.

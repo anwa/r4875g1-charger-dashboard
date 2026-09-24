@@ -9,6 +9,7 @@ import {
 import type { ChargerControlExecutor } from "../controls/types";
 import { registerCustomCard } from "../home-assistant/custom-card-registry";
 import { ChargerStore } from "../state/store";
+import "./advanced-charger-status";
 import "./charger-setpoint-controls";
 import "./charger-power-control";
 import "./charger-status-preview";
@@ -94,7 +95,7 @@ export class ChargerOverviewCard extends LitElement {
   }
 
   getCardSize(): number {
-    return 11;
+    return 13;
   }
 
   connectedCallback(): void {
@@ -128,6 +129,9 @@ export class ChargerOverviewCard extends LitElement {
         <r4875g1-charger-status
           .store=${this.chargerStore}
         ></r4875g1-charger-status>
+        <r4875g1-advanced-charger-status
+          .store=${this.chargerStore}
+        ></r4875g1-advanced-charger-status>
         <r4875g1-rectifier-details
           .store=${this.chargerStore}
           .execute=${this.executeControl}

@@ -125,6 +125,7 @@ The current frontend provides:
 - highest rectifier output temperature
 - conversion efficiency
 - available and running rectifier counts
+- optional advanced Charger monitoring for DC current limits, daily AC/DC energy and rectifier capability mismatch
 - expandable live detail views for Rectifier Units 1-3
 - per-rectifier START and STOP with confirmation and observed-state completion
 - compartment cooling environment telemetry
@@ -139,7 +140,7 @@ The current frontend provides:
 - separate fallback DC voltage and current controls
 - observed-state confirmation after operational commands and setpoint writes
 
-Trend/history presentation remains a later milestone.
+Advanced Charger controls, Controller diagnostics and trend/history presentation remain later milestones.
 
 ## Updating
 
@@ -310,7 +311,7 @@ The firmware defines the authoritative Home Assistant Contract. The backend reso
 
 ## Release status and compatibility
 
-Version 0.8.0 adds observed-state external cooling controls for automatic mode, fan power and the manual PWM setpoint.
+Version 0.9.0 adds capability-aware Advanced Charger monitoring for DC current limits, daily AC/DC energy and rectifier capability mismatch.
 
 The dashboard is still pre-1.0 software. Minor versions may add substantial new frontend capabilities, while the backend API and Home Assistant Contract remain independently versioned.
 
