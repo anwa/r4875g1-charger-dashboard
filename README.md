@@ -141,8 +141,9 @@ The current frontend provides:
 - DC sum-power control
 - separate fallback DC voltage and current controls
 - observed-state confirmation after operational commands and setpoint writes
+- collapsible optional Controller diagnostics for battery, CPU, memory, loop timing, uptime, WiFi and Controller software state
 
-Additional Advanced Charger button controls, Controller diagnostics and trend/history presentation remain later milestones.
+Additional Advanced Charger button controls and trend/history presentation remain later milestones.
 
 ## Updating
 
@@ -313,7 +314,7 @@ The firmware defines the authoritative Home Assistant Contract. The backend reso
 
 ## Release status and compatibility
 
-Version 0.10.0 adds observed-state Advanced Charger controls for the DC current setpoint and internal rectifier-fan minimum duty.
+Version 0.11.0 adds a collapsible capability-aware Controller diagnostics view for Controller power, runtime and software telemetry.
 
 The dashboard is still pre-1.0 software. Minor versions may add substantial new frontend capabilities, while the backend API and Home Assistant Contract remain independently versioned.
 

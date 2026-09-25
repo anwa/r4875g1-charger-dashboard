@@ -67,6 +67,11 @@ export {
 } from "./components/cooling-status";
 
 export {
+  CONTROLLER_DIAGNOSTICS_TAG,
+  ControllerDiagnostics,
+} from "./components/controller-diagnostics";
+
+export {
   RECTIFIER_DETAILS_TAG,
   RectifierDetails,
 } from "./components/rectifier-details";

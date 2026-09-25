@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.11.0
+
+Controller diagnostics milestone.
+
+- add a collapsible optional Controller diagnostics section
+- show Controller battery voltage and state of charge
+- show CPU temperature/frequency, loop time, heap, PSRAM, uptime and WiFi RSSI
+- show ESPHome version, device information and reset reason
+- group diagnostics into Controller battery, runtime and system sections
+- reuse the shared semantic metric-grid presentation
+- preserve partial optional-capability visibility and report missing roles as unavailable
+- keep diagnostics read-only and based only on Backend API semantic roles
+- keep the R4875G1 Charger backend 1.3.0 compatibility baseline
+
 ## 0.10.0
 
 Advanced Charger control milestone.

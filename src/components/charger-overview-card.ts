@@ -14,6 +14,7 @@ import "./charger-setpoint-controls";
 import "./charger-power-control";
 import "./charger-status-preview";
 import "./cooling-status";
+import "./controller-diagnostics";
 import "./rectifier-details";
 
 export const CHARGER_OVERVIEW_CARD_TAG = "r4875g1-charger-overview-card";
@@ -95,7 +96,7 @@ export class ChargerOverviewCard extends LitElement {
   }
 
   getCardSize(): number {
-    return 15;
+    return 16;
   }
 
   connectedCallback(): void {
@@ -149,6 +150,9 @@ export class ChargerOverviewCard extends LitElement {
           .store=${this.chargerStore}
           .execute=${this.executeControl}
         ></r4875g1-charger-power-control>
+        <r4875g1-controller-diagnostics
+          .store=${this.chargerStore}
+        ></r4875g1-controller-diagnostics>
       </ha-card>
     `;
   }
