@@ -36,7 +36,7 @@ It consumes the stable semantic Backend API exposed by the separate `R4875G1 Cha
 
 - Home Assistant 2026.8 or newer
 - HACS for the recommended installation method
-- `R4875G1 Charger` Home Assistant integration 1.2.0 or newer
+- `R4875G1 Charger` Home Assistant integration 1.3.0 or newer
 - a Charger Controller exposing Home Assistant Contract 1
 - Backend API v1 available through the configured Charger integration
 
@@ -125,7 +125,9 @@ The current frontend provides:
 - highest rectifier output temperature
 - conversion efficiency
 - available and running rectifier counts
-- optional advanced Charger monitoring for DC current limits, daily AC/DC energy and rectifier capability mismatch
+- optional advanced Charger monitoring for effective, thermal and applied DC current limits, daily AC/DC energy and rectifier capability mismatch
+- advanced DC current-setpoint control using Backend API Number metadata
+- internal rectifier-fan minimum-duty control using Backend API Number metadata
 - expandable live detail views for Rectifier Units 1-3
 - per-rectifier START and STOP with confirmation and observed-state completion
 - compartment cooling environment telemetry
@@ -140,7 +142,7 @@ The current frontend provides:
 - separate fallback DC voltage and current controls
 - observed-state confirmation after operational commands and setpoint writes
 
-Advanced Charger controls, Controller diagnostics and trend/history presentation remain later milestones.
+Additional Advanced Charger button controls, Controller diagnostics and trend/history presentation remain later milestones.
 
 ## Updating
 
@@ -311,7 +313,7 @@ The firmware defines the authoritative Home Assistant Contract. The backend reso
 
 ## Release status and compatibility
 
-Version 0.9.0 adds capability-aware Advanced Charger monitoring for DC current limits, daily AC/DC energy and rectifier capability mismatch.
+Version 0.10.0 adds observed-state Advanced Charger controls for the DC current setpoint and internal rectifier-fan minimum duty.
 
 The dashboard is still pre-1.0 software. Minor versions may add substantial new frontend capabilities, while the backend API and Home Assistant Contract remain independently versioned.
 
@@ -319,7 +321,7 @@ Current baseline:
 
 - Home Assistant 2026.8 or newer
 - Backend API v1
-- R4875G1 Charger backend 1.2.0 or newer
+- R4875G1 Charger backend 1.3.0 or newer
 - Home Assistant Contract 1
 
 A future breaking dashboard configuration change should be documented explicitly in the corresponding release notes.

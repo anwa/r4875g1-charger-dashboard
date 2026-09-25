@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.10.0
+
+Advanced Charger control milestone.
+
+- add writable DC current-setpoint control
+- add writable internal rectifier-fan minimum-duty control
+- reuse the existing semantic Number-control architecture and Backend API metadata
+- wait for observed semantic Number state before completing Advanced Charger writes
+- preserve capability-aware Advanced Charger telemetry and partial-capability visibility
+- keep unobservable Advanced Charger button commands outside the dashboard control surface
+- keep Home Assistant entity IDs, domains and services behind Backend API v1
+- require R4875G1 Charger backend 1.3.0 or newer
+
 ## 0.9.0
 
 Advanced Charger monitoring milestone.

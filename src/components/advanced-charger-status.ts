@@ -1,18 +1,27 @@
 import { LitElement, css, html } from "lit";
 
 import type { UnsubscribeFunction } from "../api/client";
+import type { ChargerControlExecutor } from "../controls/types";
 import type { ChargerState } from "../state/reducer";
 import type { ChargerStore } from "../state/store";
+import "./charger-number-control";
 import "./semantic-metric-grid";
 
 export const ADVANCED_CHARGER_STATUS_TAG =
   "r4875g1-advanced-charger-status";
 
-const ADVANCED_CHARGER_METRICS = [
+const ADVANCED_CHARGER_NUMBER_CONTROLS = [
   {
     label: "DC current setpoint",
     role: "charger.dc.current_setpoint",
   },
+  {
+    label: "Internal fan minimum duty",
+    role: "charger.internal_fan.minimum_duty_setpoint",
+  },
+] as const;
+
+const ADVANCED_CHARGER_METRICS = [
   {
     label: "Effective DC current limit",
     role: "charger.dc.current_limit_effective",
@@ -87,6 +96,23 @@ export class AdvancedChargerStatus extends LitElement {
       letter-spacing: 0.04em;
     }
 
+    .subheading {
+      color: var(--secondary-text-color, #727272);
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .controls {
+      display: grid;
+      gap: 0.5rem;
+    }
+
+    .controls > r4875g1-charger-number-control {
+      margin-top: 0;
+    }
+
     .message {
       padding: 1rem;
       border: 1px solid var(--divider-color, #d0d0d0);
@@ -98,6 +124,7 @@ export class AdvancedChargerStatus extends LitElement {
   private chargerStore: ChargerStore | null = null;
   private chargerState: ChargerState = null;
   private unsubscribe: UnsubscribeFunction | null = null;
+  private executeControl: ChargerControlExecutor | null = null;
 
   get store(): ChargerStore | null {
     return this.chargerStore;
@@ -116,6 +143,19 @@ export class AdvancedChargerStatus extends LitElement {
       this.attachStore();
     }
 
+    this.requestUpdate();
+  }
+
+  get execute(): ChargerControlExecutor | null {
+    return this.executeControl;
+  }
+
+  set execute(value: ChargerControlExecutor | null) {
+    if (value === this.executeControl) {
+      return;
+    }
+
+    this.executeControl = value;
     this.requestUpdate();
   }
 
@@ -157,10 +197,23 @@ export class AdvancedChargerStatus extends LitElement {
         <h2 class="section-heading">Advanced Charger</h2>
         <section class="panel">
           <div class="panel-heading">
-            <span class="panel-title">Advanced telemetry</span>
+            <span class="panel-title">Advanced Charger</span>
             <span class="capability-status">${capability.status}</span>
           </div>
 
+          <div class="subheading">Controls</div>
+          <div class="controls">
+            ${ADVANCED_CHARGER_NUMBER_CONTROLS.map(({ label, role }) => html`
+              <r4875g1-charger-number-control
+                .store=${this.chargerStore}
+                .execute=${this.executeControl}
+                .role=${role}
+                .label=${label}
+              ></r4875g1-charger-number-control>
+            `)}
+          </div>
+
+          <div class="subheading">Telemetry</div>
           <r4875g1-semantic-metric-grid
             .roles=${this.chargerState.roles}
             .metrics=${ADVANCED_CHARGER_METRICS}
@@ -171,8 +224,13 @@ export class AdvancedChargerStatus extends LitElement {
   }
 
   private hasRelevantRole(): boolean {
-    return ADVANCED_CHARGER_METRICS.some(
-      ({ role }) => this.chargerState?.roles[role] !== undefined,
+    return (
+      ADVANCED_CHARGER_NUMBER_CONTROLS.some(
+        ({ role }) => this.chargerState?.roles[role] !== undefined,
+      )
+      || ADVANCED_CHARGER_METRICS.some(
+        ({ role }) => this.chargerState?.roles[role] !== undefined,
+      )
     );
   }
 
