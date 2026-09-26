@@ -491,7 +491,7 @@ The firmware defines the authoritative Home Assistant Contract. The backend reso
 
 ## Release status and compatibility
 
-Version 0.11.0 adds a collapsible capability-aware Controller diagnostics view for Controller power, runtime and software telemetry.
+Version 0.12.0 is the dashboard usability and documentation milestone. It consolidates the 0.11.1-0.11.3 refinements into the next HACS-facing release, with reusable collapsible sections, clearer Enclosure cooling terminology, improved Controller diagnostics formatting and a complete visual dashboard guide.
 
 The dashboard is still pre-1.0 software. Minor versions may add substantial new frontend capabilities, while the backend API and Home Assistant Contract remain independently versioned.
 

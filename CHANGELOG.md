@@ -1,5 +1,63 @@
 # Changelog
 
+## 0.12.0
+
+Dashboard usability and documentation milestone.
+
+This is the next HACS-facing release after 0.11.0 and consolidates the
+0.11.1-0.11.3 development refinements listed below.
+
+- keep the Charger-wide START/STOP control directly below the status summary
+- use one reusable collapsible-section architecture across the larger dashboard areas
+- keep Operational setpoints, Fallback settings, Advanced Charger, Rectifiers, Enclosure cooling and Controller diagnostics compact when not needed
+- preserve independent expansion for each Rectifier Unit and the nested enclosure Fan control
+- distinguish internal Rectifier thermal/fan telemetry from enclosure cooling and fan control
+- improve Controller diagnostics formatting and readability
+- add a comprehensive visual dashboard guide with screenshots
+- preserve Backend API semantic roles, observed-state confirmation and Charger Controller authority
+- keep the R4875G1 Charger backend 1.3.0 compatibility baseline
+
+## 0.11.3
+
+Dashboard structure and enclosure-cooling terminology refinement.
+
+- move the Charger-wide START/STOP control ahead of Operational setpoints
+- make Operational setpoints collapsible
+- reuse the shared collapsible-section component for Fallback settings
+- render Controller Device Info `|` separators as line breaks
+- rename Cooling to Enclosure cooling to distinguish it from Rectifier cooling
+- rename External cooling to Fan control
+- align enclosure cooling terminology throughout the dashboard
+- rebuild the dashboard bundle
+- bump the dashboard development version to 0.11.3
+
+## 0.11.2
+
+Collapsible dashboard-section refinement.
+
+- add a reusable collapsible-section component
+- make Advanced Charger collapsible
+- make the complete Rectifiers section collapsible while preserving per-unit expansion
+- make Cooling collapsible
+- make External cooling independently collapsible
+- initially move Operational setpoints ahead of Advanced Charger
+- place the Charger power control directly below Operational setpoints
+- rebuild the dashboard bundle
+- bump the dashboard development version to 0.11.2
+
+## 0.11.1
+
+Controller diagnostics presentation refinement.
+
+- align the Controller diagnostics title beside the expand arrow
+- display CPU frequency in MHz
+- display heap and PSRAM values in kB with three decimal places
+- format uptime as `dd hh:mm:ss`
+- stack the System diagnostic fields vertically to reduce text wrapping
+- make metric formatting and stacked layout reusable
+- rebuild the dashboard bundle
+- bump the dashboard development version to 0.11.1
+
 ## 0.11.0
 
 Controller diagnostics milestone.

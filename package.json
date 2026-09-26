@@ -1,6 +1,6 @@
 {
   "name": "r4875g1-charger-dashboard",
-  "version": "0.11.3",
+  "version": "0.12.0",
   "private": true,
   "type": "module",
   "scripts": {
