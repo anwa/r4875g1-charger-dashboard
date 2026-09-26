@@ -1,14 +1,22 @@
 import { LitElement, css, html } from "lit";
 
 import type { SemanticRoleSnapshot } from "../api/types";
-import { formatSemanticRole } from "../presentation/semantic-role-format";
+import {
+  formatSemanticRole,
+  type SemanticRoleDisplayValue,
+} from "../presentation/semantic-role-format";
 
 export const SEMANTIC_METRIC_GRID_TAG =
   "r4875g1-semantic-metric-grid";
 
+export type SemanticMetricFormatter = (
+  snapshot: SemanticRoleSnapshot | undefined,
+) => SemanticRoleDisplayValue;
+
 export interface SemanticMetricDefinition {
   label: string;
   role: string;
+  formatter?: SemanticMetricFormatter;
 }
 
 export class SemanticMetricGrid extends LitElement {
@@ -22,6 +30,10 @@ export class SemanticMetricGrid extends LitElement {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
       gap: 0.5rem;
+    }
+
+    .metrics.stacked {
+      grid-template-columns: minmax(0, 1fr);
     }
 
     .metric {
@@ -53,6 +65,7 @@ export class SemanticMetricGrid extends LitElement {
 
   private semanticRoles: Record<string, SemanticRoleSnapshot> = {};
   private metricDefinitions: ReadonlyArray<SemanticMetricDefinition> = [];
+  private stackedLayout = false;
 
   get roles(): Record<string, SemanticRoleSnapshot> {
     return this.semanticRoles;
@@ -80,22 +93,37 @@ export class SemanticMetricGrid extends LitElement {
     this.requestUpdate();
   }
 
+  get stacked(): boolean {
+    return this.stackedLayout;
+  }
+
+  set stacked(value: boolean) {
+    if (value === this.stackedLayout) {
+      return;
+    }
+
+    this.stackedLayout = value;
+    this.requestUpdate();
+  }
+
   protected render() {
     return html`
-      <div class="metrics">
-        ${this.metricDefinitions.map(({ label, role }) =>
-          this.renderMetric(label, role),
+      <div class=${this.stackedLayout ? "metrics stacked" : "metrics"}>
+        ${this.metricDefinitions.map((metric) =>
+          this.renderMetric(metric),
         )}
       </div>
     `;
   }
 
-  private renderMetric(label: string, role: string) {
-    const display = formatSemanticRole(this.semanticRoles[role]);
+  private renderMetric(metric: SemanticMetricDefinition) {
+    const snapshot = this.semanticRoles[metric.role];
+    const display = metric.formatter?.(snapshot)
+      ?? formatSemanticRole(snapshot);
 
     return html`
       <div class="metric">
-        <span class="metric-label">${label}</span>
+        <span class="metric-label">${metric.label}</span>
         <span class="metric-value">
           ${display.value}${display.unit !== null
             ? html`<span class="metric-unit">${display.unit}</span>`

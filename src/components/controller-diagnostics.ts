@@ -1,14 +1,20 @@
 import { LitElement, css, html } from "lit";
 
 import type { UnsubscribeFunction } from "../api/client";
+import type { SemanticRoleSnapshot } from "../api/types";
+import {
+  formatSemanticRole,
+  type SemanticRoleDisplayValue,
+} from "../presentation/semantic-role-format";
 import type { ChargerState } from "../state/reducer";
 import type { ChargerStore } from "../state/store";
 import "./semantic-metric-grid";
+import type { SemanticMetricDefinition } from "./semantic-metric-grid";
 
 export const CONTROLLER_DIAGNOSTICS_TAG =
   "r4875g1-controller-diagnostics";
 
-const CONTROLLER_BATTERY_METRICS = [
+const CONTROLLER_BATTERY_METRICS: ReadonlyArray<SemanticMetricDefinition> = [
   {
     label: "Controller battery voltage",
     role: "system.controller_battery.voltage",
@@ -17,9 +23,9 @@ const CONTROLLER_BATTERY_METRICS = [
     label: "Controller battery state of charge",
     role: "system.controller_battery.soc",
   },
-] as const;
+];
 
-const CONTROLLER_RUNTIME_METRICS = [
+const CONTROLLER_RUNTIME_METRICS: ReadonlyArray<SemanticMetricDefinition> = [
   {
     label: "CPU temperature",
     role: "system.cpu.temperature",
@@ -27,6 +33,7 @@ const CONTROLLER_RUNTIME_METRICS = [
   {
     label: "CPU frequency",
     role: "system.cpu.frequency",
+    formatter: formatCpuFrequency,
   },
   {
     label: "Loop time",
@@ -35,26 +42,30 @@ const CONTROLLER_RUNTIME_METRICS = [
   {
     label: "Heap free",
     role: "system.heap.free",
+    formatter: formatMemoryKilobytes,
   },
   {
     label: "Heap max block",
     role: "system.heap.max_block",
+    formatter: formatMemoryKilobytes,
   },
   {
     label: "PSRAM free",
     role: "system.psram.free",
+    formatter: formatMemoryKilobytes,
   },
   {
     label: "Uptime",
     role: "system.uptime",
+    formatter: formatUptime,
   },
   {
     label: "WiFi RSSI",
     role: "system.wifi.rssi",
   },
-] as const;
+];
 
-const CONTROLLER_SYSTEM_METRICS = [
+const CONTROLLER_SYSTEM_METRICS: ReadonlyArray<SemanticMetricDefinition> = [
   {
     label: "ESPHome version",
     role: "system.esphome_version",
@@ -67,13 +78,101 @@ const CONTROLLER_SYSTEM_METRICS = [
     label: "Reset reason",
     role: "system.reset_reason",
   },
-] as const;
+];
 
 const CONTROLLER_DIAGNOSTIC_METRIC_GROUPS = [
   CONTROLLER_BATTERY_METRICS,
   CONTROLLER_RUNTIME_METRICS,
   CONTROLLER_SYSTEM_METRICS,
 ] as const;
+
+function formatCpuFrequency(
+  snapshot: SemanticRoleSnapshot | undefined,
+): SemanticRoleDisplayValue {
+  return formatScaledMetric(snapshot, 1_000_000, "MHz", 0);
+}
+
+function formatMemoryKilobytes(
+  snapshot: SemanticRoleSnapshot | undefined,
+): SemanticRoleDisplayValue {
+  return formatScaledMetric(snapshot, 1024, "kB", 3);
+}
+
+function formatUptime(
+  snapshot: SemanticRoleSnapshot | undefined,
+): SemanticRoleDisplayValue {
+  const fallback = formatSemanticRole(snapshot);
+  const state = snapshot?.state;
+
+  if (
+    !fallback.available
+    || state === null
+    || state === undefined
+    || state.trim() === ""
+  ) {
+    return fallback;
+  }
+
+  const numericValue = Number(state);
+
+  if (!Number.isFinite(numericValue)) {
+    return fallback;
+  }
+
+  const totalSeconds = Math.max(0, Math.floor(numericValue));
+  const days = Math.floor(totalSeconds / 86400);
+  const hours = Math.floor((totalSeconds % 86400) / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  return {
+    available: true,
+    value: [
+      String(days).padStart(2, "0"),
+      [
+        String(hours).padStart(2, "0"),
+        String(minutes).padStart(2, "0"),
+        String(seconds).padStart(2, "0"),
+      ].join(":"),
+    ].join(" "),
+    unit: null,
+  };
+}
+
+function formatScaledMetric(
+  snapshot: SemanticRoleSnapshot | undefined,
+  divisor: number,
+  unit: string,
+  fractionDigits: number,
+): SemanticRoleDisplayValue {
+  const fallback = formatSemanticRole(snapshot);
+  const state = snapshot?.state;
+
+  if (
+    !fallback.available
+    || state === null
+    || state === undefined
+    || state.trim() === ""
+  ) {
+    return fallback;
+  }
+
+  const numericValue = Number(state);
+
+  if (!Number.isFinite(numericValue)) {
+    return fallback;
+  }
+
+  return {
+    available: true,
+    value: new Intl.NumberFormat(undefined, {
+      minimumFractionDigits: fractionDigits,
+      maximumFractionDigits: fractionDigits,
+      useGrouping: false,
+    }).format(numericValue / divisor),
+    unit,
+  };
+}
 
 export class ControllerDiagnostics extends LitElement {
   static styles = css`
@@ -91,19 +190,41 @@ export class ControllerDiagnostics extends LitElement {
     }
 
     summary {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 0.5rem;
+      align-items: center;
       padding: 1rem;
       cursor: pointer;
+      list-style: none;
       user-select: none;
     }
 
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::before {
+      content: "›";
+      color: var(--secondary-text-color, #727272);
+      font-size: 1.3rem;
+      line-height: 1;
+      transform: rotate(0deg);
+      transition: transform 120ms ease;
+    }
+
+    .diagnostics[open] summary::before {
+      transform: rotate(90deg);
+    }
+
     .summary-content {
-      display: inline-flex;
+      display: flex;
       flex-wrap: wrap;
       gap: 0.75rem;
       align-items: baseline;
       justify-content: space-between;
-      width: calc(100% - 1.25rem);
-      margin-left: 0.25rem;
+      min-width: 0;
+      width: 100%;
     }
 
     .summary-title {
@@ -219,6 +340,7 @@ export class ControllerDiagnostics extends LitElement {
           ${this.renderGroup(
             "System",
             CONTROLLER_SYSTEM_METRICS,
+            true,
           )}
         </div>
       </details>
@@ -227,7 +349,8 @@ export class ControllerDiagnostics extends LitElement {
 
   private renderGroup(
     title: string,
-    metrics: ReadonlyArray<{ label: string; role: string }>,
+    metrics: ReadonlyArray<SemanticMetricDefinition>,
+    stacked = false,
   ) {
     return html`
       <section class="group">
@@ -235,6 +358,7 @@ export class ControllerDiagnostics extends LitElement {
         <r4875g1-semantic-metric-grid
           .roles=${this.chargerState?.roles ?? {}}
           .metrics=${metrics}
+          .stacked=${stacked}
         ></r4875g1-semantic-metric-grid>
       </section>
     `;
