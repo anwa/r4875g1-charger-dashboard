@@ -5,6 +5,7 @@ import type { ChargerControlExecutor } from "../controls/types";
 import { formatSemanticRole } from "../presentation/semantic-role-format";
 import type { ChargerState } from "../state/reducer";
 import type { ChargerStore } from "../state/store";
+import "./collapsible-section";
 import "./power-command-control";
 import type {
   PowerCommandControlConfig,
@@ -83,17 +84,6 @@ export class RectifierDetails extends LitElement {
       margin-top: 1rem;
       color: var(--primary-text-color, #212121);
       font-family: var(--paper-font-body1_-_font-family, sans-serif);
-    }
-
-    .section {
-      display: grid;
-      gap: 0.75rem;
-    }
-
-    .section-heading {
-      margin: 0;
-      font-size: 1rem;
-      font-weight: 600;
     }
 
     .units {
@@ -281,10 +271,11 @@ export class RectifierDetails extends LitElement {
   protected render() {
     if (this.chargerState === null) {
       return html`
-        <section class="section">
-          <h2 class="section-heading">Rectifiers</h2>
+        <r4875g1-collapsible-section
+          .sectionTitle=${"Rectifiers"}
+        >
           <div class="message">Waiting for rectifier data…</div>
-        </section>
+        </r4875g1-collapsible-section>
       `;
     }
 
@@ -292,22 +283,25 @@ export class RectifierDetails extends LitElement {
 
     if (capability?.available !== true) {
       return html`
-        <section class="section">
-          <h2 class="section-heading">Rectifiers</h2>
+        <r4875g1-collapsible-section
+          .sectionTitle=${"Rectifiers"}
+        >
           <div class="message">
             Rectifier detail capability is unavailable.
           </div>
-        </section>
+        </r4875g1-collapsible-section>
       `;
     }
 
     return html`
-      <section class="section">
-        <h2 class="section-heading">Rectifiers</h2>
+      <r4875g1-collapsible-section
+        .sectionTitle=${"Rectifiers"}
+        .statusText=${capability.status}
+      >
         <div class="units">
           ${RECTIFIER_UNITS.map((unit) => this.renderUnit(unit))}
         </div>
-      </section>
+      </r4875g1-collapsible-section>
     `;
   }
 

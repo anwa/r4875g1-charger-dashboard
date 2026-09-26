@@ -6,6 +6,7 @@ import type { ChargerState } from "../state/reducer";
 import type { ChargerStore } from "../state/store";
 import "./charger-number-control";
 import "./charger-switch-control";
+import "./collapsible-section";
 import "./semantic-metric-grid";
 
 export const COOLING_STATUS_TAG = "r4875g1-cooling-status";
@@ -50,17 +51,6 @@ export class CoolingStatus extends LitElement {
       font-family: var(--paper-font-body1_-_font-family, sans-serif);
     }
 
-    .section {
-      display: grid;
-      gap: 0.75rem;
-    }
-
-    .section-heading {
-      margin: 0;
-      font-size: 1rem;
-      font-weight: 600;
-    }
-
     .panel {
       display: grid;
       gap: 0.75rem;
@@ -68,25 +58,6 @@ export class CoolingStatus extends LitElement {
       border: 1px solid var(--divider-color, #d0d0d0);
       border-radius: 0.75rem;
       background: var(--card-background-color, #ffffff);
-    }
-
-    .panel-heading {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      align-items: baseline;
-      justify-content: space-between;
-    }
-
-    .panel-title {
-      font-weight: 600;
-    }
-
-    .capability-status {
-      color: var(--secondary-text-color, #727272);
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
     }
 
     .subheading {
@@ -97,9 +68,11 @@ export class CoolingStatus extends LitElement {
       letter-spacing: 0.04em;
     }
 
+    .content,
+    .external-content,
     .controls {
       display: grid;
-      gap: 0.5rem;
+      gap: 0.75rem;
     }
 
     .controls > r4875g1-charger-number-control,
@@ -166,10 +139,11 @@ export class CoolingStatus extends LitElement {
   protected render() {
     if (this.chargerState === null) {
       return html`
-        <section class="section">
-          <h2 class="section-heading">Cooling</h2>
+        <r4875g1-collapsible-section
+          .sectionTitle=${"Cooling"}
+        >
           <div class="message">Waiting for cooling data…</div>
-        </section>
+        </r4875g1-collapsible-section>
       `;
     }
 
@@ -179,78 +153,72 @@ export class CoolingStatus extends LitElement {
       this.chargerState.capabilities.external_cooling;
 
     return html`
-      <section class="section">
-        <h2 class="section-heading">Cooling</h2>
+      <r4875g1-collapsible-section
+        .sectionTitle=${"Cooling"}
+      >
+        <div class="content">
+          ${environmentCapability?.available === true
+            ? this.renderPanel(
+                "Compartment environment",
+                COOLING_ENVIRONMENT_METRICS,
+              )
+            : html`
+                <div class="message">
+                  Cooling environment capability is unavailable.
+                </div>
+              `}
 
-        ${environmentCapability?.available === true
-          ? this.renderPanel(
-              "Compartment environment",
-              COOLING_ENVIRONMENT_METRICS,
-            )
-          : html`
-              <div class="message">
-                Cooling environment capability is unavailable.
-              </div>
-            `}
-
-        ${externalCapability !== undefined
-          && externalCapability.status !== "unavailable"
-          ? this.renderExternalCoolingPanel(externalCapability.status)
-          : ""}
-      </section>
+          ${externalCapability !== undefined
+            && externalCapability.status !== "unavailable"
+            ? this.renderExternalCoolingPanel(externalCapability.status)
+            : ""}
+        </div>
+      </r4875g1-collapsible-section>
     `;
   }
 
   private renderExternalCoolingPanel(capabilityStatus: string) {
     return html`
-      <section class="panel">
-        <div class="panel-heading">
-          <span class="panel-title">External cooling</span>
-          <span class="capability-status">${capabilityStatus}</span>
-        </div>
-
-        <div class="subheading">Controls</div>
-        <div class="controls">
-          ${EXTERNAL_COOLING_SWITCH_CONTROLS.map(({ label, role }) => html`
-            <r4875g1-charger-switch-control
+      <r4875g1-collapsible-section
+        .sectionTitle=${"External cooling"}
+        .statusText=${capabilityStatus}
+      >
+        <div class="external-content">
+          <div class="subheading">Controls</div>
+          <div class="controls">
+            ${EXTERNAL_COOLING_SWITCH_CONTROLS.map(({ label, role }) => html`
+              <r4875g1-charger-switch-control
+                .store=${this.chargerStore}
+                .execute=${this.executeControl}
+                .role=${role}
+                .label=${label}
+              ></r4875g1-charger-switch-control>
+            `)}
+            <r4875g1-charger-number-control
               .store=${this.chargerStore}
               .execute=${this.executeControl}
-              .role=${role}
-              .label=${label}
-            ></r4875g1-charger-switch-control>
-          `)}
-          <r4875g1-charger-number-control
-            .store=${this.chargerStore}
-            .execute=${this.executeControl}
-            .role=${"cooling.external.manual_pwm"}
-            .label=${"Manual PWM"}
-          ></r4875g1-charger-number-control>
-        </div>
+              .role=${"cooling.external.manual_pwm"}
+              .label=${"Manual PWM"}
+            ></r4875g1-charger-number-control>
+          </div>
 
-        <div class="subheading">Telemetry</div>
-        <r4875g1-semantic-metric-grid
-          .roles=${this.chargerState?.roles ?? {}}
-          .metrics=${EXTERNAL_COOLING_METRICS}
-        ></r4875g1-semantic-metric-grid>
-      </section>
+          <div class="subheading">Telemetry</div>
+          <r4875g1-semantic-metric-grid
+            .roles=${this.chargerState?.roles ?? {}}
+            .metrics=${EXTERNAL_COOLING_METRICS}
+          ></r4875g1-semantic-metric-grid>
+        </div>
+      </r4875g1-collapsible-section>
     `;
   }
 
   private renderPanel(
     title: string,
     metrics: ReadonlyArray<{ label: string; role: string }>,
-    capabilityStatus?: string,
   ) {
     return html`
       <section class="panel">
-        <div class="panel-heading">
-          <span class="panel-title">${title}</span>
-          ${capabilityStatus !== undefined
-            ? html`
-                <span class="capability-status">${capabilityStatus}</span>
-              `
-            : ""}
-        </div>
+        <div class="subheading">${title}</div>
         <r4875g1-semantic-metric-grid
           .roles=${this.chargerState?.roles ?? {}}
           .metrics=${metrics}

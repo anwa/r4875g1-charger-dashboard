@@ -5,6 +5,7 @@ import type { ChargerControlExecutor } from "../controls/types";
 import type { ChargerState } from "../state/reducer";
 import type { ChargerStore } from "../state/store";
 import "./charger-number-control";
+import "./collapsible-section";
 import "./semantic-metric-grid";
 
 export const ADVANCED_CHARGER_STATUS_TAG =
@@ -57,43 +58,9 @@ export class AdvancedChargerStatus extends LitElement {
       font-family: var(--paper-font-body1_-_font-family, sans-serif);
     }
 
-    .section {
+    .content {
       display: grid;
       gap: 0.75rem;
-    }
-
-    .section-heading {
-      margin: 0;
-      font-size: 1rem;
-      font-weight: 600;
-    }
-
-    .panel {
-      display: grid;
-      gap: 0.75rem;
-      padding: 1rem;
-      border: 1px solid var(--divider-color, #d0d0d0);
-      border-radius: 0.75rem;
-      background: var(--card-background-color, #ffffff);
-    }
-
-    .panel-heading {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      align-items: baseline;
-      justify-content: space-between;
-    }
-
-    .panel-title {
-      font-weight: 600;
-    }
-
-    .capability-status {
-      color: var(--secondary-text-color, #727272);
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
     }
 
     .subheading {
@@ -114,9 +81,6 @@ export class AdvancedChargerStatus extends LitElement {
     }
 
     .message {
-      padding: 1rem;
-      border: 1px solid var(--divider-color, #d0d0d0);
-      border-radius: 0.75rem;
       color: var(--secondary-text-color, #727272);
     }
   `;
@@ -172,12 +136,13 @@ export class AdvancedChargerStatus extends LitElement {
   protected render() {
     if (this.chargerState === null) {
       return html`
-        <section class="section">
-          <h2 class="section-heading">Advanced Charger</h2>
+        <r4875g1-collapsible-section
+          .sectionTitle=${"Advanced Charger"}
+        >
           <div class="message">
             Waiting for advanced Charger data…
           </div>
-        </section>
+        </r4875g1-collapsible-section>
       `;
     }
 
@@ -193,14 +158,11 @@ export class AdvancedChargerStatus extends LitElement {
     }
 
     return html`
-      <section class="section">
-        <h2 class="section-heading">Advanced Charger</h2>
-        <section class="panel">
-          <div class="panel-heading">
-            <span class="panel-title">Advanced Charger</span>
-            <span class="capability-status">${capability.status}</span>
-          </div>
-
+      <r4875g1-collapsible-section
+        .sectionTitle=${"Advanced Charger"}
+        .statusText=${capability.status}
+      >
+        <div class="content">
           <div class="subheading">Controls</div>
           <div class="controls">
             ${ADVANCED_CHARGER_NUMBER_CONTROLS.map(({ label, role }) => html`
@@ -218,8 +180,8 @@ export class AdvancedChargerStatus extends LitElement {
             .roles=${this.chargerState.roles}
             .metrics=${ADVANCED_CHARGER_METRICS}
           ></r4875g1-semantic-metric-grid>
-        </section>
-      </section>
+        </div>
+      </r4875g1-collapsible-section>
     `;
   }
 
