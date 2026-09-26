@@ -11,7 +11,7 @@ import "./semantic-metric-grid";
 
 export const COOLING_STATUS_TAG = "r4875g1-cooling-status";
 
-const COOLING_ENVIRONMENT_METRICS = [
+const ENCLOSURE_ENVIRONMENT_METRICS = [
   {
     label: "Compartment temperature",
     role: "cooling.compartment.temperature",
@@ -26,15 +26,15 @@ const COOLING_ENVIRONMENT_METRICS = [
   },
 ] as const;
 
-const EXTERNAL_COOLING_SWITCH_CONTROLS = [
+const ENCLOSURE_FAN_SWITCH_CONTROLS = [
   { label: "Automatic mode", role: "cooling.external.automatic" },
   { label: "Fan power", role: "cooling.external.power" },
 ] as const;
 
-const EXTERNAL_COOLING_METRICS = [
+const ENCLOSURE_FAN_METRICS = [
   { label: "Actual PWM", role: "cooling.external.actual_pwm" },
   {
-    label: "Controller temperature",
+    label: "Fan controller temperature",
     role: "cooling.external.controller_temperature",
   },
   { label: "Fan 1 speed", role: "cooling.external.fan.1.rpm" },
@@ -69,7 +69,7 @@ export class CoolingStatus extends LitElement {
     }
 
     .content,
-    .external-content,
+    .fan-content,
     .controls {
       display: grid;
       gap: 0.75rem;
@@ -140,9 +140,9 @@ export class CoolingStatus extends LitElement {
     if (this.chargerState === null) {
       return html`
         <r4875g1-collapsible-section
-          .sectionTitle=${"Cooling"}
+          .sectionTitle=${"Enclosure cooling"}
         >
-          <div class="message">Waiting for cooling data…</div>
+          <div class="message">Waiting for enclosure cooling data…</div>
         </r4875g1-collapsible-section>
       `;
     }
@@ -154,39 +154,39 @@ export class CoolingStatus extends LitElement {
 
     return html`
       <r4875g1-collapsible-section
-        .sectionTitle=${"Cooling"}
+        .sectionTitle=${"Enclosure cooling"}
       >
         <div class="content">
           ${environmentCapability?.available === true
             ? this.renderPanel(
-                "Compartment environment",
-                COOLING_ENVIRONMENT_METRICS,
+                "Enclosure environment",
+                ENCLOSURE_ENVIRONMENT_METRICS,
               )
             : html`
                 <div class="message">
-                  Cooling environment capability is unavailable.
+                  Enclosure environment capability is unavailable.
                 </div>
               `}
 
           ${externalCapability !== undefined
             && externalCapability.status !== "unavailable"
-            ? this.renderExternalCoolingPanel(externalCapability.status)
+            ? this.renderFanControlPanel(externalCapability.status)
             : ""}
         </div>
       </r4875g1-collapsible-section>
     `;
   }
 
-  private renderExternalCoolingPanel(capabilityStatus: string) {
+  private renderFanControlPanel(capabilityStatus: string) {
     return html`
       <r4875g1-collapsible-section
-        .sectionTitle=${"External cooling"}
+        .sectionTitle=${"Fan control"}
         .statusText=${capabilityStatus}
       >
-        <div class="external-content">
+        <div class="fan-content">
           <div class="subheading">Controls</div>
           <div class="controls">
-            ${EXTERNAL_COOLING_SWITCH_CONTROLS.map(({ label, role }) => html`
+            ${ENCLOSURE_FAN_SWITCH_CONTROLS.map(({ label, role }) => html`
               <r4875g1-charger-switch-control
                 .store=${this.chargerStore}
                 .execute=${this.executeControl}
@@ -205,7 +205,7 @@ export class CoolingStatus extends LitElement {
           <div class="subheading">Telemetry</div>
           <r4875g1-semantic-metric-grid
             .roles=${this.chargerState?.roles ?? {}}
-            .metrics=${EXTERNAL_COOLING_METRICS}
+            .metrics=${ENCLOSURE_FAN_METRICS}
           ></r4875g1-semantic-metric-grid>
         </div>
       </r4875g1-collapsible-section>

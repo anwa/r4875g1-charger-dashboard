@@ -3,6 +3,7 @@ import { LitElement, css, html } from "lit";
 import type { ChargerControlExecutor } from "../controls/types";
 import type { ChargerStore } from "../state/store";
 import "./charger-number-control";
+import "./collapsible-section";
 
 export const CHARGER_SETPOINT_CONTROLS_TAG =
   "r4875g1-charger-setpoint-controls";
@@ -41,21 +42,8 @@ export class ChargerSetpointControls extends LitElement {
       font-family: var(--paper-font-body1_-_font-family, sans-serif);
     }
 
-    .section {
-      padding: 1rem;
-      border: 1px solid var(--divider-color, #d0d0d0);
-      border-radius: 0.75rem;
-      color: var(--primary-text-color, #212121);
-    }
-
-    .section + .section {
+    r4875g1-collapsible-section + r4875g1-collapsible-section {
       margin-top: 1rem;
-    }
-
-    .section-title {
-      margin-bottom: 0.25rem;
-      font-size: 1rem;
-      font-weight: 600;
     }
 
     .section-description {
@@ -63,22 +51,6 @@ export class ChargerSetpointControls extends LitElement {
       color: var(--secondary-text-color, #727272);
       font-size: 0.85rem;
       line-height: 1.4;
-    }
-
-    details.section {
-      padding: 0;
-    }
-
-    summary {
-      min-height: 2.75rem;
-      padding: 0.75rem 1rem;
-      box-sizing: border-box;
-      cursor: pointer;
-      font-weight: 600;
-    }
-
-    .fallback-content {
-      padding: 0 1rem 1rem;
     }
   `;
 
@@ -113,27 +85,27 @@ export class ChargerSetpointControls extends LitElement {
 
   protected render() {
     return html`
-      <section class="section">
-        <div class="section-title">Operational setpoints</div>
+      <r4875g1-collapsible-section
+        .sectionTitle=${"Operational setpoints"}
+      >
         <div class="section-description">
           Normal Charger operating limits and targets.
         </div>
         ${OPERATIONAL_SETPOINTS.map(({ role, label }) =>
           this.renderNumberControl(role, label),
         )}
-      </section>
+      </r4875g1-collapsible-section>
 
-      <details class="section">
-        <summary>Fallback settings</summary>
-        <div class="fallback-content">
-          <div class="section-description">
-            Rectifier fallback voltage and current settings.
-          </div>
-          ${FALLBACK_SETPOINTS.map(({ role, label }) =>
-            this.renderNumberControl(role, label),
-          )}
+      <r4875g1-collapsible-section
+        .sectionTitle=${"Fallback settings"}
+      >
+        <div class="section-description">
+          Rectifier fallback voltage and current settings.
         </div>
-      </details>
+        ${FALLBACK_SETPOINTS.map(({ role, label }) =>
+          this.renderNumberControl(role, label),
+        )}
+      </r4875g1-collapsible-section>
     `;
   }
 

@@ -130,14 +130,14 @@ export class ChargerOverviewCard extends LitElement {
         <r4875g1-charger-status
           .store=${this.chargerStore}
         ></r4875g1-charger-status>
-        <r4875g1-charger-setpoint-controls
-          .store=${this.chargerStore}
-          .execute=${this.executeControl}
-        ></r4875g1-charger-setpoint-controls>
         <r4875g1-charger-power-control
           .store=${this.chargerStore}
           .execute=${this.executeControl}
         ></r4875g1-charger-power-control>
+        <r4875g1-charger-setpoint-controls
+          .store=${this.chargerStore}
+          .execute=${this.executeControl}
+        ></r4875g1-charger-setpoint-controls>
         <r4875g1-advanced-charger-status
           .store=${this.chargerStore}
           .execute=${this.executeControl}

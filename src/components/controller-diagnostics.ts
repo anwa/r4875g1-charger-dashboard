@@ -73,6 +73,7 @@ const CONTROLLER_SYSTEM_METRICS: ReadonlyArray<SemanticMetricDefinition> = [
   {
     label: "Device info",
     role: "system.device_info",
+    formatter: formatPipeDelimitedText,
   },
   {
     label: "Reset reason",
@@ -136,6 +137,25 @@ function formatUptime(
       ].join(":"),
     ].join(" "),
     unit: null,
+  };
+}
+
+function formatPipeDelimitedText(
+  snapshot: SemanticRoleSnapshot | undefined,
+): SemanticRoleDisplayValue {
+  const fallback = formatSemanticRole(snapshot);
+
+  if (!fallback.available) {
+    return fallback;
+  }
+
+  return {
+    ...fallback,
+    value: fallback.value
+      .split("|")
+      .map((part) => part.trim())
+      .filter((part) => part !== "")
+      .join("\n"),
   };
 }
 

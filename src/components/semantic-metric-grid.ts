@@ -52,6 +52,7 @@ export class SemanticMetricGrid extends LitElement {
 
     .metric-value {
       overflow-wrap: anywhere;
+      white-space: pre-line;
       font-weight: 600;
     }
 
