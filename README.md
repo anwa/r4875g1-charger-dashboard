@@ -22,6 +22,7 @@ It consumes the stable semantic Backend API exposed by the separate `R4875G1 Cha
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Configuration](#configuration)
+- [Dashboard guide](#dashboard-guide)
 - [Updating](#updating)
 - [Troubleshooting](#troubleshooting)
 - [Architecture](#architecture)
@@ -130,20 +131,196 @@ The current frontend provides:
 - internal rectifier-fan minimum-duty control using Backend API Number metadata
 - expandable live detail views for Rectifier Units 1-3
 - per-rectifier START and STOP with confirmation and observed-state completion
-- compartment cooling environment telemetry
-- optional external cooling status, PWM and fan telemetry
-- external cooling automatic-mode control with confirmation and observed-state completion
-- external cooling fan-power control with confirmation and observed-state completion
-- external cooling manual-PWM control using Backend API Number metadata
+- enclosure environment telemetry for the Charger housing
+- enclosure fan control with automatic mode, fan power, manual PWM and live fan telemetry
 - Charger-wide START and STOP with confirmation
-- AC current-limit control
-- DC voltage-limit control
-- DC sum-power control
-- separate fallback DC voltage and current controls
+- collapsible Operational setpoints for AC current, DC voltage and DC sum-power limits
+- separate collapsible fallback DC voltage and current controls
+- collapsible Advanced Charger, Rectifiers, Enclosure cooling and Controller diagnostics sections
+- expandable live detail views for Rectifier Units 1-3
+- per-rectifier START and STOP with confirmation and observed-state completion
 - observed-state confirmation after operational commands and setpoint writes
-- collapsible optional Controller diagnostics for battery, CPU, memory, loop timing, uptime, WiFi and Controller software state
+- optional Controller diagnostics for battery, CPU, memory, loop timing, uptime, WiFi and Controller software state
 
 Additional Advanced Charger button controls and trend/history presentation remain later milestones.
+
+
+## Dashboard guide
+
+The overview card is designed to keep the most important Charger state visible while larger detail areas remain collapsed until needed.
+
+<p align="center">
+  <img
+    src="docs/screenshots/overview.png"
+    alt="R4875G1 Charger dashboard overview"
+    width="478">
+</p>
+
+From top to bottom, the card contains:
+
+1. the always-visible Charger status summary
+2. the Charger-wide START or STOP control
+3. collapsible Operational setpoints and Fallback settings
+4. collapsible Advanced Charger data and controls when the capability is available
+5. collapsible Rectifier details
+6. collapsible Enclosure cooling
+7. collapsible Controller diagnostics when the capability is available
+
+The dashboard only presents state and sends semantic control requests. Charger lifecycle, safety checks, thermal protection, START eligibility and actual state transitions remain authoritative in the Charger Controller.
+
+### Charger status and START/STOP
+
+The status summary stays visible at the top of the card. It shows the Charger Instance name, overall status, contract version, available and running Rectifier counts, aggregate AC/DC values, highest Rectifier output temperature and conversion efficiency.
+
+Directly below the summary is the Charger-wide **START CHARGER** or **STOP CHARGER** button. The action shown depends on the observed Charger state.
+
+START and STOP use a confirmation dialog before a command is sent:
+
+<p align="center">
+  <img
+    src="docs/screenshots/start-charger.png"
+    alt="R4875G1 Charger START confirmation dialog"
+    width="478">
+</p>
+
+A successful Home Assistant service call is not treated as proof that the Charger changed state. The dashboard waits for the corresponding semantic state update from the backend. If the expected state is not observed within the UI timeout, the control reports a timeout instead of showing an optimistic result.
+
+### Operational setpoints
+
+Expand **Operational setpoints** to edit the normal Charger operating limits and targets.
+
+<p align="center">
+  <img
+    src="docs/screenshots/operational-setpoints.png"
+    alt="R4875G1 Charger Operational setpoints"
+    width="448">
+</p>
+
+The section currently contains:
+
+- **AC current limit**
+- **DC voltage limit**
+- **DC sum power**
+
+Select **EDIT** on a value to open the Number editor. The editor shows the minimum, maximum, step and unit supplied by the Backend API. Use the minus and plus buttons or enter the value directly, then select **SAVE**.
+
+The dashboard waits for the changed semantic value to be observed before it presents the write as completed.
+
+### Fallback settings
+
+**Fallback settings** is kept separate from the normal operating setpoints because these values are used for Rectifier fallback behavior rather than normal Charger control.
+
+<p align="center">
+  <img
+    src="docs/screenshots/fallback-settings.png"
+    alt="R4875G1 Charger Fallback settings"
+    width="448">
+</p>
+
+The section contains:
+
+- **Fallback DC voltage**
+- **Fallback DC current**
+
+The editor and observed-state behavior are the same as for Operational setpoints.
+
+### Advanced Charger
+
+When the backend exposes the optional Advanced Charger capability, the **Advanced Charger** section becomes available.
+
+<p align="center">
+  <img
+    src="docs/screenshots/advanced-charger.png"
+    alt="R4875G1 Charger Advanced Charger controls and telemetry"
+    width="448">
+</p>
+
+It can contain:
+
+- DC current-setpoint control
+- internal Rectifier-fan minimum-duty control
+- effective DC current limit
+- thermal DC current limit
+- applied DC current limit
+- AC energy today
+- DC energy today
+- Rectifier capability mismatch
+
+This section refers to Charger-level and Rectifier-related advanced functions. It is intentionally separate from **Enclosure cooling**, which controls the fans of the Charger housing rather than the internal Rectifier fans.
+
+### Rectifiers
+
+Expand **Rectifiers** to inspect the individual R4875G1 units.
+
+<p align="center">
+  <img
+    src="docs/screenshots/rectifiers.png"
+    alt="R4875G1 Charger Rectifier details"
+    width="448">
+</p>
+
+Each Rectifier has its own collapsible row. The collapsed row provides a compact summary such as CAN state, power state, DC power and output temperature. Expanding a unit shows:
+
+- per-Rectifier START or STOP control
+- CAN, lifecycle, power and thermal state
+- AC input voltage, current, power and frequency
+- DC output voltage, current and power
+- reported current setpoint and maximum current capability
+- input and output temperatures
+- internal Rectifier fan speed, minimum duty and target duty
+- operating hours
+
+The **Thermal and fan** group in this section belongs to the Rectifier itself. It must not be confused with the separate enclosure fans described below.
+
+### Enclosure cooling
+
+**Enclosure cooling** contains the climate information and fan controls for the Charger housing or cabinet. It is deliberately named separately from Rectifier cooling.
+
+<p align="center">
+  <img
+    src="docs/screenshots/enclosure-cooling.png"
+    alt="R4875G1 Charger enclosure cooling and fan control"
+    width="448">
+</p>
+
+The **Enclosure environment** area shows:
+
+- compartment temperature
+- compartment humidity
+- sea-level pressure
+
+The nested **Fan control** section is available when the optional enclosure-fan capability is exposed by the backend. It contains:
+
+- **Automatic mode** — enables or disables automatic enclosure-fan control
+- **Fan power** — switches enclosure-fan power
+- **Manual PWM** — sets the requested manual PWM value
+- **Actual PWM** — reports the applied PWM
+- **Fan controller temperature**
+- **Fan 1 / Fan 2 / Fan 3 speed**
+
+Switch controls use confirmation and observed-state completion. Number controls use Backend API minimum, maximum, step and unit metadata and likewise wait for the changed value to be observed.
+
+### Controller diagnostics
+
+When the optional Controller diagnostics capability is available, expand **Controller diagnostics** to inspect Controller power, runtime and software information.
+
+<p align="center">
+  <img
+    src="docs/screenshots/controller-diagnostics.png"
+    alt="R4875G1 Charger Controller diagnostics"
+    width="448">
+</p>
+
+The diagnostics section is divided into:
+
+- **Controller battery** — backup-battery voltage and state of charge
+- **Runtime** — CPU temperature and frequency, loop time, heap, PSRAM, uptime and WiFi RSSI
+- **System** — ESPHome version, device information and reset reason
+
+CPU frequency is displayed in MHz, memory values in kB with three decimal places, and uptime as `dd hh:mm:ss`.
+
+The Device Info value is split into separate lines at the Controller-provided `|` separators to keep the long ESP32/ESP-IDF information readable on narrow dashboard cards.
+
 
 ## Updating
 
