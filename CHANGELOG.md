@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.0.1
+
+Grafana history-dashboard foundation.
+
+- add a version-controlled Grafana V2 dashboard resource
+- add portable InfluxDB data-source and Charger-instance variables
+- keep historical telemetry on the existing Home Assistant/InfluxDB path
+- add the first portable AC Voltage Unit 1 validation panel
+- document normal Grafana import and Git Sync usage
+- document Grafana portability and read-only architecture rules
+- keep Grafana outside the Charger control path
+- bump the dashboard development version to 1.0.1
+
 ## 1.0.0
 
 Stable live-HMI baseline.

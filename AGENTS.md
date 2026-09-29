@@ -18,6 +18,11 @@ These rules apply to the complete `r4875g1-charger-dashboard` repository.
 - A successful backend control call means only that the Home Assistant service call completed. The frontend must observe semantic Controller state before presenting a requested state transition as complete.
 - Prefer a consistent reusable architecture over local workarounds, even when the consistent solution requires more refactoring.
 - Keep Home Assistant transport/API access out of purely presentational components where practical.
+- Grafana history dashboards under `grafana/` are read-only analysis surfaces and must not become part of the Charger control path.
+- Grafana must read existing Home Assistant time-series data directly from the configured InfluxDB data source; do not proxy or duplicate historical data through Backend API v1.
+- Grafana dashboard queries must not hard-code installation-specific Charger entity prefixes or Grafana data-source UIDs. Use the shared `${instance}` and `${datasource}` variables instead.
+- Keep the version-controlled Grafana dashboard importable through normal Grafana dashboard import and compatible with Grafana Git Sync.
+- Prefer the Grafana V2 dashboard resource model and remove volatile server-generated metadata and installation-specific current variable selections before committing exported JSON.
 
 ## Change workflow
 
