@@ -136,15 +136,9 @@ to satisfy the portability rules below.
 - test a normal Grafana import after structural dashboard changes
 - keep Git Sync compatibility when changing the resource structure
 
-## Current foundation
+## Current dashboard
 
-The first version intentionally contains only one validation panel:
-
-```text
-AC Voltage Unit 1
-```
-
-This panel proves the complete portable query chain:
+The portable query chain has been validated through a normal Grafana import:
 
 ```text
 ${datasource}
@@ -156,5 +150,28 @@ stable entity suffix
 InfluxDB history
 ```
 
-Additional historical panels are added in small reviewed steps after this
-foundation has been successfully re-imported.
+The current dashboard contains the first production history views.
+
+### Overview
+
+- AC Power
+- DC Power
+- Efficiency
+- DC Voltage
+- DC Current
+
+### DC Current Limits
+
+One combined time-series panel compares:
+
+- Requested
+- Effective
+- Thermal
+- Applied
+
+The limits panel uses one shared Ampere scale so the relationship between the
+requested setpoint, Controller capability limit, thermal limit and actually
+applied limit remains directly comparable.
+
+Additional historical sections are added in small reviewed steps while
+preserving normal-import and Git-Sync compatibility.

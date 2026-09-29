@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.0.3
+
+Grafana DC current-limit analysis.
+
+- add a combined DC Current Limits history panel
+- compare requested, effective, thermal and applied current limits
+- use one shared Ampere scale and explicit series aliases
+- keep all current-limit queries portable through the shared data-source and Charger-instance variables
+- update the Grafana dashboard documentation for the production overview and limits view
+- bump the dashboard development version to 1.0.3
+
 ## 1.0.2
 
 First production Grafana Charger overview.
