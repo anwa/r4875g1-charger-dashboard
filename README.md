@@ -140,7 +140,7 @@ The current frontend provides:
 - observed-state confirmation after operational commands and setpoint writes
 - optional Controller diagnostics for battery, CPU, memory, loop timing, uptime, WiFi and Controller software state
 
-Additional Advanced Charger button controls and trend/history presentation remain later milestones.
+Additional Advanced Charger button controls may be added later when their result can be observed through semantic Controller state. Historical telemetry and trend analysis are intentionally outside the live dashboard frontend and are handled through Home Assistant time-series storage and Grafana.
 
 
 ## Dashboard guide
@@ -423,6 +423,23 @@ The Charger Controller remains authoritative for:
 
 The dashboard is an HMI only.
 
+### Historical telemetry and Grafana
+
+The dashboard is intentionally focused on live state, diagnostics and control.
+It does not request, proxy or duplicate historical time-series data through
+Backend API v1.
+
+Historical telemetry and trend analysis are expected to use the Home Assistant
+entities that already exist in the installation, the configured time-series
+storage and Grafana. This keeps historical data on the established Home
+Assistant/InfluxDB path and keeps the Charger backend focused on semantic live
+state and control.
+
+Grafana is not part of the Charger control path. A future optional dashboard
+link may open a configured Grafana history dashboard, but all Charger control
+continues to use the existing Dashboard -> Backend API -> Charger Controller
+architecture.
+
 ## HACS package
 
 The HACS Dashboard package is described by `hacs.json`.
@@ -489,9 +506,9 @@ The firmware defines the authoritative Home Assistant Contract. The backend reso
 
 ## Release status and compatibility
 
-Version 0.12.0 is the dashboard usability and documentation milestone. It consolidates the 0.11.1-0.11.3 refinements into the next HACS-facing release, with reusable collapsible sections, clearer Enclosure cooling terminology, improved Controller diagnostics formatting and a complete visual dashboard guide.
+Version 1.0.0 defines the stable live-HMI baseline for the R4875G1 Charger Dashboard. The dashboard covers live Charger and Rectifier monitoring, semantic controls and setpoints, enclosure cooling, and Controller diagnostics while deliberately leaving historical telemetry and trend analysis to Home Assistant time-series storage and Grafana.
 
-The dashboard is still pre-1.0 software. Minor versions may add substantial new frontend capabilities, while the backend API and Home Assistant Contract remain independently versioned.
+Within the 1.x series, the existing card configuration and Backend API v1 integration form the compatibility baseline. Any future breaking dashboard configuration or API requirement will be documented explicitly.
 
 Current baseline:
 
@@ -500,7 +517,6 @@ Current baseline:
 - R4875G1 Charger backend 1.3.0 or newer
 - Home Assistant Contract 1
 
-A future breaking dashboard configuration change should be documented explicitly in the corresponding release notes.
 
 ## Development
 

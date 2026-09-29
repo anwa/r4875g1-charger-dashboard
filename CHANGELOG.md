@@ -1,5 +1,29 @@
 # Changelog
 
+## 1.0.0
+
+Stable live-HMI baseline.
+
+- define the Home Assistant dashboard as the stable live monitoring and control surface
+- keep Charger lifecycle, safety and actual state transitions authoritative in the Charger Controller
+- keep all frontend state and controls behind Backend API semantic roles
+- preserve observed-state confirmation for Charger, Rectifier, Switch and Number controls
+- keep historical telemetry and trend analysis outside the live dashboard frontend
+- use Home Assistant time-series storage and Grafana for historical analysis instead of duplicating history transport through Backend API v1
+- establish the existing card configuration and Backend API v1 integration as the 1.x compatibility baseline
+- keep the R4875G1 Charger backend 1.3.0 compatibility baseline
+
+## 0.12.1
+
+Dashboard architecture cleanup.
+
+- reuse the shared collapsible-section component for Controller diagnostics
+- remove duplicate Controller diagnostics details, arrow and header styling
+- preserve Controller diagnostics capability-status presentation
+- remove duplicate Rectifier capability entries from the README
+- rebuild the dashboard bundle
+- bump the dashboard version to 0.12.1
+
 ## 0.12.0
 
 Dashboard usability and documentation milestone.
