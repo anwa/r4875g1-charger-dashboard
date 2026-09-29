@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.0.2
+
+First production Grafana Charger overview.
+
+- replace the initial validation panel with the first production history overview
+- add combined AC and DC power history
+- add Charger conversion-efficiency history
+- add aggregate DC voltage and current history
+- use explicit Grafana units and Controller measurement precision
+- keep all overview queries portable through the shared data-source and Charger-instance variables
+- bump the dashboard development version to 1.0.2
+
 ## 1.0.1
 
 Grafana history-dashboard foundation.
