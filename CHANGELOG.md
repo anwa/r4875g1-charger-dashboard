@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.0.5
+
+Grafana enclosure-cooling history.
+
+- add rear Rectifier-compartment temperature history
+- add rear Rectifier-compartment humidity history
+- add actual enclosure Cooling Fan PWM history
+- add Cooling Fan 1-3 RPM comparison
+- add Cooling Fan Controller Temperature history
+- preserve 10-second dashboard refresh and sample-and-hold `fill(previous)` queries
+- keep optional external-cooling telemetry as read-only history panels
+- keep all Cooling queries portable through the shared data-source and Charger-instance variables
+- update the Grafana dashboard documentation
+- bump the dashboard development version to 1.0.5
+
 ## 1.0.4
 
 Grafana Rectifier history and sample-and-hold plotting.

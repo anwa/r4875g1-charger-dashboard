@@ -184,6 +184,21 @@ Three comparison panels show Units 1-3 together:
 This makes current sharing, per-unit power contribution and thermal balance
 directly comparable over the selected time range.
 
+### Enclosure cooling
+
+The enclosure-cooling history adds:
+
+- Enclosure Temperature
+- Enclosure Humidity
+- Cooling Fan PWM
+- Cooling Fan RPM for Fans 1-3
+- Cooling Fan Controller Temperature
+
+The environmental temperature and humidity are part of the required
+cooling-environment capability. The PWM, fan-speed and fan-controller
+temperature panels use the optional external-cooling telemetry and therefore
+show no data when that capability is not present.
+
 ### Plot behavior
 
 The dashboard refreshes automatically every 10 seconds.
