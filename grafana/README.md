@@ -173,5 +173,32 @@ The limits panel uses one shared Ampere scale so the relationship between the
 requested setpoint, Controller capability limit, thermal limit and actually
 applied limit remains directly comparable.
 
+### Rectifiers
+
+Three comparison panels show Units 1-3 together:
+
+- Rectifier DC Power
+- Rectifier DC Current
+- Rectifier Output Temperature
+
+This makes current sharing, per-unit power contribution and thermal balance
+directly comparable over the selected time range.
+
+### Plot behavior
+
+The dashboard refreshes automatically every 10 seconds.
+
+Numeric history queries use InfluxQL `fill(previous)` because the Charger
+telemetry may remain unchanged without producing a new stored value. Empty
+time buckets therefore retain the most recent known value instead of Grafana
+drawing a long linear ramp between two distant samples.
+
+Grafana-side `spanNulls` remains disabled. Time-series panels use a consistent
+light area fill below their lines.
+
+A communication loss can also leave the last numeric value visible. Connection
+and availability history should therefore be used to distinguish a stable
+value from stale telemetry.
+
 Additional historical sections are added in small reviewed steps while
 preserving normal-import and Git-Sync compatibility.

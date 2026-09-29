@@ -51,7 +51,7 @@
                         "name": "${datasource}"
                       },
                       "spec": {
-                        "query": "SELECT mean(\"value\") FROM \"kW\" WHERE (\"entity_id\"::tag = '${instance}_combined_ac_power_all_units') AND $timeFilter GROUP BY time($__interval) fill(null)",
+                        "query": "SELECT mean(\"value\") FROM \"kW\" WHERE (\"entity_id\"::tag = '${instance}_combined_ac_power_all_units') AND $timeFilter GROUP BY time($__interval) fill(previous)",
                         "rawQuery": true,
                         "resultFormat": "time_series"
                       }
@@ -162,7 +162,7 @@
                         "name": "${datasource}"
                       },
                       "spec": {
-                        "query": "SELECT mean(\"value\") FROM \"kW\" WHERE (\"entity_id\"::tag = '${instance}_combined_dc_power_all_units') AND $timeFilter GROUP BY time($__interval) fill(null)",
+                        "query": "SELECT mean(\"value\") FROM \"kW\" WHERE (\"entity_id\"::tag = '${instance}_combined_dc_power_all_units') AND $timeFilter GROUP BY time($__interval) fill(previous)",
                         "rawQuery": true,
                         "resultFormat": "time_series"
                       }
@@ -273,7 +273,7 @@
                         "name": "${datasource}"
                       },
                       "spec": {
-                        "query": "SELECT mean(\"value\") FROM \"%\" WHERE (\"entity_id\"::tag = '${instance}_conversion_efficiency_all_units') AND $timeFilter GROUP BY time($__interval) fill(null)",
+                        "query": "SELECT mean(\"value\") FROM \"%\" WHERE (\"entity_id\"::tag = '${instance}_conversion_efficiency_all_units') AND $timeFilter GROUP BY time($__interval) fill(previous)",
                         "rawQuery": true,
                         "resultFormat": "time_series"
                       }
@@ -384,7 +384,7 @@
                         "name": "${datasource}"
                       },
                       "spec": {
-                        "query": "SELECT mean(\"value\") FROM \"V\" WHERE (\"entity_id\"::tag = '${instance}_average_dc_voltage_all_units') AND $timeFilter GROUP BY time($__interval) fill(null)",
+                        "query": "SELECT mean(\"value\") FROM \"V\" WHERE (\"entity_id\"::tag = '${instance}_average_dc_voltage_all_units') AND $timeFilter GROUP BY time($__interval) fill(previous)",
                         "rawQuery": true,
                         "resultFormat": "time_series"
                       }
@@ -495,7 +495,7 @@
                         "name": "${datasource}"
                       },
                       "spec": {
-                        "query": "SELECT mean(\"value\") FROM \"A\" WHERE (\"entity_id\"::tag = '${instance}_combined_dc_current_all_units') AND $timeFilter GROUP BY time($__interval) fill(null)",
+                        "query": "SELECT mean(\"value\") FROM \"A\" WHERE (\"entity_id\"::tag = '${instance}_combined_dc_current_all_units') AND $timeFilter GROUP BY time($__interval) fill(previous)",
                         "rawQuery": true,
                         "resultFormat": "time_series"
                       }
@@ -606,7 +606,7 @@
                         "name": "${datasource}"
                       },
                       "spec": {
-                        "query": "SELECT mean(\"value\") AS \"Requested\" FROM \"A\" WHERE (\"entity_id\"::tag = '${instance}_set_dc_current_limit') AND $timeFilter GROUP BY time($__interval) fill(null)",
+                        "query": "SELECT mean(\"value\") AS \"Requested\" FROM \"A\" WHERE (\"entity_id\"::tag = '${instance}_set_dc_current_limit') AND $timeFilter GROUP BY time($__interval) fill(previous)",
                         "rawQuery": true,
                         "resultFormat": "time_series"
                       }
@@ -626,7 +626,7 @@
                         "name": "${datasource}"
                       },
                       "spec": {
-                        "query": "SELECT mean(\"value\") AS \"Effective\" FROM \"A\" WHERE (\"entity_id\"::tag = '${instance}_effective_dc_current_limit') AND $timeFilter GROUP BY time($__interval) fill(null)",
+                        "query": "SELECT mean(\"value\") AS \"Effective\" FROM \"A\" WHERE (\"entity_id\"::tag = '${instance}_effective_dc_current_limit') AND $timeFilter GROUP BY time($__interval) fill(previous)",
                         "rawQuery": true,
                         "resultFormat": "time_series"
                       }
@@ -646,7 +646,7 @@
                         "name": "${datasource}"
                       },
                       "spec": {
-                        "query": "SELECT mean(\"value\") AS \"Thermal\" FROM \"A\" WHERE (\"entity_id\"::tag = '${instance}_thermal_dc_current_limit') AND $timeFilter GROUP BY time($__interval) fill(null)",
+                        "query": "SELECT mean(\"value\") AS \"Thermal\" FROM \"A\" WHERE (\"entity_id\"::tag = '${instance}_thermal_dc_current_limit') AND $timeFilter GROUP BY time($__interval) fill(previous)",
                         "rawQuery": true,
                         "resultFormat": "time_series"
                       }
@@ -666,7 +666,7 @@
                         "name": "${datasource}"
                       },
                       "spec": {
-                        "query": "SELECT mean(\"value\") AS \"Applied\" FROM \"A\" WHERE (\"entity_id\"::tag = '${instance}_applied_dc_current_limit') AND $timeFilter GROUP BY time($__interval) fill(null)",
+                        "query": "SELECT mean(\"value\") AS \"Applied\" FROM \"A\" WHERE (\"entity_id\"::tag = '${instance}_applied_dc_current_limit') AND $timeFilter GROUP BY time($__interval) fill(previous)",
                         "rawQuery": true,
                         "resultFormat": "time_series"
                       }
@@ -721,7 +721,7 @@
                     "barAlignment": 0,
                     "barWidthFactor": 0.6,
                     "drawStyle": "line",
-                    "fillOpacity": 4,
+                    "fillOpacity": 8,
                     "gradientMode": "none",
                     "hideFrom": {
                       "legend": false,
@@ -747,6 +747,459 @@
                     }
                   },
                   "unit": "amp",
+                  "decimals": 1
+                },
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-7": {
+        "kind": "Panel",
+        "spec": {
+          "id": 7,
+          "title": "Rectifier DC Power",
+          "description": "DC output power of Rectifier Units 1-3.",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "influxdb",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "${datasource}"
+                      },
+                      "spec": {
+                        "query": "SELECT mean(\"value\") AS \"Unit 1\" FROM \"W\" WHERE (\"entity_id\"::tag = '${instance}_dc_power_unit_1') AND $timeFilter GROUP BY time($__interval) fill(previous)",
+                        "rawQuery": true,
+                        "resultFormat": "time_series"
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "influxdb",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "${datasource}"
+                      },
+                      "spec": {
+                        "query": "SELECT mean(\"value\") AS \"Unit 2\" FROM \"W\" WHERE (\"entity_id\"::tag = '${instance}_dc_power_unit_2') AND $timeFilter GROUP BY time($__interval) fill(previous)",
+                        "rawQuery": true,
+                        "resultFormat": "time_series"
+                      }
+                    },
+                    "refId": "B",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "influxdb",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "${datasource}"
+                      },
+                      "spec": {
+                        "query": "SELECT mean(\"value\") AS \"Unit 3\" FROM \"W\" WHERE (\"entity_id\"::tag = '${instance}_dc_power_unit_3') AND $timeFilter GROUP BY time($__interval) fill(previous)",
+                        "rawQuery": true,
+                        "resultFormat": "time_series"
+                      }
+                    },
+                    "refId": "C",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "13.2.2",
+            "spec": {
+              "options": {
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "multi",
+                  "sort": "none"
+                }
+              },
+              "fieldConfig": {
+                "defaults": {
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": 0,
+                        "color": "green"
+                      }
+                    ]
+                  },
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "line",
+                    "fillOpacity": 8,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "linear",
+                    "lineWidth": 2,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "auto",
+                    "showValues": false,
+                    "spanNulls": false,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  },
+                  "unit": "watt",
+                  "decimals": 3
+                },
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-8": {
+        "kind": "Panel",
+        "spec": {
+          "id": 8,
+          "title": "Rectifier DC Current",
+          "description": "DC output current of Rectifier Units 1-3.",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "influxdb",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "${datasource}"
+                      },
+                      "spec": {
+                        "query": "SELECT mean(\"value\") AS \"Unit 1\" FROM \"A\" WHERE (\"entity_id\"::tag = '${instance}_dc_current_unit_1') AND $timeFilter GROUP BY time($__interval) fill(previous)",
+                        "rawQuery": true,
+                        "resultFormat": "time_series"
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "influxdb",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "${datasource}"
+                      },
+                      "spec": {
+                        "query": "SELECT mean(\"value\") AS \"Unit 2\" FROM \"A\" WHERE (\"entity_id\"::tag = '${instance}_dc_current_unit_2') AND $timeFilter GROUP BY time($__interval) fill(previous)",
+                        "rawQuery": true,
+                        "resultFormat": "time_series"
+                      }
+                    },
+                    "refId": "B",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "influxdb",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "${datasource}"
+                      },
+                      "spec": {
+                        "query": "SELECT mean(\"value\") AS \"Unit 3\" FROM \"A\" WHERE (\"entity_id\"::tag = '${instance}_dc_current_unit_3') AND $timeFilter GROUP BY time($__interval) fill(previous)",
+                        "rawQuery": true,
+                        "resultFormat": "time_series"
+                      }
+                    },
+                    "refId": "C",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "13.2.2",
+            "spec": {
+              "options": {
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "multi",
+                  "sort": "none"
+                }
+              },
+              "fieldConfig": {
+                "defaults": {
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": 0,
+                        "color": "green"
+                      }
+                    ]
+                  },
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "line",
+                    "fillOpacity": 8,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "linear",
+                    "lineWidth": 2,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "auto",
+                    "showValues": false,
+                    "spanNulls": false,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  },
+                  "unit": "amp",
+                  "decimals": 3
+                },
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-9": {
+        "kind": "Panel",
+        "spec": {
+          "id": 9,
+          "title": "Rectifier Output Temperature",
+          "description": "Output temperature of Rectifier Units 1-3.",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "influxdb",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "${datasource}"
+                      },
+                      "spec": {
+                        "query": "SELECT mean(\"value\") AS \"Unit 1\" FROM \"°C\" WHERE (\"entity_id\"::tag = '${instance}_output_temperature_unit_1') AND $timeFilter GROUP BY time($__interval) fill(previous)",
+                        "rawQuery": true,
+                        "resultFormat": "time_series"
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "influxdb",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "${datasource}"
+                      },
+                      "spec": {
+                        "query": "SELECT mean(\"value\") AS \"Unit 2\" FROM \"°C\" WHERE (\"entity_id\"::tag = '${instance}_output_temperature_unit_2') AND $timeFilter GROUP BY time($__interval) fill(previous)",
+                        "rawQuery": true,
+                        "resultFormat": "time_series"
+                      }
+                    },
+                    "refId": "B",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "influxdb",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "${datasource}"
+                      },
+                      "spec": {
+                        "query": "SELECT mean(\"value\") AS \"Unit 3\" FROM \"°C\" WHERE (\"entity_id\"::tag = '${instance}_output_temperature_unit_3') AND $timeFilter GROUP BY time($__interval) fill(previous)",
+                        "rawQuery": true,
+                        "resultFormat": "time_series"
+                      }
+                    },
+                    "refId": "C",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "13.2.2",
+            "spec": {
+              "options": {
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "multi",
+                  "sort": "none"
+                }
+              },
+              "fieldConfig": {
+                "defaults": {
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": 0,
+                        "color": "green"
+                      }
+                    ]
+                  },
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "line",
+                    "fillOpacity": 8,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "linear",
+                    "lineWidth": 2,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "auto",
+                    "showValues": false,
+                    "spanNulls": false,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  },
+                  "unit": "celsius",
                   "decimals": 1
                 },
                 "overrides": []
@@ -837,6 +1290,45 @@
                 "name": "panel-6"
               }
             }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "x": 0,
+              "y": 26,
+              "width": 8,
+              "height": 10,
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-7"
+              }
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "x": 8,
+              "y": 26,
+              "width": 8,
+              "height": 10,
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-8"
+              }
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "x": 16,
+              "y": 26,
+              "width": 8,
+              "height": 10,
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-9"
+              }
+            }
           }
         ]
       }
@@ -853,7 +1345,7 @@
       "timezone": "browser",
       "from": "now-6h",
       "to": "now",
-      "autoRefresh": "",
+      "autoRefresh": "10s",
       "autoRefreshIntervals": [
         "5s",
         "10s",

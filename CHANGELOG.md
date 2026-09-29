@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.0.4
+
+Grafana Rectifier history and sample-and-hold plotting.
+
+- add Rectifier DC Power comparison for Units 1-3
+- add Rectifier DC Current comparison for Units 1-3
+- add Rectifier Output Temperature comparison for Units 1-3
+- refresh the Grafana dashboard automatically every 10 seconds
+- use InfluxQL `fill(previous)` for numeric history queries
+- keep Grafana-side null spanning disabled to avoid artificial long ramps
+- use a consistent light area fill across history panels
+- keep all Rectifier queries portable through the shared data-source and Charger-instance variables
+- update the Grafana dashboard documentation
+- bump the dashboard development version to 1.0.4
+
 ## 1.0.3
 
 Grafana DC current-limit analysis.
