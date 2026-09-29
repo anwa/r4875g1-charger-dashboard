@@ -137,8 +137,6 @@ The current frontend provides:
 - collapsible Operational setpoints for AC current, DC voltage and DC sum-power limits
 - separate collapsible fallback DC voltage and current controls
 - collapsible Advanced Charger, Rectifiers, Enclosure cooling and Controller diagnostics sections
-- expandable live detail views for Rectifier Units 1-3
-- per-rectifier START and STOP with confirmation and observed-state completion
 - observed-state confirmation after operational commands and setpoint writes
 - optional Controller diagnostics for battery, CPU, memory, loop timing, uptime, WiFi and Controller software state
 

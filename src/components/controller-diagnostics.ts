@@ -8,6 +8,7 @@ import {
 } from "../presentation/semantic-role-format";
 import type { ChargerState } from "../state/reducer";
 import type { ChargerStore } from "../state/store";
+import "./collapsible-section";
 import "./semantic-metric-grid";
 import type { SemanticMetricDefinition } from "./semantic-metric-grid";
 
@@ -203,65 +204,9 @@ export class ControllerDiagnostics extends LitElement {
       font-family: var(--paper-font-body1_-_font-family, sans-serif);
     }
 
-    .diagnostics {
-      border: 1px solid var(--divider-color, #d0d0d0);
-      border-radius: 0.75rem;
-      background: var(--card-background-color, #ffffff);
-    }
-
-    summary {
-      display: grid;
-      grid-template-columns: auto minmax(0, 1fr);
-      gap: 0.5rem;
-      align-items: center;
-      padding: 1rem;
-      cursor: pointer;
-      list-style: none;
-      user-select: none;
-    }
-
-    summary::-webkit-details-marker {
-      display: none;
-    }
-
-    summary::before {
-      content: "›";
-      color: var(--secondary-text-color, #727272);
-      font-size: 1.3rem;
-      line-height: 1;
-      transform: rotate(0deg);
-      transition: transform 120ms ease;
-    }
-
-    .diagnostics[open] summary::before {
-      transform: rotate(90deg);
-    }
-
-    .summary-content {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      align-items: baseline;
-      justify-content: space-between;
-      min-width: 0;
-      width: 100%;
-    }
-
-    .summary-title {
-      font-weight: 600;
-    }
-
-    .capability-status {
-      color: var(--secondary-text-color, #727272);
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-
     .content {
       display: grid;
       gap: 1rem;
-      padding: 0 1rem 1rem;
     }
 
     .group {
@@ -340,14 +285,10 @@ export class ControllerDiagnostics extends LitElement {
     }
 
     return html`
-      <details class="diagnostics">
-        <summary>
-          <span class="summary-content">
-            <span class="summary-title">Controller diagnostics</span>
-            <span class="capability-status">${capability.status}</span>
-          </span>
-        </summary>
-
+      <r4875g1-collapsible-section
+        .sectionTitle=${"Controller diagnostics"}
+        .statusText=${capability.status}
+      >
         <div class="content">
           ${this.renderGroup(
             "Controller battery",
@@ -363,7 +304,7 @@ export class ControllerDiagnostics extends LitElement {
             true,
           )}
         </div>
-      </details>
+      </r4875g1-collapsible-section>
     `;
   }
 

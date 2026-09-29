@@ -354,8 +354,8 @@ const Ze = (s, e) => {
   let i, n = e === 2 ? "<svg>" : e === 3 ? "<math>" : "", o = E;
   for (let c = 0; c < t; c++) {
     const l = s[c];
-    let u, g, d = -1, f = 0;
-    for (; f < l.length && (o.lastIndex = f, g = o.exec(l), g !== null); ) f = o.lastIndex, o === E ? g[1] === "!--" ? o = X : g[1] !== void 0 ? o = ee : g[2] !== void 0 ? (_e.test(g[2]) && (i = RegExp("</" + g[2], "g")), o = y) : g[3] !== void 0 && (o = y) : o === y ? g[0] === ">" ? (o = i ?? E, d = -1) : g[1] === void 0 ? d = -2 : (d = o.lastIndex - g[2].length, u = g[1], o = g[3] === void 0 ? y : g[3] === '"' ? re : te) : o === re || o === te ? o = y : o === X || o === ee ? o = E : (o = y, i = void 0);
+    let u, m, d = -1, f = 0;
+    for (; f < l.length && (o.lastIndex = f, m = o.exec(l), m !== null); ) f = o.lastIndex, o === E ? m[1] === "!--" ? o = X : m[1] !== void 0 ? o = ee : m[2] !== void 0 ? (_e.test(m[2]) && (i = RegExp("</" + m[2], "g")), o = y) : m[3] !== void 0 && (o = y) : o === y ? m[0] === ">" ? (o = i ?? E, d = -1) : m[1] === void 0 ? d = -2 : (d = o.lastIndex - m[2].length, u = m[1], o = m[3] === void 0 ? y : m[3] === '"' ? re : te) : o === re || o === te ? o = y : o === X || o === ee ? o = E : (o = y, i = void 0);
     const b = o === y && s[c + 1].startsWith("/>") ? " " : "";
     n += o === E ? l + Be : d >= 0 ? (r.push(u), l.slice(0, d) + $e + l.slice(d) + v + b) : l + v + (d === -2 ? c : b);
   }
@@ -366,7 +366,7 @@ class k {
     let i;
     this.parts = [];
     let n = 0, o = 0;
-    const c = e.length - 1, l = this.parts, [u, g] = Ze(e, t);
+    const c = e.length - 1, l = this.parts, [u, m] = Ze(e, t);
     if (this.el = k.createElement(u, r), S.currentNode = this.el.content, t === 2 || t === 3) {
       const d = this.el.content.firstChild;
       d.replaceWith(...d.childNodes);
@@ -374,7 +374,7 @@ class k {
     for (; (i = S.nextNode()) !== null && l.length < c; ) {
       if (i.nodeType === 1) {
         if (i.hasAttributes()) for (const d of i.getAttributeNames()) if (d.endsWith($e)) {
-          const f = g[o++], b = i.getAttribute(d).split(v), O = /([.?@])?(.*)/.exec(f);
+          const f = m[o++], b = i.getAttribute(d).split(v), O = /([.?@])?(.*)/.exec(f);
           l.push({ type: 1, index: n, name: O[2], strings: b, ctor: O[1] === "." ? Ye : O[1] === "?" ? Qe : O[1] === "@" ? Xe : M }), i.removeAttribute(d);
         } else d.startsWith(v) && (l.push({ type: 6, index: n }), i.removeAttribute(d));
         if (_e.test(i.tagName)) {
@@ -568,7 +568,7 @@ const rt = (s, e, t) => {
   return i._$AI(s), i;
 };
 const B = globalThis;
-class m extends C {
+class g extends C {
   constructor() {
     super(...arguments), this.renderOptions = { host: this }, this._$Do = void 0;
   }
@@ -590,9 +590,9 @@ class m extends C {
     return _;
   }
 }
-m._$litElement$ = !0, m.finalized = !0, B.litElementHydrateSupport?.({ LitElement: m });
+g._$litElement$ = !0, g.finalized = !0, B.litElementHydrateSupport?.({ LitElement: g });
 const it = B.litElementPolyfillSupport;
-it?.({ LitElement: m });
+it?.({ LitElement: g });
 (B.litElementVersions ??= []).push("4.2.2");
 function A(s) {
   return s?.available !== !0 ? {
@@ -630,7 +630,7 @@ const se = "r4875g1-charger-status", ne = 3, nt = [
     role: "charger.conversion_efficiency"
   }
 ];
-class ot extends m {
+class ot extends g {
   static styles = p`
     :host {
       display: block;
@@ -807,7 +807,7 @@ class ot extends m {
 }
 customElements.get(se) || customElements.define(se, ot);
 const oe = "r4875g1-charger-number-control", at = 1e4;
-class lt extends m {
+class lt extends g {
   static styles = p`
     :host {
       display: block;
@@ -1186,7 +1186,7 @@ customElements.get(oe) || customElements.define(
   lt
 );
 const ae = "r4875g1-collapsible-section";
-class ct extends m {
+class ct extends g {
   static styles = p`
     :host {
       display: block;
@@ -1287,7 +1287,7 @@ customElements.get(ae) || customElements.define(
   ct
 );
 const le = "r4875g1-semantic-metric-grid";
-class dt extends m {
+class dt extends g {
   static styles = p`
     :host {
       display: block;
@@ -1412,7 +1412,7 @@ const ce = "r4875g1-advanced-charger-status", de = [
     role: "charger.capability_mismatch"
   }
 ];
-class ut extends m {
+class ut extends g {
   static styles = p`
     :host {
       display: block;
@@ -1529,7 +1529,7 @@ customElements.get(ce) || customElements.define(
   ut
 );
 const he = "r4875g1-charger-switch-control", ht = 1e4;
-class mt extends m {
+class gt extends g {
   static styles = p`
     :host {
       display: block;
@@ -1801,9 +1801,9 @@ class mt extends m {
 }
 customElements.get(he) || customElements.define(
   he,
-  mt
+  gt
 );
-const me = "r4875g1-cooling-status", gt = [
+const ge = "r4875g1-cooling-status", mt = [
   {
     label: "Compartment temperature",
     role: "cooling.compartment.temperature"
@@ -1829,7 +1829,7 @@ const me = "r4875g1-cooling-status", gt = [
   { label: "Fan 2 speed", role: "cooling.external.fan.2.rpm" },
   { label: "Fan 3 speed", role: "cooling.external.fan.3.rpm" }
 ];
-class bt extends m {
+class bt extends g {
   static styles = p`
     :host {
       display: block;
@@ -1913,7 +1913,7 @@ class bt extends m {
         <div class="content">
           ${e?.available === !0 ? this.renderPanel(
       "Enclosure environment",
-      gt
+      mt
     ) : a`
                 <div class="message">
                   Enclosure environment capability is unavailable.
@@ -1979,8 +1979,8 @@ class bt extends m {
     this.unsubscribe !== null && (this.unsubscribe(), this.unsubscribe = null);
   }
 }
-customElements.get(me) || customElements.define(me, bt);
-const ge = "r4875g1-controller-diagnostics", Ae = [
+customElements.get(ge) || customElements.define(ge, bt);
+const me = "r4875g1-controller-diagnostics", Ae = [
   {
     label: "Controller battery voltage",
     role: "system.controller_battery.voltage"
@@ -2096,7 +2096,7 @@ function we(s, e, t, r) {
     unit: t
   } : i;
 }
-class Ct extends m {
+class Ct extends g {
   static styles = p`
     :host {
       display: block;
@@ -2105,65 +2105,9 @@ class Ct extends m {
       font-family: var(--paper-font-body1_-_font-family, sans-serif);
     }
 
-    .diagnostics {
-      border: 1px solid var(--divider-color, #d0d0d0);
-      border-radius: 0.75rem;
-      background: var(--card-background-color, #ffffff);
-    }
-
-    summary {
-      display: grid;
-      grid-template-columns: auto minmax(0, 1fr);
-      gap: 0.5rem;
-      align-items: center;
-      padding: 1rem;
-      cursor: pointer;
-      list-style: none;
-      user-select: none;
-    }
-
-    summary::-webkit-details-marker {
-      display: none;
-    }
-
-    summary::before {
-      content: "›";
-      color: var(--secondary-text-color, #727272);
-      font-size: 1.3rem;
-      line-height: 1;
-      transform: rotate(0deg);
-      transition: transform 120ms ease;
-    }
-
-    .diagnostics[open] summary::before {
-      transform: rotate(90deg);
-    }
-
-    .summary-content {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      align-items: baseline;
-      justify-content: space-between;
-      min-width: 0;
-      width: 100%;
-    }
-
-    .summary-title {
-      font-weight: 600;
-    }
-
-    .capability-status {
-      color: var(--secondary-text-color, #727272);
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-
     .content {
       display: grid;
       gap: 1rem;
-      padding: 0 1rem 1rem;
     }
 
     .group {
@@ -2210,14 +2154,10 @@ class Ct extends m {
       `;
     const e = this.chargerState.capabilities.controller_diagnostics;
     return e === void 0 || e.status === "unavailable" || !this.hasRelevantRole() ? "" : a`
-      <details class="diagnostics">
-        <summary>
-          <span class="summary-content">
-            <span class="summary-title">Controller diagnostics</span>
-            <span class="capability-status">${e.status}</span>
-          </span>
-        </summary>
-
+      <r4875g1-collapsible-section
+        .sectionTitle=${"Controller diagnostics"}
+        .statusText=${e.status}
+      >
         <div class="content">
           ${this.renderGroup(
       "Controller battery",
@@ -2233,7 +2173,7 @@ class Ct extends m {
       !0
     )}
         </div>
-      </details>
+      </r4875g1-collapsible-section>
     `;
   }
   renderGroup(e, t, r = !1) {
@@ -2264,12 +2204,12 @@ class Ct extends m {
     this.unsubscribe !== null && (this.unsubscribe(), this.unsubscribe = null);
   }
 }
-customElements.get(ge) || customElements.define(
-  ge,
+customElements.get(me) || customElements.define(
+  me,
   Ct
 );
 const pe = "r4875g1-power-command-control", _t = 1e4;
-class xt extends m {
+class xt extends g {
   static styles = p`
     :host {
       display: block;
@@ -2570,7 +2510,7 @@ const fe = "r4875g1-rectifier-details", At = [1, 2, 3], Et = {
     ]
   }
 ];
-class wt extends m {
+class wt extends g {
   static styles = p`
     :host {
       display: block;
@@ -2879,7 +2819,7 @@ const be = "r4875g1-charger-setpoint-controls", Rt = [
     label: "Fallback DC current"
   }
 ];
-class Ut extends m {
+class Ut extends g {
   static styles = p`
     :host {
       display: block;
@@ -2959,7 +2899,7 @@ const ve = "r4875g1-charger-power-control", Re = "charger.command.start", ke = "
   startConfirmationText: "Start all available and ready rectifier units? Safety checks are applied individually by the Charger Controller before startup.",
   stopConfirmationText: "Stop all rectifier units?"
 };
-class Pt extends m {
+class Pt extends g {
   static styles = p`
     :host {
       display: block;
@@ -3047,7 +2987,7 @@ function Nt(s) {
   e.some(({ type: t }) => t === s.type) || e.push(s);
 }
 const G = "r4875g1-charger-overview-card";
-class It extends m {
+class It extends g {
   static getStubConfig() {
     return {};
   }
@@ -3209,15 +3149,15 @@ export {
   be as CHARGER_SETPOINT_CONTROLS_TAG,
   se as CHARGER_STATUS_TAG,
   he as CHARGER_SWITCH_CONTROL_TAG,
-  ge as CONTROLLER_DIAGNOSTICS_TAG,
-  me as COOLING_STATUS_TAG,
+  me as CONTROLLER_DIAGNOSTICS_TAG,
+  ge as COOLING_STATUS_TAG,
   lt as ChargerNumberControl,
   It as ChargerOverviewCard,
   Pt as ChargerPowerControl,
   Ut as ChargerSetpointControls,
   ot as ChargerStatusPreview,
   Ie as ChargerStore,
-  mt as ChargerSwitchControl,
+  gt as ChargerSwitchControl,
   Ct as ControllerDiagnostics,
   bt as CoolingStatus,
   Mt as DASHBOARD_NAME,
