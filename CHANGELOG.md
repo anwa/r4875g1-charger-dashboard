@@ -1,5 +1,22 @@
 # Changelog
 
+## 1.0.8
+
+Grafana dashboard section architecture.
+
+- reorganize the history dashboard into logical Grafana Rows
+- group current Charger status and efficiency into Overview
+- group aggregate and per-Rectifier AC telemetry into AC Input
+- group current-limit analysis into Setpoints & Limits
+- group aggregate and per-Rectifier DC telemetry into DC Output
+- separate Rectifier thermal telemetry from enclosure cooling history
+- group enclosure environment and cooling telemetry into Enclosure / Compartment
+- move CAN connectivity history into Connectivity & Lifecycle
+- preserve portable datasource and Charger-instance variables
+- keep all existing queries and panel semantics unchanged
+- update Grafana visualization metadata for Grafana 13.2.3
+- bump the dashboard development version to 1.0.8
+
 ## 1.0.7
 
 Grafana Rectifier AC-input voltage history.

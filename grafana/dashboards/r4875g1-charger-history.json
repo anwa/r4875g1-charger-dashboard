@@ -9,20 +9,20 @@
       {
         "kind": "AnnotationQuery",
         "spec": {
-          "query": {
-            "kind": "DataQuery",
-            "group": "grafana",
-            "version": "v0",
-            "datasource": {
-              "name": "-- Grafana --"
-            },
-            "spec": {}
-          },
+          "builtIn": true,
           "enable": true,
           "hide": true,
           "iconColor": "rgba(0, 211, 255, 1)",
-          "name": "Annotations & Alerts",
-          "builtIn": true
+          "name": "Annotations \u0026 Alerts",
+          "query": {
+            "datasource": {
+              "name": "-- Grafana --"
+            },
+            "group": "grafana",
+            "kind": "DataQuery",
+            "spec": {},
+            "version": "v0"
+          }
         }
       }
     ],
@@ -32,10 +32,6 @@
       "panel-1": {
         "kind": "Panel",
         "spec": {
-          "id": 1,
-          "title": "AC Power",
-          "description": "Combined AC input power across all Rectifier Units.",
-          "links": [],
           "data": {
             "kind": "QueryGroup",
             "spec": {
@@ -43,33 +39,89 @@
                 {
                   "kind": "PanelQuery",
                   "spec": {
+                    "hidden": false,
                     "query": {
-                      "kind": "DataQuery",
-                      "group": "influxdb",
-                      "version": "v0",
                       "datasource": {
                         "name": "${datasource}"
                       },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
                       "spec": {
                         "query": "SELECT mean(\"value\") FROM \"kW\" WHERE (\"entity_id\"::tag = '${instance}_combined_ac_power_all_units') AND $timeFilter GROUP BY time($__interval) fill(previous)",
                         "rawQuery": true,
                         "resultFormat": "time_series"
-                      }
+                      },
+                      "version": "v0"
                     },
-                    "refId": "A",
-                    "hidden": false
+                    "refId": "A"
                   }
                 }
               ],
-              "transformations": [],
-              "queryOptions": {}
+              "queryOptions": {},
+              "transformations": []
             }
           },
+          "description": "Combined AC input power across all Rectifier Units.",
+          "id": 1,
+          "links": [],
+          "title": "AC Power",
           "vizConfig": {
-            "kind": "VizConfig",
             "group": "timeseries",
-            "version": "13.2.2",
+            "kind": "VizConfig",
             "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "line",
+                    "fillOpacity": 8,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "linear",
+                    "lineWidth": 2,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "auto",
+                    "showValues": false,
+                    "spanNulls": false,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  },
+                  "decimals": 3,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  "unit": "kwatt"
+                },
+                "overrides": []
+              },
               "options": {
                 "legend": {
                   "calcs": [],
@@ -82,1290 +134,15 @@
                   "mode": "single",
                   "sort": "none"
                 }
-              },
-              "fieldConfig": {
-                "defaults": {
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": 0,
-                        "color": "green"
-                      }
-                    ]
-                  },
-                  "color": {
-                    "mode": "palette-classic"
-                  },
-                  "custom": {
-                    "axisBorderShow": false,
-                    "axisCenteredZero": false,
-                    "axisColorMode": "text",
-                    "axisLabel": "",
-                    "axisPlacement": "auto",
-                    "barAlignment": 0,
-                    "barWidthFactor": 0.6,
-                    "drawStyle": "line",
-                    "fillOpacity": 8,
-                    "gradientMode": "none",
-                    "hideFrom": {
-                      "legend": false,
-                      "tooltip": false,
-                      "viz": false
-                    },
-                    "insertNulls": false,
-                    "lineInterpolation": "linear",
-                    "lineWidth": 2,
-                    "pointSize": 5,
-                    "scaleDistribution": {
-                      "type": "linear"
-                    },
-                    "showPoints": "auto",
-                    "showValues": false,
-                    "spanNulls": false,
-                    "stacking": {
-                      "group": "A",
-                      "mode": "none"
-                    },
-                    "thresholdsStyle": {
-                      "mode": "off"
-                    }
-                  },
-                  "unit": "kwatt",
-                  "decimals": 3
-                },
-                "overrides": []
               }
-            }
-          }
-        }
-      },
-      "panel-2": {
-        "kind": "Panel",
-        "spec": {
-          "id": 2,
-          "title": "DC Power",
-          "description": "Combined DC output power across all Rectifier Units.",
-          "links": [],
-          "data": {
-            "kind": "QueryGroup",
-            "spec": {
-              "queries": [
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "influxdb",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "${datasource}"
-                      },
-                      "spec": {
-                        "query": "SELECT mean(\"value\") FROM \"kW\" WHERE (\"entity_id\"::tag = '${instance}_combined_dc_power_all_units') AND $timeFilter GROUP BY time($__interval) fill(previous)",
-                        "rawQuery": true,
-                        "resultFormat": "time_series"
-                      }
-                    },
-                    "refId": "A",
-                    "hidden": false
-                  }
-                }
-              ],
-              "transformations": [],
-              "queryOptions": {}
-            }
-          },
-          "vizConfig": {
-            "kind": "VizConfig",
-            "group": "timeseries",
-            "version": "13.2.2",
-            "spec": {
-              "options": {
-                "legend": {
-                  "calcs": [],
-                  "displayMode": "list",
-                  "placement": "bottom",
-                  "showLegend": false
-                },
-                "tooltip": {
-                  "hideZeros": false,
-                  "mode": "single",
-                  "sort": "none"
-                }
-              },
-              "fieldConfig": {
-                "defaults": {
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": 0,
-                        "color": "green"
-                      }
-                    ]
-                  },
-                  "color": {
-                    "mode": "palette-classic"
-                  },
-                  "custom": {
-                    "axisBorderShow": false,
-                    "axisCenteredZero": false,
-                    "axisColorMode": "text",
-                    "axisLabel": "",
-                    "axisPlacement": "auto",
-                    "barAlignment": 0,
-                    "barWidthFactor": 0.6,
-                    "drawStyle": "line",
-                    "fillOpacity": 8,
-                    "gradientMode": "none",
-                    "hideFrom": {
-                      "legend": false,
-                      "tooltip": false,
-                      "viz": false
-                    },
-                    "insertNulls": false,
-                    "lineInterpolation": "linear",
-                    "lineWidth": 2,
-                    "pointSize": 5,
-                    "scaleDistribution": {
-                      "type": "linear"
-                    },
-                    "showPoints": "auto",
-                    "showValues": false,
-                    "spanNulls": false,
-                    "stacking": {
-                      "group": "A",
-                      "mode": "none"
-                    },
-                    "thresholdsStyle": {
-                      "mode": "off"
-                    }
-                  },
-                  "unit": "kwatt",
-                  "decimals": 3
-                },
-                "overrides": []
-              }
-            }
-          }
-        }
-      },
-      "panel-3": {
-        "kind": "Panel",
-        "spec": {
-          "id": 3,
-          "title": "Efficiency",
-          "description": "Combined AC-to-DC conversion efficiency across all Rectifier Units.",
-          "links": [],
-          "data": {
-            "kind": "QueryGroup",
-            "spec": {
-              "queries": [
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "influxdb",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "${datasource}"
-                      },
-                      "spec": {
-                        "query": "SELECT mean(\"value\") FROM \"%\" WHERE (\"entity_id\"::tag = '${instance}_conversion_efficiency_all_units') AND $timeFilter GROUP BY time($__interval) fill(previous)",
-                        "rawQuery": true,
-                        "resultFormat": "time_series"
-                      }
-                    },
-                    "refId": "A",
-                    "hidden": false
-                  }
-                }
-              ],
-              "transformations": [],
-              "queryOptions": {}
-            }
-          },
-          "vizConfig": {
-            "kind": "VizConfig",
-            "group": "timeseries",
-            "version": "13.2.2",
-            "spec": {
-              "options": {
-                "legend": {
-                  "calcs": [],
-                  "displayMode": "list",
-                  "placement": "bottom",
-                  "showLegend": false
-                },
-                "tooltip": {
-                  "hideZeros": false,
-                  "mode": "single",
-                  "sort": "none"
-                }
-              },
-              "fieldConfig": {
-                "defaults": {
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": 0,
-                        "color": "green"
-                      }
-                    ]
-                  },
-                  "color": {
-                    "mode": "palette-classic"
-                  },
-                  "custom": {
-                    "axisBorderShow": false,
-                    "axisCenteredZero": false,
-                    "axisColorMode": "text",
-                    "axisLabel": "",
-                    "axisPlacement": "auto",
-                    "barAlignment": 0,
-                    "barWidthFactor": 0.6,
-                    "drawStyle": "line",
-                    "fillOpacity": 8,
-                    "gradientMode": "none",
-                    "hideFrom": {
-                      "legend": false,
-                      "tooltip": false,
-                      "viz": false
-                    },
-                    "insertNulls": false,
-                    "lineInterpolation": "linear",
-                    "lineWidth": 2,
-                    "pointSize": 5,
-                    "scaleDistribution": {
-                      "type": "linear"
-                    },
-                    "showPoints": "auto",
-                    "showValues": false,
-                    "spanNulls": false,
-                    "stacking": {
-                      "group": "A",
-                      "mode": "none"
-                    },
-                    "thresholdsStyle": {
-                      "mode": "off"
-                    }
-                  },
-                  "unit": "percent",
-                  "decimals": 1
-                },
-                "overrides": []
-              }
-            }
-          }
-        }
-      },
-      "panel-4": {
-        "kind": "Panel",
-        "spec": {
-          "id": 4,
-          "title": "DC Voltage",
-          "description": "Average DC output voltage across all Rectifier Units.",
-          "links": [],
-          "data": {
-            "kind": "QueryGroup",
-            "spec": {
-              "queries": [
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "influxdb",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "${datasource}"
-                      },
-                      "spec": {
-                        "query": "SELECT mean(\"value\") FROM \"V\" WHERE (\"entity_id\"::tag = '${instance}_average_dc_voltage_all_units') AND $timeFilter GROUP BY time($__interval) fill(previous)",
-                        "rawQuery": true,
-                        "resultFormat": "time_series"
-                      }
-                    },
-                    "refId": "A",
-                    "hidden": false
-                  }
-                }
-              ],
-              "transformations": [],
-              "queryOptions": {}
-            }
-          },
-          "vizConfig": {
-            "kind": "VizConfig",
-            "group": "timeseries",
-            "version": "13.2.2",
-            "spec": {
-              "options": {
-                "legend": {
-                  "calcs": [],
-                  "displayMode": "list",
-                  "placement": "bottom",
-                  "showLegend": false
-                },
-                "tooltip": {
-                  "hideZeros": false,
-                  "mode": "single",
-                  "sort": "none"
-                }
-              },
-              "fieldConfig": {
-                "defaults": {
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": 0,
-                        "color": "green"
-                      }
-                    ]
-                  },
-                  "color": {
-                    "mode": "palette-classic"
-                  },
-                  "custom": {
-                    "axisBorderShow": false,
-                    "axisCenteredZero": false,
-                    "axisColorMode": "text",
-                    "axisLabel": "",
-                    "axisPlacement": "auto",
-                    "barAlignment": 0,
-                    "barWidthFactor": 0.6,
-                    "drawStyle": "line",
-                    "fillOpacity": 8,
-                    "gradientMode": "none",
-                    "hideFrom": {
-                      "legend": false,
-                      "tooltip": false,
-                      "viz": false
-                    },
-                    "insertNulls": false,
-                    "lineInterpolation": "linear",
-                    "lineWidth": 2,
-                    "pointSize": 5,
-                    "scaleDistribution": {
-                      "type": "linear"
-                    },
-                    "showPoints": "auto",
-                    "showValues": false,
-                    "spanNulls": false,
-                    "stacking": {
-                      "group": "A",
-                      "mode": "none"
-                    },
-                    "thresholdsStyle": {
-                      "mode": "off"
-                    }
-                  },
-                  "unit": "volt",
-                  "decimals": 2
-                },
-                "overrides": []
-              }
-            }
-          }
-        }
-      },
-      "panel-5": {
-        "kind": "Panel",
-        "spec": {
-          "id": 5,
-          "title": "DC Current",
-          "description": "Combined DC output current across all Rectifier Units.",
-          "links": [],
-          "data": {
-            "kind": "QueryGroup",
-            "spec": {
-              "queries": [
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "influxdb",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "${datasource}"
-                      },
-                      "spec": {
-                        "query": "SELECT mean(\"value\") FROM \"A\" WHERE (\"entity_id\"::tag = '${instance}_combined_dc_current_all_units') AND $timeFilter GROUP BY time($__interval) fill(previous)",
-                        "rawQuery": true,
-                        "resultFormat": "time_series"
-                      }
-                    },
-                    "refId": "A",
-                    "hidden": false
-                  }
-                }
-              ],
-              "transformations": [],
-              "queryOptions": {}
-            }
-          },
-          "vizConfig": {
-            "kind": "VizConfig",
-            "group": "timeseries",
-            "version": "13.2.2",
-            "spec": {
-              "options": {
-                "legend": {
-                  "calcs": [],
-                  "displayMode": "list",
-                  "placement": "bottom",
-                  "showLegend": false
-                },
-                "tooltip": {
-                  "hideZeros": false,
-                  "mode": "single",
-                  "sort": "none"
-                }
-              },
-              "fieldConfig": {
-                "defaults": {
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": 0,
-                        "color": "green"
-                      }
-                    ]
-                  },
-                  "color": {
-                    "mode": "palette-classic"
-                  },
-                  "custom": {
-                    "axisBorderShow": false,
-                    "axisCenteredZero": false,
-                    "axisColorMode": "text",
-                    "axisLabel": "",
-                    "axisPlacement": "auto",
-                    "barAlignment": 0,
-                    "barWidthFactor": 0.6,
-                    "drawStyle": "line",
-                    "fillOpacity": 8,
-                    "gradientMode": "none",
-                    "hideFrom": {
-                      "legend": false,
-                      "tooltip": false,
-                      "viz": false
-                    },
-                    "insertNulls": false,
-                    "lineInterpolation": "linear",
-                    "lineWidth": 2,
-                    "pointSize": 5,
-                    "scaleDistribution": {
-                      "type": "linear"
-                    },
-                    "showPoints": "auto",
-                    "showValues": false,
-                    "spanNulls": false,
-                    "stacking": {
-                      "group": "A",
-                      "mode": "none"
-                    },
-                    "thresholdsStyle": {
-                      "mode": "off"
-                    }
-                  },
-                  "unit": "amp",
-                  "decimals": 2
-                },
-                "overrides": []
-              }
-            }
-          }
-        }
-      },
-      "panel-6": {
-        "kind": "Panel",
-        "spec": {
-          "id": 6,
-          "title": "DC Current Limits",
-          "description": "Requested, effective, thermal and applied DC current limits.",
-          "links": [],
-          "data": {
-            "kind": "QueryGroup",
-            "spec": {
-              "queries": [
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "influxdb",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "${datasource}"
-                      },
-                      "spec": {
-                        "query": "SELECT mean(\"value\") AS \"Requested\" FROM \"A\" WHERE (\"entity_id\"::tag = '${instance}_set_dc_current_limit') AND $timeFilter GROUP BY time($__interval) fill(previous)",
-                        "rawQuery": true,
-                        "resultFormat": "time_series"
-                      }
-                    },
-                    "refId": "A",
-                    "hidden": false
-                  }
-                },
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "influxdb",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "${datasource}"
-                      },
-                      "spec": {
-                        "query": "SELECT mean(\"value\") AS \"Effective\" FROM \"A\" WHERE (\"entity_id\"::tag = '${instance}_effective_dc_current_limit') AND $timeFilter GROUP BY time($__interval) fill(previous)",
-                        "rawQuery": true,
-                        "resultFormat": "time_series"
-                      }
-                    },
-                    "refId": "B",
-                    "hidden": false
-                  }
-                },
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "influxdb",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "${datasource}"
-                      },
-                      "spec": {
-                        "query": "SELECT mean(\"value\") AS \"Thermal\" FROM \"A\" WHERE (\"entity_id\"::tag = '${instance}_thermal_dc_current_limit') AND $timeFilter GROUP BY time($__interval) fill(previous)",
-                        "rawQuery": true,
-                        "resultFormat": "time_series"
-                      }
-                    },
-                    "refId": "C",
-                    "hidden": false
-                  }
-                },
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "influxdb",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "${datasource}"
-                      },
-                      "spec": {
-                        "query": "SELECT mean(\"value\") AS \"Applied\" FROM \"A\" WHERE (\"entity_id\"::tag = '${instance}_applied_dc_current_limit') AND $timeFilter GROUP BY time($__interval) fill(previous)",
-                        "rawQuery": true,
-                        "resultFormat": "time_series"
-                      }
-                    },
-                    "refId": "D",
-                    "hidden": false
-                  }
-                }
-              ],
-              "transformations": [],
-              "queryOptions": {}
-            }
-          },
-          "vizConfig": {
-            "kind": "VizConfig",
-            "group": "timeseries",
-            "version": "13.2.2",
-            "spec": {
-              "options": {
-                "legend": {
-                  "calcs": [],
-                  "displayMode": "list",
-                  "placement": "bottom",
-                  "showLegend": true
-                },
-                "tooltip": {
-                  "hideZeros": false,
-                  "mode": "multi",
-                  "sort": "none"
-                }
-              },
-              "fieldConfig": {
-                "defaults": {
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": 0,
-                        "color": "green"
-                      }
-                    ]
-                  },
-                  "color": {
-                    "mode": "palette-classic"
-                  },
-                  "custom": {
-                    "axisBorderShow": false,
-                    "axisCenteredZero": false,
-                    "axisColorMode": "text",
-                    "axisLabel": "",
-                    "axisPlacement": "auto",
-                    "barAlignment": 0,
-                    "barWidthFactor": 0.6,
-                    "drawStyle": "line",
-                    "fillOpacity": 8,
-                    "gradientMode": "none",
-                    "hideFrom": {
-                      "legend": false,
-                      "tooltip": false,
-                      "viz": false
-                    },
-                    "insertNulls": false,
-                    "lineInterpolation": "linear",
-                    "lineWidth": 2,
-                    "pointSize": 5,
-                    "scaleDistribution": {
-                      "type": "linear"
-                    },
-                    "showPoints": "auto",
-                    "showValues": false,
-                    "spanNulls": false,
-                    "stacking": {
-                      "group": "A",
-                      "mode": "none"
-                    },
-                    "thresholdsStyle": {
-                      "mode": "off"
-                    }
-                  },
-                  "unit": "amp",
-                  "decimals": 1
-                },
-                "overrides": []
-              }
-            }
-          }
-        }
-      },
-      "panel-21": {
-        "kind": "Panel",
-        "spec": {
-          "id": 21,
-          "title": "Rectifier AC Voltage",
-          "description": "AC input voltage of Rectifier Units 1-3.",
-          "links": [],
-          "data": {
-            "kind": "QueryGroup",
-            "spec": {
-              "queries": [
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "influxdb",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "${datasource}"
-                      },
-                      "spec": {
-                        "query": "SELECT mean(\"value\") AS \"Unit 1\" FROM \"V\" WHERE (\"entity_id\"::tag = '${instance}_ac_voltage_unit_1') AND $timeFilter GROUP BY time($__interval) fill(previous)",
-                        "rawQuery": true,
-                        "resultFormat": "time_series"
-                      }
-                    },
-                    "refId": "A",
-                    "hidden": false
-                  }
-                },
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "influxdb",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "${datasource}"
-                      },
-                      "spec": {
-                        "query": "SELECT mean(\"value\") AS \"Unit 2\" FROM \"V\" WHERE (\"entity_id\"::tag = '${instance}_ac_voltage_unit_2') AND $timeFilter GROUP BY time($__interval) fill(previous)",
-                        "rawQuery": true,
-                        "resultFormat": "time_series"
-                      }
-                    },
-                    "refId": "B",
-                    "hidden": false
-                  }
-                },
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "influxdb",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "${datasource}"
-                      },
-                      "spec": {
-                        "query": "SELECT mean(\"value\") AS \"Unit 3\" FROM \"V\" WHERE (\"entity_id\"::tag = '${instance}_ac_voltage_unit_3') AND $timeFilter GROUP BY time($__interval) fill(previous)",
-                        "rawQuery": true,
-                        "resultFormat": "time_series"
-                      }
-                    },
-                    "refId": "C",
-                    "hidden": false
-                  }
-                }
-              ],
-              "transformations": [],
-              "queryOptions": {}
-            }
-          },
-          "vizConfig": {
-            "kind": "VizConfig",
-            "group": "timeseries",
-            "version": "13.2.2",
-            "spec": {
-              "options": {
-                "legend": {
-                  "calcs": [],
-                  "displayMode": "list",
-                  "placement": "bottom",
-                  "showLegend": true
-                },
-                "tooltip": {
-                  "hideZeros": false,
-                  "mode": "multi",
-                  "sort": "none"
-                }
-              },
-              "fieldConfig": {
-                "defaults": {
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": 0,
-                        "color": "green"
-                      }
-                    ]
-                  },
-                  "color": {
-                    "mode": "palette-classic"
-                  },
-                  "custom": {
-                    "axisBorderShow": false,
-                    "axisCenteredZero": false,
-                    "axisColorMode": "text",
-                    "axisLabel": "",
-                    "axisPlacement": "auto",
-                    "barAlignment": 0,
-                    "barWidthFactor": 0.6,
-                    "drawStyle": "line",
-                    "fillOpacity": 8,
-                    "gradientMode": "none",
-                    "hideFrom": {
-                      "legend": false,
-                      "tooltip": false,
-                      "viz": false
-                    },
-                    "insertNulls": false,
-                    "lineInterpolation": "linear",
-                    "lineWidth": 2,
-                    "pointSize": 5,
-                    "scaleDistribution": {
-                      "type": "linear"
-                    },
-                    "showPoints": "auto",
-                    "showValues": false,
-                    "spanNulls": false,
-                    "stacking": {
-                      "group": "A",
-                      "mode": "none"
-                    },
-                    "thresholdsStyle": {
-                      "mode": "off"
-                    }
-                  },
-                  "unit": "volt",
-                  "decimals": 2
-                },
-                "overrides": []
-              }
-            }
-          }
-        }
-      },
-      "panel-7": {
-        "kind": "Panel",
-        "spec": {
-          "id": 7,
-          "title": "Rectifier DC Power",
-          "description": "DC output power of Rectifier Units 1-3.",
-          "links": [],
-          "data": {
-            "kind": "QueryGroup",
-            "spec": {
-              "queries": [
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "influxdb",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "${datasource}"
-                      },
-                      "spec": {
-                        "query": "SELECT mean(\"value\") AS \"Unit 1\" FROM \"W\" WHERE (\"entity_id\"::tag = '${instance}_dc_power_unit_1') AND $timeFilter GROUP BY time($__interval) fill(previous)",
-                        "rawQuery": true,
-                        "resultFormat": "time_series"
-                      }
-                    },
-                    "refId": "A",
-                    "hidden": false
-                  }
-                },
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "influxdb",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "${datasource}"
-                      },
-                      "spec": {
-                        "query": "SELECT mean(\"value\") AS \"Unit 2\" FROM \"W\" WHERE (\"entity_id\"::tag = '${instance}_dc_power_unit_2') AND $timeFilter GROUP BY time($__interval) fill(previous)",
-                        "rawQuery": true,
-                        "resultFormat": "time_series"
-                      }
-                    },
-                    "refId": "B",
-                    "hidden": false
-                  }
-                },
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "influxdb",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "${datasource}"
-                      },
-                      "spec": {
-                        "query": "SELECT mean(\"value\") AS \"Unit 3\" FROM \"W\" WHERE (\"entity_id\"::tag = '${instance}_dc_power_unit_3') AND $timeFilter GROUP BY time($__interval) fill(previous)",
-                        "rawQuery": true,
-                        "resultFormat": "time_series"
-                      }
-                    },
-                    "refId": "C",
-                    "hidden": false
-                  }
-                }
-              ],
-              "transformations": [],
-              "queryOptions": {}
-            }
-          },
-          "vizConfig": {
-            "kind": "VizConfig",
-            "group": "timeseries",
-            "version": "13.2.2",
-            "spec": {
-              "options": {
-                "legend": {
-                  "calcs": [],
-                  "displayMode": "list",
-                  "placement": "bottom",
-                  "showLegend": true
-                },
-                "tooltip": {
-                  "hideZeros": false,
-                  "mode": "multi",
-                  "sort": "none"
-                }
-              },
-              "fieldConfig": {
-                "defaults": {
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": 0,
-                        "color": "green"
-                      }
-                    ]
-                  },
-                  "color": {
-                    "mode": "palette-classic"
-                  },
-                  "custom": {
-                    "axisBorderShow": false,
-                    "axisCenteredZero": false,
-                    "axisColorMode": "text",
-                    "axisLabel": "",
-                    "axisPlacement": "auto",
-                    "barAlignment": 0,
-                    "barWidthFactor": 0.6,
-                    "drawStyle": "line",
-                    "fillOpacity": 8,
-                    "gradientMode": "none",
-                    "hideFrom": {
-                      "legend": false,
-                      "tooltip": false,
-                      "viz": false
-                    },
-                    "insertNulls": false,
-                    "lineInterpolation": "linear",
-                    "lineWidth": 2,
-                    "pointSize": 5,
-                    "scaleDistribution": {
-                      "type": "linear"
-                    },
-                    "showPoints": "auto",
-                    "showValues": false,
-                    "spanNulls": false,
-                    "stacking": {
-                      "group": "A",
-                      "mode": "none"
-                    },
-                    "thresholdsStyle": {
-                      "mode": "off"
-                    }
-                  },
-                  "unit": "watt",
-                  "decimals": 3
-                },
-                "overrides": []
-              }
-            }
-          }
-        }
-      },
-      "panel-8": {
-        "kind": "Panel",
-        "spec": {
-          "id": 8,
-          "title": "Rectifier DC Current",
-          "description": "DC output current of Rectifier Units 1-3.",
-          "links": [],
-          "data": {
-            "kind": "QueryGroup",
-            "spec": {
-              "queries": [
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "influxdb",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "${datasource}"
-                      },
-                      "spec": {
-                        "query": "SELECT mean(\"value\") AS \"Unit 1\" FROM \"A\" WHERE (\"entity_id\"::tag = '${instance}_dc_current_unit_1') AND $timeFilter GROUP BY time($__interval) fill(previous)",
-                        "rawQuery": true,
-                        "resultFormat": "time_series"
-                      }
-                    },
-                    "refId": "A",
-                    "hidden": false
-                  }
-                },
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "influxdb",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "${datasource}"
-                      },
-                      "spec": {
-                        "query": "SELECT mean(\"value\") AS \"Unit 2\" FROM \"A\" WHERE (\"entity_id\"::tag = '${instance}_dc_current_unit_2') AND $timeFilter GROUP BY time($__interval) fill(previous)",
-                        "rawQuery": true,
-                        "resultFormat": "time_series"
-                      }
-                    },
-                    "refId": "B",
-                    "hidden": false
-                  }
-                },
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "influxdb",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "${datasource}"
-                      },
-                      "spec": {
-                        "query": "SELECT mean(\"value\") AS \"Unit 3\" FROM \"A\" WHERE (\"entity_id\"::tag = '${instance}_dc_current_unit_3') AND $timeFilter GROUP BY time($__interval) fill(previous)",
-                        "rawQuery": true,
-                        "resultFormat": "time_series"
-                      }
-                    },
-                    "refId": "C",
-                    "hidden": false
-                  }
-                }
-              ],
-              "transformations": [],
-              "queryOptions": {}
-            }
-          },
-          "vizConfig": {
-            "kind": "VizConfig",
-            "group": "timeseries",
-            "version": "13.2.2",
-            "spec": {
-              "options": {
-                "legend": {
-                  "calcs": [],
-                  "displayMode": "list",
-                  "placement": "bottom",
-                  "showLegend": true
-                },
-                "tooltip": {
-                  "hideZeros": false,
-                  "mode": "multi",
-                  "sort": "none"
-                }
-              },
-              "fieldConfig": {
-                "defaults": {
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": 0,
-                        "color": "green"
-                      }
-                    ]
-                  },
-                  "color": {
-                    "mode": "palette-classic"
-                  },
-                  "custom": {
-                    "axisBorderShow": false,
-                    "axisCenteredZero": false,
-                    "axisColorMode": "text",
-                    "axisLabel": "",
-                    "axisPlacement": "auto",
-                    "barAlignment": 0,
-                    "barWidthFactor": 0.6,
-                    "drawStyle": "line",
-                    "fillOpacity": 8,
-                    "gradientMode": "none",
-                    "hideFrom": {
-                      "legend": false,
-                      "tooltip": false,
-                      "viz": false
-                    },
-                    "insertNulls": false,
-                    "lineInterpolation": "linear",
-                    "lineWidth": 2,
-                    "pointSize": 5,
-                    "scaleDistribution": {
-                      "type": "linear"
-                    },
-                    "showPoints": "auto",
-                    "showValues": false,
-                    "spanNulls": false,
-                    "stacking": {
-                      "group": "A",
-                      "mode": "none"
-                    },
-                    "thresholdsStyle": {
-                      "mode": "off"
-                    }
-                  },
-                  "unit": "amp",
-                  "decimals": 3
-                },
-                "overrides": []
-              }
-            }
-          }
-        }
-      },
-      "panel-9": {
-        "kind": "Panel",
-        "spec": {
-          "id": 9,
-          "title": "Rectifier Output Temperature",
-          "description": "Output temperature of Rectifier Units 1-3.",
-          "links": [],
-          "data": {
-            "kind": "QueryGroup",
-            "spec": {
-              "queries": [
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "influxdb",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "${datasource}"
-                      },
-                      "spec": {
-                        "query": "SELECT mean(\"value\") AS \"Unit 1\" FROM \"°C\" WHERE (\"entity_id\"::tag = '${instance}_output_temperature_unit_1') AND $timeFilter GROUP BY time($__interval) fill(previous)",
-                        "rawQuery": true,
-                        "resultFormat": "time_series"
-                      }
-                    },
-                    "refId": "A",
-                    "hidden": false
-                  }
-                },
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "influxdb",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "${datasource}"
-                      },
-                      "spec": {
-                        "query": "SELECT mean(\"value\") AS \"Unit 2\" FROM \"°C\" WHERE (\"entity_id\"::tag = '${instance}_output_temperature_unit_2') AND $timeFilter GROUP BY time($__interval) fill(previous)",
-                        "rawQuery": true,
-                        "resultFormat": "time_series"
-                      }
-                    },
-                    "refId": "B",
-                    "hidden": false
-                  }
-                },
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "influxdb",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "${datasource}"
-                      },
-                      "spec": {
-                        "query": "SELECT mean(\"value\") AS \"Unit 3\" FROM \"°C\" WHERE (\"entity_id\"::tag = '${instance}_output_temperature_unit_3') AND $timeFilter GROUP BY time($__interval) fill(previous)",
-                        "rawQuery": true,
-                        "resultFormat": "time_series"
-                      }
-                    },
-                    "refId": "C",
-                    "hidden": false
-                  }
-                }
-              ],
-              "transformations": [],
-              "queryOptions": {}
-            }
-          },
-          "vizConfig": {
-            "kind": "VizConfig",
-            "group": "timeseries",
-            "version": "13.2.2",
-            "spec": {
-              "options": {
-                "legend": {
-                  "calcs": [],
-                  "displayMode": "list",
-                  "placement": "bottom",
-                  "showLegend": true
-                },
-                "tooltip": {
-                  "hideZeros": false,
-                  "mode": "multi",
-                  "sort": "none"
-                }
-              },
-              "fieldConfig": {
-                "defaults": {
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": 0,
-                        "color": "green"
-                      }
-                    ]
-                  },
-                  "color": {
-                    "mode": "palette-classic"
-                  },
-                  "custom": {
-                    "axisBorderShow": false,
-                    "axisCenteredZero": false,
-                    "axisColorMode": "text",
-                    "axisLabel": "",
-                    "axisPlacement": "auto",
-                    "barAlignment": 0,
-                    "barWidthFactor": 0.6,
-                    "drawStyle": "line",
-                    "fillOpacity": 8,
-                    "gradientMode": "none",
-                    "hideFrom": {
-                      "legend": false,
-                      "tooltip": false,
-                      "viz": false
-                    },
-                    "insertNulls": false,
-                    "lineInterpolation": "linear",
-                    "lineWidth": 2,
-                    "pointSize": 5,
-                    "scaleDistribution": {
-                      "type": "linear"
-                    },
-                    "showPoints": "auto",
-                    "showValues": false,
-                    "spanNulls": false,
-                    "stacking": {
-                      "group": "A",
-                      "mode": "none"
-                    },
-                    "thresholdsStyle": {
-                      "mode": "off"
-                    }
-                  },
-                  "unit": "celsius",
-                  "decimals": 1
-                },
-                "overrides": []
-              }
-            }
+            },
+            "version": "13.2.3"
           }
         }
       },
       "panel-10": {
         "kind": "Panel",
         "spec": {
-          "id": 10,
-          "title": "Enclosure Temperature",
-          "description": "Rear Rectifier compartment temperature.",
-          "links": [],
           "data": {
             "kind": "QueryGroup",
             "spec": {
@@ -1373,57 +150,38 @@
                 {
                   "kind": "PanelQuery",
                   "spec": {
+                    "hidden": false,
                     "query": {
-                      "kind": "DataQuery",
-                      "group": "influxdb",
-                      "version": "v0",
                       "datasource": {
                         "name": "${datasource}"
                       },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
                       "spec": {
                         "query": "SELECT mean(\"value\") FROM \"°C\" WHERE (\"entity_id\"::tag = '${instance}_rectifier_compartment_temperature') AND $timeFilter GROUP BY time($__interval) fill(previous)",
                         "rawQuery": true,
                         "resultFormat": "time_series"
-                      }
+                      },
+                      "version": "v0"
                     },
-                    "refId": "A",
-                    "hidden": false
+                    "refId": "A"
                   }
                 }
               ],
-              "transformations": [],
-              "queryOptions": {}
+              "queryOptions": {},
+              "transformations": []
             }
           },
+          "description": "Rear Rectifier compartment temperature.",
+          "id": 10,
+          "links": [],
+          "title": "Enclosure Temperature",
           "vizConfig": {
-            "kind": "VizConfig",
             "group": "timeseries",
-            "version": "13.2.2",
+            "kind": "VizConfig",
             "spec": {
-              "options": {
-                "legend": {
-                  "calcs": [],
-                  "displayMode": "list",
-                  "placement": "bottom",
-                  "showLegend": false
-                },
-                "tooltip": {
-                  "hideZeros": false,
-                  "mode": "single",
-                  "sort": "none"
-                }
-              },
               "fieldConfig": {
                 "defaults": {
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": 0,
-                        "color": "green"
-                      }
-                    ]
-                  },
                   "color": {
                     "mode": "palette-classic"
                   },
@@ -1461,22 +219,41 @@
                       "mode": "off"
                     }
                   },
-                  "unit": "celsius",
-                  "decimals": 1
+                  "decimals": 1,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  "unit": "celsius"
                 },
                 "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": false
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "single",
+                  "sort": "none"
+                }
               }
-            }
+            },
+            "version": "13.2.3"
           }
         }
       },
       "panel-11": {
         "kind": "Panel",
         "spec": {
-          "id": 11,
-          "title": "Enclosure Humidity",
-          "description": "Rear Rectifier compartment relative humidity.",
-          "links": [],
           "data": {
             "kind": "QueryGroup",
             "spec": {
@@ -1484,57 +261,38 @@
                 {
                   "kind": "PanelQuery",
                   "spec": {
+                    "hidden": false,
                     "query": {
-                      "kind": "DataQuery",
-                      "group": "influxdb",
-                      "version": "v0",
                       "datasource": {
                         "name": "${datasource}"
                       },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
                       "spec": {
                         "query": "SELECT mean(\"value\") FROM \"%\" WHERE (\"entity_id\"::tag = '${instance}_rectifier_compartment_humidity') AND $timeFilter GROUP BY time($__interval) fill(previous)",
                         "rawQuery": true,
                         "resultFormat": "time_series"
-                      }
+                      },
+                      "version": "v0"
                     },
-                    "refId": "A",
-                    "hidden": false
+                    "refId": "A"
                   }
                 }
               ],
-              "transformations": [],
-              "queryOptions": {}
+              "queryOptions": {},
+              "transformations": []
             }
           },
+          "description": "Rear Rectifier compartment relative humidity.",
+          "id": 11,
+          "links": [],
+          "title": "Enclosure Humidity",
           "vizConfig": {
-            "kind": "VizConfig",
             "group": "timeseries",
-            "version": "13.2.2",
+            "kind": "VizConfig",
             "spec": {
-              "options": {
-                "legend": {
-                  "calcs": [],
-                  "displayMode": "list",
-                  "placement": "bottom",
-                  "showLegend": false
-                },
-                "tooltip": {
-                  "hideZeros": false,
-                  "mode": "single",
-                  "sort": "none"
-                }
-              },
               "fieldConfig": {
                 "defaults": {
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": 0,
-                        "color": "green"
-                      }
-                    ]
-                  },
                   "color": {
                     "mode": "palette-classic"
                   },
@@ -1572,22 +330,41 @@
                       "mode": "off"
                     }
                   },
-                  "unit": "percent",
-                  "decimals": 1
+                  "decimals": 1,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  "unit": "percent"
                 },
                 "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": false
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "single",
+                  "sort": "none"
+                }
               }
-            }
+            },
+            "version": "13.2.3"
           }
         }
       },
       "panel-12": {
         "kind": "Panel",
         "spec": {
-          "id": 12,
-          "title": "Cooling Fan PWM",
-          "description": "Actual EMC2101 enclosure cooling PWM duty-cycle readback.",
-          "links": [],
           "data": {
             "kind": "QueryGroup",
             "spec": {
@@ -1595,57 +372,38 @@
                 {
                   "kind": "PanelQuery",
                   "spec": {
+                    "hidden": false,
                     "query": {
-                      "kind": "DataQuery",
-                      "group": "influxdb",
-                      "version": "v0",
                       "datasource": {
                         "name": "${datasource}"
                       },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
                       "spec": {
                         "query": "SELECT mean(\"value\") FROM \"%\" WHERE (\"entity_id\"::tag = '${instance}_cooling_fan_pwm_actual') AND $timeFilter GROUP BY time($__interval) fill(previous)",
                         "rawQuery": true,
                         "resultFormat": "time_series"
-                      }
+                      },
+                      "version": "v0"
                     },
-                    "refId": "A",
-                    "hidden": false
+                    "refId": "A"
                   }
                 }
               ],
-              "transformations": [],
-              "queryOptions": {}
+              "queryOptions": {},
+              "transformations": []
             }
           },
+          "description": "Actual EMC2101 enclosure cooling PWM duty-cycle readback.",
+          "id": 12,
+          "links": [],
+          "title": "Cooling Fan PWM",
           "vizConfig": {
-            "kind": "VizConfig",
             "group": "timeseries",
-            "version": "13.2.2",
+            "kind": "VizConfig",
             "spec": {
-              "options": {
-                "legend": {
-                  "calcs": [],
-                  "displayMode": "list",
-                  "placement": "bottom",
-                  "showLegend": false
-                },
-                "tooltip": {
-                  "hideZeros": false,
-                  "mode": "single",
-                  "sort": "none"
-                }
-              },
               "fieldConfig": {
                 "defaults": {
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": 0,
-                        "color": "green"
-                      }
-                    ]
-                  },
                   "color": {
                     "mode": "palette-classic"
                   },
@@ -1683,22 +441,41 @@
                       "mode": "off"
                     }
                   },
-                  "unit": "percent",
-                  "decimals": 0
+                  "decimals": 0,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  "unit": "percent"
                 },
                 "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": false
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "single",
+                  "sort": "none"
+                }
               }
-            }
+            },
+            "version": "13.2.3"
           }
         }
       },
       "panel-13": {
         "kind": "Panel",
         "spec": {
-          "id": 13,
-          "title": "Cooling Fan RPM",
-          "description": "External enclosure Cooling Fan 1-3 speed.",
-          "links": [],
           "data": {
             "kind": "QueryGroup",
             "spec": {
@@ -1706,73 +483,129 @@
                 {
                   "kind": "PanelQuery",
                   "spec": {
+                    "hidden": false,
                     "query": {
-                      "kind": "DataQuery",
-                      "group": "influxdb",
-                      "version": "v0",
                       "datasource": {
                         "name": "${datasource}"
                       },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
                       "spec": {
                         "query": "SELECT mean(\"value\") AS \"Fan 1\" FROM \"RPM\" WHERE (\"entity_id\"::tag = '${instance}_cooling_fan_1_rpm') AND $timeFilter GROUP BY time($__interval) fill(previous)",
                         "rawQuery": true,
                         "resultFormat": "time_series"
-                      }
+                      },
+                      "version": "v0"
                     },
-                    "refId": "A",
-                    "hidden": false
+                    "refId": "A"
                   }
                 },
                 {
                   "kind": "PanelQuery",
                   "spec": {
+                    "hidden": false,
                     "query": {
-                      "kind": "DataQuery",
-                      "group": "influxdb",
-                      "version": "v0",
                       "datasource": {
                         "name": "${datasource}"
                       },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
                       "spec": {
                         "query": "SELECT mean(\"value\") AS \"Fan 2\" FROM \"RPM\" WHERE (\"entity_id\"::tag = '${instance}_cooling_fan_2_rpm') AND $timeFilter GROUP BY time($__interval) fill(previous)",
                         "rawQuery": true,
                         "resultFormat": "time_series"
-                      }
+                      },
+                      "version": "v0"
                     },
-                    "refId": "B",
-                    "hidden": false
+                    "refId": "B"
                   }
                 },
                 {
                   "kind": "PanelQuery",
                   "spec": {
+                    "hidden": false,
                     "query": {
-                      "kind": "DataQuery",
-                      "group": "influxdb",
-                      "version": "v0",
                       "datasource": {
                         "name": "${datasource}"
                       },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
                       "spec": {
                         "query": "SELECT mean(\"value\") AS \"Fan 3\" FROM \"RPM\" WHERE (\"entity_id\"::tag = '${instance}_cooling_fan_3_rpm') AND $timeFilter GROUP BY time($__interval) fill(previous)",
                         "rawQuery": true,
                         "resultFormat": "time_series"
-                      }
+                      },
+                      "version": "v0"
                     },
-                    "refId": "C",
-                    "hidden": false
+                    "refId": "C"
                   }
                 }
               ],
-              "transformations": [],
-              "queryOptions": {}
+              "queryOptions": {},
+              "transformations": []
             }
           },
+          "description": "External enclosure Cooling Fan 1-3 speed.",
+          "id": 13,
+          "links": [],
+          "title": "Cooling Fan RPM",
           "vizConfig": {
-            "kind": "VizConfig",
             "group": "timeseries",
-            "version": "13.2.2",
+            "kind": "VizConfig",
             "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "line",
+                    "fillOpacity": 8,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "linear",
+                    "lineWidth": 2,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "auto",
+                    "showValues": false,
+                    "spanNulls": false,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  },
+                  "decimals": 0,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  "unit": "rotrpm"
+                },
+                "overrides": []
+              },
               "options": {
                 "legend": {
                   "calcs": [],
@@ -1785,18 +618,54 @@
                   "mode": "multi",
                   "sort": "none"
                 }
-              },
+              }
+            },
+            "version": "13.2.3"
+          }
+        }
+      },
+      "panel-14": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "${datasource}"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "SELECT mean(\"value\") FROM \"°C\" WHERE (\"entity_id\"::tag = '${instance}_cooling_fan_controller_temperature') AND $timeFilter GROUP BY time($__interval) fill(previous)",
+                        "rawQuery": true,
+                        "resultFormat": "time_series"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "EMC2101 internal controller temperature.",
+          "id": 14,
+          "links": [],
+          "title": "Cooling Fan Controller Temperature",
+          "vizConfig": {
+            "group": "timeseries",
+            "kind": "VizConfig",
+            "spec": {
               "fieldConfig": {
                 "defaults": {
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": 0,
-                        "color": "green"
-                      }
-                    ]
-                  },
                   "color": {
                     "mode": "palette-classic"
                   },
@@ -1834,56 +703,20 @@
                       "mode": "off"
                     }
                   },
-                  "unit": "rotrpm",
-                  "decimals": 0
+                  "decimals": 0,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  "unit": "celsius"
                 },
                 "overrides": []
-              }
-            }
-          }
-        }
-      },
-      "panel-14": {
-        "kind": "Panel",
-        "spec": {
-          "id": 14,
-          "title": "Cooling Fan Controller Temperature",
-          "description": "EMC2101 internal controller temperature.",
-          "links": [],
-          "data": {
-            "kind": "QueryGroup",
-            "spec": {
-              "queries": [
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "influxdb",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "${datasource}"
-                      },
-                      "spec": {
-                        "query": "SELECT mean(\"value\") FROM \"°C\" WHERE (\"entity_id\"::tag = '${instance}_cooling_fan_controller_temperature') AND $timeFilter GROUP BY time($__interval) fill(previous)",
-                        "rawQuery": true,
-                        "resultFormat": "time_series"
-                      }
-                    },
-                    "refId": "A",
-                    "hidden": false
-                  }
-                }
-              ],
-              "transformations": [],
-              "queryOptions": {}
-            }
-          },
-          "vizConfig": {
-            "kind": "VizConfig",
-            "group": "timeseries",
-            "version": "13.2.2",
-            "spec": {
+              },
               "options": {
                 "legend": {
                   "calcs": [],
@@ -1896,18 +729,522 @@
                   "mode": "single",
                   "sort": "none"
                 }
-              },
+              }
+            },
+            "version": "13.2.3"
+          }
+        }
+      },
+      "panel-15": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "${datasource}"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "SELECT last(\"value\") AS \"Available\" FROM \"state\" WHERE (\"domain\"::tag = 'sensor') AND (\"entity_id\"::tag = '${instance}_available_units')",
+                        "rawQuery": true,
+                        "resultFormat": "time_series"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "Last known number of CAN-reachable Rectifier Units.",
+          "id": 15,
+          "links": [],
+          "title": "Available Units",
+          "vizConfig": {
+            "group": "stat",
+            "kind": "VizConfig",
+            "spec": {
               "fieldConfig": {
                 "defaults": {
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "decimals": 0,
                   "thresholds": {
                     "mode": "absolute",
                     "steps": [
                       {
-                        "value": 0,
-                        "color": "green"
+                        "color": "green",
+                        "value": 0
                       }
                     ]
                   },
+                  "unit": "none"
+                },
+                "overrides": []
+              },
+              "options": {
+                "colorMode": "value",
+                "graphMode": "none",
+                "justifyMode": "center",
+                "orientation": "auto",
+                "percentChangeColorMode": "standard",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "showPercentChange": false,
+                "textMode": "value",
+                "wideLayout": true
+              }
+            },
+            "version": "13.2.3"
+          }
+        }
+      },
+      "panel-16": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "${datasource}"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "SELECT last(\"value\") AS \"Running\" FROM \"state\" WHERE (\"domain\"::tag = 'sensor') AND (\"entity_id\"::tag = '${instance}_running_units')",
+                        "rawQuery": true,
+                        "resultFormat": "time_series"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "Last known number of CAN-reachable Rectifier Units explicitly reporting ON.",
+          "id": 16,
+          "links": [],
+          "title": "Running Units",
+          "vizConfig": {
+            "group": "stat",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "decimals": 0,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  "unit": "none"
+                },
+                "overrides": []
+              },
+              "options": {
+                "colorMode": "value",
+                "graphMode": "none",
+                "justifyMode": "center",
+                "orientation": "auto",
+                "percentChangeColorMode": "standard",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "showPercentChange": false,
+                "textMode": "value",
+                "wideLayout": true
+              }
+            },
+            "version": "13.2.3"
+          }
+        }
+      },
+      "panel-17": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "${datasource}"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "SELECT last(\"value\") AS \"Unit 1\" FROM \"state\" WHERE (\"domain\"::tag = 'binary_sensor') AND (\"entity_id\"::tag = '${instance}_can_communication_unit_1')",
+                        "rawQuery": true,
+                        "resultFormat": "time_series"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "Last known CAN connectivity state for Rectifier Unit 1.",
+          "id": 17,
+          "links": [],
+          "title": "CAN Unit 1",
+          "vizConfig": {
+            "group": "stat",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "thresholds"
+                  },
+                  "decimals": 0,
+                  "mappings": [
+                    {
+                      "options": {
+                        "0": {
+                          "color": "red",
+                          "index": 0,
+                          "text": "Offline"
+                        },
+                        "1": {
+                          "color": "green",
+                          "index": 1,
+                          "text": "Online"
+                        }
+                      },
+                      "type": "value"
+                    }
+                  ],
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "red",
+                        "value": 0
+                      },
+                      {
+                        "color": "green",
+                        "value": 1
+                      }
+                    ]
+                  },
+                  "unit": "none"
+                },
+                "overrides": []
+              },
+              "options": {
+                "colorMode": "value",
+                "graphMode": "none",
+                "justifyMode": "center",
+                "orientation": "auto",
+                "percentChangeColorMode": "standard",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "showPercentChange": false,
+                "textMode": "value",
+                "wideLayout": true
+              }
+            },
+            "version": "13.2.3"
+          }
+        }
+      },
+      "panel-18": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "${datasource}"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "SELECT last(\"value\") AS \"Unit 2\" FROM \"state\" WHERE (\"domain\"::tag = 'binary_sensor') AND (\"entity_id\"::tag = '${instance}_can_communication_unit_2')",
+                        "rawQuery": true,
+                        "resultFormat": "time_series"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "Last known CAN connectivity state for Rectifier Unit 2.",
+          "id": 18,
+          "links": [],
+          "title": "CAN Unit 2",
+          "vizConfig": {
+            "group": "stat",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "thresholds"
+                  },
+                  "decimals": 0,
+                  "mappings": [
+                    {
+                      "options": {
+                        "0": {
+                          "color": "red",
+                          "index": 0,
+                          "text": "Offline"
+                        },
+                        "1": {
+                          "color": "green",
+                          "index": 1,
+                          "text": "Online"
+                        }
+                      },
+                      "type": "value"
+                    }
+                  ],
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "red",
+                        "value": 0
+                      },
+                      {
+                        "color": "green",
+                        "value": 1
+                      }
+                    ]
+                  },
+                  "unit": "none"
+                },
+                "overrides": []
+              },
+              "options": {
+                "colorMode": "value",
+                "graphMode": "none",
+                "justifyMode": "center",
+                "orientation": "auto",
+                "percentChangeColorMode": "standard",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "showPercentChange": false,
+                "textMode": "value",
+                "wideLayout": true
+              }
+            },
+            "version": "13.2.3"
+          }
+        }
+      },
+      "panel-19": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "${datasource}"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "SELECT last(\"value\") AS \"Unit 3\" FROM \"state\" WHERE (\"domain\"::tag = 'binary_sensor') AND (\"entity_id\"::tag = '${instance}_can_communication_unit_3')",
+                        "rawQuery": true,
+                        "resultFormat": "time_series"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "Last known CAN connectivity state for Rectifier Unit 3.",
+          "id": 19,
+          "links": [],
+          "title": "CAN Unit 3",
+          "vizConfig": {
+            "group": "stat",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "thresholds"
+                  },
+                  "decimals": 0,
+                  "mappings": [
+                    {
+                      "options": {
+                        "0": {
+                          "color": "red",
+                          "index": 0,
+                          "text": "Offline"
+                        },
+                        "1": {
+                          "color": "green",
+                          "index": 1,
+                          "text": "Online"
+                        }
+                      },
+                      "type": "value"
+                    }
+                  ],
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "red",
+                        "value": 0
+                      },
+                      {
+                        "color": "green",
+                        "value": 1
+                      }
+                    ]
+                  },
+                  "unit": "none"
+                },
+                "overrides": []
+              },
+              "options": {
+                "colorMode": "value",
+                "graphMode": "none",
+                "justifyMode": "center",
+                "orientation": "auto",
+                "percentChangeColorMode": "standard",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "showPercentChange": false,
+                "textMode": "value",
+                "wideLayout": true
+              }
+            },
+            "version": "13.2.3"
+          }
+        }
+      },
+      "panel-2": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "${datasource}"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "SELECT mean(\"value\") FROM \"kW\" WHERE (\"entity_id\"::tag = '${instance}_combined_dc_power_all_units') AND $timeFilter GROUP BY time($__interval) fill(previous)",
+                        "rawQuery": true,
+                        "resultFormat": "time_series"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "Combined DC output power across all Rectifier Units.",
+          "id": 2,
+          "links": [],
+          "title": "DC Power",
+          "vizConfig": {
+            "group": "timeseries",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
                   "color": {
                     "mode": "palette-classic"
                   },
@@ -1945,492 +1282,41 @@
                       "mode": "off"
                     }
                   },
-                  "unit": "celsius",
-                  "decimals": 0
-                },
-                "overrides": []
-              }
-            }
-          }
-        }
-      },
-      "panel-15": {
-        "kind": "Panel",
-        "spec": {
-          "id": 15,
-          "title": "Available Units",
-          "description": "Last known number of CAN-reachable Rectifier Units.",
-          "links": [],
-          "data": {
-            "kind": "QueryGroup",
-            "spec": {
-              "queries": [
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "influxdb",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "${datasource}"
-                      },
-                      "spec": {
-                        "query": "SELECT last(\"value\") AS \"Available\" FROM \"state\" WHERE (\"domain\"::tag = 'sensor') AND (\"entity_id\"::tag = '${instance}_available_units')",
-                        "rawQuery": true,
-                        "resultFormat": "time_series"
-                      }
-                    },
-                    "refId": "A",
-                    "hidden": false
-                  }
-                }
-              ],
-              "transformations": [],
-              "queryOptions": {}
-            }
-          },
-          "vizConfig": {
-            "kind": "VizConfig",
-            "group": "stat",
-            "version": "13.2.2",
-            "spec": {
-              "options": {
-                "colorMode": "value",
-                "graphMode": "none",
-                "justifyMode": "center",
-                "orientation": "auto",
-                "reduceOptions": {
-                  "calcs": [
-                    "lastNotNull"
-                  ],
-                  "fields": "",
-                  "values": false
-                },
-                "textMode": "value",
-                "showPercentChange": false,
-                "percentChangeColorMode": "standard",
-                "wideLayout": true
-              },
-              "fieldConfig": {
-                "defaults": {
-                  "mappings": [],
+                  "decimals": 3,
                   "thresholds": {
                     "mode": "absolute",
                     "steps": [
                       {
-                        "value": 0,
-                        "color": "green"
+                        "color": "green",
+                        "value": 0
                       }
                     ]
                   },
-                  "color": {
-                    "mode": "palette-classic"
-                  },
-                  "unit": "none",
-                  "decimals": 0
+                  "unit": "kwatt"
                 },
                 "overrides": []
-              }
-            }
-          }
-        }
-      },
-      "panel-16": {
-        "kind": "Panel",
-        "spec": {
-          "id": 16,
-          "title": "Running Units",
-          "description": "Last known number of CAN-reachable Rectifier Units explicitly reporting ON.",
-          "links": [],
-          "data": {
-            "kind": "QueryGroup",
-            "spec": {
-              "queries": [
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "influxdb",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "${datasource}"
-                      },
-                      "spec": {
-                        "query": "SELECT last(\"value\") AS \"Running\" FROM \"state\" WHERE (\"domain\"::tag = 'sensor') AND (\"entity_id\"::tag = '${instance}_running_units')",
-                        "rawQuery": true,
-                        "resultFormat": "time_series"
-                      }
-                    },
-                    "refId": "A",
-                    "hidden": false
-                  }
-                }
-              ],
-              "transformations": [],
-              "queryOptions": {}
-            }
-          },
-          "vizConfig": {
-            "kind": "VizConfig",
-            "group": "stat",
-            "version": "13.2.2",
-            "spec": {
-              "options": {
-                "colorMode": "value",
-                "graphMode": "none",
-                "justifyMode": "center",
-                "orientation": "auto",
-                "reduceOptions": {
-                  "calcs": [
-                    "lastNotNull"
-                  ],
-                  "fields": "",
-                  "values": false
-                },
-                "textMode": "value",
-                "showPercentChange": false,
-                "percentChangeColorMode": "standard",
-                "wideLayout": true
               },
-              "fieldConfig": {
-                "defaults": {
-                  "mappings": [],
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": 0,
-                        "color": "green"
-                      }
-                    ]
-                  },
-                  "color": {
-                    "mode": "palette-classic"
-                  },
-                  "unit": "none",
-                  "decimals": 0
-                },
-                "overrides": []
-              }
-            }
-          }
-        }
-      },
-      "panel-17": {
-        "kind": "Panel",
-        "spec": {
-          "id": 17,
-          "title": "CAN Unit 1",
-          "description": "Last known CAN connectivity state for Rectifier Unit 1.",
-          "links": [],
-          "data": {
-            "kind": "QueryGroup",
-            "spec": {
-              "queries": [
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "influxdb",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "${datasource}"
-                      },
-                      "spec": {
-                        "query": "SELECT last(\"value\") AS \"Unit 1\" FROM \"state\" WHERE (\"domain\"::tag = 'binary_sensor') AND (\"entity_id\"::tag = '${instance}_can_communication_unit_1')",
-                        "rawQuery": true,
-                        "resultFormat": "time_series"
-                      }
-                    },
-                    "refId": "A",
-                    "hidden": false
-                  }
-                }
-              ],
-              "transformations": [],
-              "queryOptions": {}
-            }
-          },
-          "vizConfig": {
-            "kind": "VizConfig",
-            "group": "stat",
-            "version": "13.2.2",
-            "spec": {
               "options": {
-                "colorMode": "value",
-                "graphMode": "none",
-                "justifyMode": "center",
-                "orientation": "auto",
-                "reduceOptions": {
-                  "calcs": [
-                    "lastNotNull"
-                  ],
-                  "fields": "",
-                  "values": false
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": false
                 },
-                "textMode": "value",
-                "showPercentChange": false,
-                "percentChangeColorMode": "standard",
-                "wideLayout": true
-              },
-              "fieldConfig": {
-                "defaults": {
-                  "mappings": [
-                    {
-                      "type": "value",
-                      "options": {
-                        "0": {
-                          "text": "Offline",
-                          "color": "red",
-                          "index": 0
-                        },
-                        "1": {
-                          "text": "Online",
-                          "color": "green",
-                          "index": 1
-                        }
-                      }
-                    }
-                  ],
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": 0,
-                        "color": "red"
-                      },
-                      {
-                        "value": 1,
-                        "color": "green"
-                      }
-                    ]
-                  },
-                  "color": {
-                    "mode": "thresholds"
-                  },
-                  "unit": "none",
-                  "decimals": 0
-                },
-                "overrides": []
-              }
-            }
-          }
-        }
-      },
-      "panel-18": {
-        "kind": "Panel",
-        "spec": {
-          "id": 18,
-          "title": "CAN Unit 2",
-          "description": "Last known CAN connectivity state for Rectifier Unit 2.",
-          "links": [],
-          "data": {
-            "kind": "QueryGroup",
-            "spec": {
-              "queries": [
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "influxdb",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "${datasource}"
-                      },
-                      "spec": {
-                        "query": "SELECT last(\"value\") AS \"Unit 2\" FROM \"state\" WHERE (\"domain\"::tag = 'binary_sensor') AND (\"entity_id\"::tag = '${instance}_can_communication_unit_2')",
-                        "rawQuery": true,
-                        "resultFormat": "time_series"
-                      }
-                    },
-                    "refId": "A",
-                    "hidden": false
-                  }
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "single",
+                  "sort": "none"
                 }
-              ],
-              "transformations": [],
-              "queryOptions": {}
-            }
-          },
-          "vizConfig": {
-            "kind": "VizConfig",
-            "group": "stat",
-            "version": "13.2.2",
-            "spec": {
-              "options": {
-                "colorMode": "value",
-                "graphMode": "none",
-                "justifyMode": "center",
-                "orientation": "auto",
-                "reduceOptions": {
-                  "calcs": [
-                    "lastNotNull"
-                  ],
-                  "fields": "",
-                  "values": false
-                },
-                "textMode": "value",
-                "showPercentChange": false,
-                "percentChangeColorMode": "standard",
-                "wideLayout": true
-              },
-              "fieldConfig": {
-                "defaults": {
-                  "mappings": [
-                    {
-                      "type": "value",
-                      "options": {
-                        "0": {
-                          "text": "Offline",
-                          "color": "red",
-                          "index": 0
-                        },
-                        "1": {
-                          "text": "Online",
-                          "color": "green",
-                          "index": 1
-                        }
-                      }
-                    }
-                  ],
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": 0,
-                        "color": "red"
-                      },
-                      {
-                        "value": 1,
-                        "color": "green"
-                      }
-                    ]
-                  },
-                  "color": {
-                    "mode": "thresholds"
-                  },
-                  "unit": "none",
-                  "decimals": 0
-                },
-                "overrides": []
               }
-            }
-          }
-        }
-      },
-      "panel-19": {
-        "kind": "Panel",
-        "spec": {
-          "id": 19,
-          "title": "CAN Unit 3",
-          "description": "Last known CAN connectivity state for Rectifier Unit 3.",
-          "links": [],
-          "data": {
-            "kind": "QueryGroup",
-            "spec": {
-              "queries": [
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "influxdb",
-                      "version": "v0",
-                      "datasource": {
-                        "name": "${datasource}"
-                      },
-                      "spec": {
-                        "query": "SELECT last(\"value\") AS \"Unit 3\" FROM \"state\" WHERE (\"domain\"::tag = 'binary_sensor') AND (\"entity_id\"::tag = '${instance}_can_communication_unit_3')",
-                        "rawQuery": true,
-                        "resultFormat": "time_series"
-                      }
-                    },
-                    "refId": "A",
-                    "hidden": false
-                  }
-                }
-              ],
-              "transformations": [],
-              "queryOptions": {}
-            }
-          },
-          "vizConfig": {
-            "kind": "VizConfig",
-            "group": "stat",
-            "version": "13.2.2",
-            "spec": {
-              "options": {
-                "colorMode": "value",
-                "graphMode": "none",
-                "justifyMode": "center",
-                "orientation": "auto",
-                "reduceOptions": {
-                  "calcs": [
-                    "lastNotNull"
-                  ],
-                  "fields": "",
-                  "values": false
-                },
-                "textMode": "value",
-                "showPercentChange": false,
-                "percentChangeColorMode": "standard",
-                "wideLayout": true
-              },
-              "fieldConfig": {
-                "defaults": {
-                  "mappings": [
-                    {
-                      "type": "value",
-                      "options": {
-                        "0": {
-                          "text": "Offline",
-                          "color": "red",
-                          "index": 0
-                        },
-                        "1": {
-                          "text": "Online",
-                          "color": "green",
-                          "index": 1
-                        }
-                      }
-                    }
-                  ],
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": 0,
-                        "color": "red"
-                      },
-                      {
-                        "value": 1,
-                        "color": "green"
-                      }
-                    ]
-                  },
-                  "color": {
-                    "mode": "thresholds"
-                  },
-                  "unit": "none",
-                  "decimals": 0
-                },
-                "overrides": []
-              }
-            }
+            },
+            "version": "13.2.3"
           }
         }
       },
       "panel-20": {
         "kind": "Panel",
         "spec": {
-          "id": 20,
-          "title": "Rectifier CAN Connectivity History",
-          "description": "CAN connectivity state changes for Rectifier Units 1-3 within the selected time range.",
-          "links": [],
           "data": {
             "kind": "QueryGroup",
             "spec": {
@@ -2438,121 +1324,78 @@
                 {
                   "kind": "PanelQuery",
                   "spec": {
+                    "hidden": false,
                     "query": {
-                      "kind": "DataQuery",
-                      "group": "influxdb",
-                      "version": "v0",
                       "datasource": {
                         "name": "${datasource}"
                       },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
                       "spec": {
                         "query": "SELECT \"value\" AS \"Unit 1\" FROM \"state\" WHERE (\"domain\"::tag = 'binary_sensor') AND (\"entity_id\"::tag = '${instance}_can_communication_unit_1') AND $timeFilter",
                         "rawQuery": true,
                         "resultFormat": "time_series"
-                      }
+                      },
+                      "version": "v0"
                     },
-                    "refId": "A",
-                    "hidden": false
+                    "refId": "A"
                   }
                 },
                 {
                   "kind": "PanelQuery",
                   "spec": {
+                    "hidden": false,
                     "query": {
-                      "kind": "DataQuery",
-                      "group": "influxdb",
-                      "version": "v0",
                       "datasource": {
                         "name": "${datasource}"
                       },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
                       "spec": {
                         "query": "SELECT \"value\" AS \"Unit 2\" FROM \"state\" WHERE (\"domain\"::tag = 'binary_sensor') AND (\"entity_id\"::tag = '${instance}_can_communication_unit_2') AND $timeFilter",
                         "rawQuery": true,
                         "resultFormat": "time_series"
-                      }
+                      },
+                      "version": "v0"
                     },
-                    "refId": "B",
-                    "hidden": false
+                    "refId": "B"
                   }
                 },
                 {
                   "kind": "PanelQuery",
                   "spec": {
+                    "hidden": false,
                     "query": {
-                      "kind": "DataQuery",
-                      "group": "influxdb",
-                      "version": "v0",
                       "datasource": {
                         "name": "${datasource}"
                       },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
                       "spec": {
                         "query": "SELECT \"value\" AS \"Unit 3\" FROM \"state\" WHERE (\"domain\"::tag = 'binary_sensor') AND (\"entity_id\"::tag = '${instance}_can_communication_unit_3') AND $timeFilter",
                         "rawQuery": true,
                         "resultFormat": "time_series"
-                      }
+                      },
+                      "version": "v0"
                     },
-                    "refId": "C",
-                    "hidden": false
+                    "refId": "C"
                   }
                 }
               ],
-              "transformations": [],
-              "queryOptions": {}
+              "queryOptions": {},
+              "transformations": []
             }
           },
+          "description": "CAN connectivity state changes for Rectifier Units 1-3 within the selected time range.",
+          "id": 20,
+          "links": [],
+          "title": "Rectifier CAN Connectivity History",
           "vizConfig": {
-            "kind": "VizConfig",
             "group": "state-timeline",
-            "version": "13.2.2",
+            "kind": "VizConfig",
             "spec": {
-              "options": {
-                "alignValue": "center",
-                "legend": {
-                  "displayMode": "list",
-                  "placement": "bottom",
-                  "showLegend": false
-                },
-                "mergeValues": true,
-                "rowHeight": 0.9,
-                "showValue": "auto",
-                "tooltip": {
-                  "hideZeros": false,
-                  "mode": "single",
-                  "sort": "none"
-                }
-              },
               "fieldConfig": {
                 "defaults": {
-                  "mappings": [
-                    {
-                      "type": "value",
-                      "options": {
-                        "0": {
-                          "text": "Offline",
-                          "color": "red",
-                          "index": 0
-                        },
-                        "1": {
-                          "text": "Online",
-                          "color": "green",
-                          "index": 1
-                        }
-                      }
-                    }
-                  ],
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": 0,
-                        "color": "red"
-                      },
-                      {
-                        "value": 1,
-                        "color": "green"
-                      }
-                    ]
-                  },
                   "color": {
                     "mode": "thresholds"
                   },
@@ -2568,292 +1411,1545 @@
                     "lineWidth": 0,
                     "spanNulls": false
                   },
+                  "decimals": 0,
                   "fieldMinMax": false,
-                  "unit": "none",
-                  "decimals": 0
+                  "mappings": [
+                    {
+                      "options": {
+                        "0": {
+                          "color": "red",
+                          "index": 0,
+                          "text": "Offline"
+                        },
+                        "1": {
+                          "color": "green",
+                          "index": 1,
+                          "text": "Online"
+                        }
+                      },
+                      "type": "value"
+                    }
+                  ],
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "red",
+                        "value": 0
+                      },
+                      {
+                        "color": "green",
+                        "value": 1
+                      }
+                    ]
+                  },
+                  "unit": "none"
                 },
                 "overrides": []
+              },
+              "options": {
+                "alignValue": "center",
+                "legend": {
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": false
+                },
+                "mergeValues": true,
+                "rowHeight": 0.9,
+                "showValue": "auto",
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "single",
+                  "sort": "none"
+                }
               }
+            },
+            "version": "13.2.3"
+          }
+        }
+      },
+      "panel-21": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "${datasource}"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "SELECT mean(\"value\") AS \"Unit 1\" FROM \"V\" WHERE (\"entity_id\"::tag = '${instance}_ac_voltage_unit_1') AND $timeFilter GROUP BY time($__interval) fill(previous)",
+                        "rawQuery": true,
+                        "resultFormat": "time_series"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "${datasource}"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "SELECT mean(\"value\") AS \"Unit 2\" FROM \"V\" WHERE (\"entity_id\"::tag = '${instance}_ac_voltage_unit_2') AND $timeFilter GROUP BY time($__interval) fill(previous)",
+                        "rawQuery": true,
+                        "resultFormat": "time_series"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "B"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "${datasource}"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "SELECT mean(\"value\") AS \"Unit 3\" FROM \"V\" WHERE (\"entity_id\"::tag = '${instance}_ac_voltage_unit_3') AND $timeFilter GROUP BY time($__interval) fill(previous)",
+                        "rawQuery": true,
+                        "resultFormat": "time_series"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "C"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
             }
+          },
+          "description": "AC input voltage of Rectifier Units 1-3.",
+          "id": 21,
+          "links": [],
+          "title": "Rectifier AC Voltage",
+          "vizConfig": {
+            "group": "timeseries",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "line",
+                    "fillOpacity": 8,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "linear",
+                    "lineWidth": 2,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "auto",
+                    "showValues": false,
+                    "spanNulls": false,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  },
+                  "decimals": 2,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  "unit": "volt"
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "multi",
+                  "sort": "none"
+                }
+              }
+            },
+            "version": "13.2.3"
+          }
+        }
+      },
+      "panel-3": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "${datasource}"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "SELECT mean(\"value\") FROM \"%\" WHERE (\"entity_id\"::tag = '${instance}_conversion_efficiency_all_units') AND $timeFilter GROUP BY time($__interval) fill(previous)",
+                        "rawQuery": true,
+                        "resultFormat": "time_series"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "Combined AC-to-DC conversion efficiency across all Rectifier Units.",
+          "id": 3,
+          "links": [],
+          "title": "Efficiency",
+          "vizConfig": {
+            "group": "timeseries",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "line",
+                    "fillOpacity": 8,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "linear",
+                    "lineWidth": 2,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "auto",
+                    "showValues": false,
+                    "spanNulls": false,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  },
+                  "decimals": 1,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  "unit": "percent"
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": false
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "single",
+                  "sort": "none"
+                }
+              }
+            },
+            "version": "13.2.3"
+          }
+        }
+      },
+      "panel-4": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "${datasource}"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "SELECT mean(\"value\") FROM \"V\" WHERE (\"entity_id\"::tag = '${instance}_average_dc_voltage_all_units') AND $timeFilter GROUP BY time($__interval) fill(previous)",
+                        "rawQuery": true,
+                        "resultFormat": "time_series"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "Average DC output voltage across all Rectifier Units.",
+          "id": 4,
+          "links": [],
+          "title": "DC Voltage",
+          "vizConfig": {
+            "group": "timeseries",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "line",
+                    "fillOpacity": 8,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "linear",
+                    "lineWidth": 2,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "auto",
+                    "showValues": false,
+                    "spanNulls": false,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  },
+                  "decimals": 2,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  "unit": "volt"
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": false
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "single",
+                  "sort": "none"
+                }
+              }
+            },
+            "version": "13.2.3"
+          }
+        }
+      },
+      "panel-5": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "${datasource}"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "SELECT mean(\"value\") FROM \"A\" WHERE (\"entity_id\"::tag = '${instance}_combined_dc_current_all_units') AND $timeFilter GROUP BY time($__interval) fill(previous)",
+                        "rawQuery": true,
+                        "resultFormat": "time_series"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "Combined DC output current across all Rectifier Units.",
+          "id": 5,
+          "links": [],
+          "title": "DC Current",
+          "vizConfig": {
+            "group": "timeseries",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "line",
+                    "fillOpacity": 8,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "linear",
+                    "lineWidth": 2,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "auto",
+                    "showValues": false,
+                    "spanNulls": false,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  },
+                  "decimals": 2,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  "unit": "amp"
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": false
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "single",
+                  "sort": "none"
+                }
+              }
+            },
+            "version": "13.2.3"
+          }
+        }
+      },
+      "panel-6": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "${datasource}"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "SELECT mean(\"value\") AS \"Requested\" FROM \"A\" WHERE (\"entity_id\"::tag = '${instance}_set_dc_current_limit') AND $timeFilter GROUP BY time($__interval) fill(previous)",
+                        "rawQuery": true,
+                        "resultFormat": "time_series"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "${datasource}"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "SELECT mean(\"value\") AS \"Effective\" FROM \"A\" WHERE (\"entity_id\"::tag = '${instance}_effective_dc_current_limit') AND $timeFilter GROUP BY time($__interval) fill(previous)",
+                        "rawQuery": true,
+                        "resultFormat": "time_series"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "B"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "${datasource}"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "SELECT mean(\"value\") AS \"Thermal\" FROM \"A\" WHERE (\"entity_id\"::tag = '${instance}_thermal_dc_current_limit') AND $timeFilter GROUP BY time($__interval) fill(previous)",
+                        "rawQuery": true,
+                        "resultFormat": "time_series"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "C"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "${datasource}"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "SELECT mean(\"value\") AS \"Applied\" FROM \"A\" WHERE (\"entity_id\"::tag = '${instance}_applied_dc_current_limit') AND $timeFilter GROUP BY time($__interval) fill(previous)",
+                        "rawQuery": true,
+                        "resultFormat": "time_series"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "D"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "Requested, effective, thermal and applied DC current limits.",
+          "id": 6,
+          "links": [],
+          "title": "DC Current Limits",
+          "vizConfig": {
+            "group": "timeseries",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "line",
+                    "fillOpacity": 8,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "linear",
+                    "lineWidth": 2,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "auto",
+                    "showValues": false,
+                    "spanNulls": false,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  },
+                  "decimals": 1,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  "unit": "amp"
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "multi",
+                  "sort": "none"
+                }
+              }
+            },
+            "version": "13.2.3"
+          }
+        }
+      },
+      "panel-7": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "${datasource}"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "SELECT mean(\"value\") AS \"Unit 1\" FROM \"W\" WHERE (\"entity_id\"::tag = '${instance}_dc_power_unit_1') AND $timeFilter GROUP BY time($__interval) fill(previous)",
+                        "rawQuery": true,
+                        "resultFormat": "time_series"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "${datasource}"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "SELECT mean(\"value\") AS \"Unit 2\" FROM \"W\" WHERE (\"entity_id\"::tag = '${instance}_dc_power_unit_2') AND $timeFilter GROUP BY time($__interval) fill(previous)",
+                        "rawQuery": true,
+                        "resultFormat": "time_series"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "B"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "${datasource}"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "SELECT mean(\"value\") AS \"Unit 3\" FROM \"W\" WHERE (\"entity_id\"::tag = '${instance}_dc_power_unit_3') AND $timeFilter GROUP BY time($__interval) fill(previous)",
+                        "rawQuery": true,
+                        "resultFormat": "time_series"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "C"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "DC output power of Rectifier Units 1-3.",
+          "id": 7,
+          "links": [],
+          "title": "Rectifier DC Power",
+          "vizConfig": {
+            "group": "timeseries",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "line",
+                    "fillOpacity": 8,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "linear",
+                    "lineWidth": 2,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "auto",
+                    "showValues": false,
+                    "spanNulls": false,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  },
+                  "decimals": 3,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  "unit": "watt"
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "multi",
+                  "sort": "none"
+                }
+              }
+            },
+            "version": "13.2.3"
+          }
+        }
+      },
+      "panel-8": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "${datasource}"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "SELECT mean(\"value\") AS \"Unit 1\" FROM \"A\" WHERE (\"entity_id\"::tag = '${instance}_dc_current_unit_1') AND $timeFilter GROUP BY time($__interval) fill(previous)",
+                        "rawQuery": true,
+                        "resultFormat": "time_series"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "${datasource}"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "SELECT mean(\"value\") AS \"Unit 2\" FROM \"A\" WHERE (\"entity_id\"::tag = '${instance}_dc_current_unit_2') AND $timeFilter GROUP BY time($__interval) fill(previous)",
+                        "rawQuery": true,
+                        "resultFormat": "time_series"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "B"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "${datasource}"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "SELECT mean(\"value\") AS \"Unit 3\" FROM \"A\" WHERE (\"entity_id\"::tag = '${instance}_dc_current_unit_3') AND $timeFilter GROUP BY time($__interval) fill(previous)",
+                        "rawQuery": true,
+                        "resultFormat": "time_series"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "C"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "DC output current of Rectifier Units 1-3.",
+          "id": 8,
+          "links": [],
+          "title": "Rectifier DC Current",
+          "vizConfig": {
+            "group": "timeseries",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "line",
+                    "fillOpacity": 8,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "linear",
+                    "lineWidth": 2,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "auto",
+                    "showValues": false,
+                    "spanNulls": false,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  },
+                  "decimals": 3,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  "unit": "amp"
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "multi",
+                  "sort": "none"
+                }
+              }
+            },
+            "version": "13.2.3"
+          }
+        }
+      },
+      "panel-9": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "${datasource}"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "SELECT mean(\"value\") AS \"Unit 1\" FROM \"°C\" WHERE (\"entity_id\"::tag = '${instance}_output_temperature_unit_1') AND $timeFilter GROUP BY time($__interval) fill(previous)",
+                        "rawQuery": true,
+                        "resultFormat": "time_series"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "${datasource}"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "SELECT mean(\"value\") AS \"Unit 2\" FROM \"°C\" WHERE (\"entity_id\"::tag = '${instance}_output_temperature_unit_2') AND $timeFilter GROUP BY time($__interval) fill(previous)",
+                        "rawQuery": true,
+                        "resultFormat": "time_series"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "B"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "${datasource}"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "SELECT mean(\"value\") AS \"Unit 3\" FROM \"°C\" WHERE (\"entity_id\"::tag = '${instance}_output_temperature_unit_3') AND $timeFilter GROUP BY time($__interval) fill(previous)",
+                        "rawQuery": true,
+                        "resultFormat": "time_series"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "C"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "Output temperature of Rectifier Units 1-3.",
+          "id": 9,
+          "links": [],
+          "title": "Rectifier Output Temperature",
+          "vizConfig": {
+            "group": "timeseries",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "line",
+                    "fillOpacity": 8,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "linear",
+                    "lineWidth": 2,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "auto",
+                    "showValues": false,
+                    "spanNulls": false,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  },
+                  "decimals": 1,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  "unit": "celsius"
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "multi",
+                  "sort": "none"
+                }
+              }
+            },
+            "version": "13.2.3"
           }
         }
       }
     },
     "layout": {
-      "kind": "GridLayout",
+      "kind": "RowsLayout",
       "spec": {
-        "items": [
+        "rows": [
           {
-            "kind": "GridLayoutItem",
+            "kind": "RowsLayoutRow",
             "spec": {
-              "x": 0,
-              "y": 0,
-              "width": 8,
-              "height": 8,
-              "element": {
-                "kind": "ElementReference",
-                "name": "panel-1"
-              }
+              "collapse": false,
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-15"
+                        },
+                        "height": 6,
+                        "width": 6,
+                        "x": 0,
+                        "y": 0
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-16"
+                        },
+                        "height": 6,
+                        "width": 6,
+                        "x": 6,
+                        "y": 0
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-17"
+                        },
+                        "height": 6,
+                        "width": 4,
+                        "x": 12,
+                        "y": 0
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-18"
+                        },
+                        "height": 6,
+                        "width": 4,
+                        "x": 16,
+                        "y": 0
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-19"
+                        },
+                        "height": 6,
+                        "width": 4,
+                        "x": 20,
+                        "y": 0
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-3"
+                        },
+                        "height": 7,
+                        "width": 24,
+                        "x": 0,
+                        "y": 6
+                      }
+                    }
+                  ]
+                }
+              },
+              "title": "Overview"
             }
           },
           {
-            "kind": "GridLayoutItem",
+            "kind": "RowsLayoutRow",
             "spec": {
-              "x": 8,
-              "y": 0,
-              "width": 8,
-              "height": 8,
-              "element": {
-                "kind": "ElementReference",
-                "name": "panel-2"
-              }
+              "collapse": false,
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-1"
+                        },
+                        "height": 7,
+                        "width": 8,
+                        "x": 0,
+                        "y": 0
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-21"
+                        },
+                        "height": 7,
+                        "width": 8,
+                        "x": 8,
+                        "y": 0
+                      }
+                    }
+                  ]
+                }
+              },
+              "title": "AC Input"
             }
           },
           {
-            "kind": "GridLayoutItem",
+            "kind": "RowsLayoutRow",
             "spec": {
-              "x": 16,
-              "y": 0,
-              "width": 8,
-              "height": 8,
-              "element": {
-                "kind": "ElementReference",
-                "name": "panel-3"
-              }
+              "collapse": true,
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-6"
+                        },
+                        "height": 10,
+                        "width": 24,
+                        "x": 0,
+                        "y": 0
+                      }
+                    }
+                  ]
+                }
+              },
+              "title": "Setpoints \u0026 Limits"
             }
           },
           {
-            "kind": "GridLayoutItem",
+            "kind": "RowsLayoutRow",
             "spec": {
-              "x": 0,
-              "y": 8,
-              "width": 12,
-              "height": 8,
-              "element": {
-                "kind": "ElementReference",
-                "name": "panel-4"
-              }
+              "collapse": true,
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-2"
+                        },
+                        "height": 8,
+                        "width": 8,
+                        "x": 0,
+                        "y": 0
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-7"
+                        },
+                        "height": 8,
+                        "width": 8,
+                        "x": 8,
+                        "y": 0
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-4"
+                        },
+                        "height": 8,
+                        "width": 8,
+                        "x": 16,
+                        "y": 0
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-5"
+                        },
+                        "height": 8,
+                        "width": 8,
+                        "x": 0,
+                        "y": 8
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-8"
+                        },
+                        "height": 8,
+                        "width": 8,
+                        "x": 8,
+                        "y": 8
+                      }
+                    }
+                  ]
+                }
+              },
+              "title": "DC Output"
             }
           },
           {
-            "kind": "GridLayoutItem",
+            "kind": "RowsLayoutRow",
             "spec": {
-              "x": 12,
-              "y": 8,
-              "width": 12,
-              "height": 8,
-              "element": {
-                "kind": "ElementReference",
-                "name": "panel-5"
-              }
+              "collapse": true,
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-9"
+                        },
+                        "height": 10,
+                        "width": 6,
+                        "x": 0,
+                        "y": 0
+                      }
+                    }
+                  ]
+                }
+              },
+              "title": "Rectifier Thermal \u0026 Fans"
             }
           },
           {
-            "kind": "GridLayoutItem",
+            "kind": "RowsLayoutRow",
             "spec": {
-              "x": 0,
-              "y": 16,
-              "width": 24,
-              "height": 10,
-              "element": {
-                "kind": "ElementReference",
-                "name": "panel-6"
-              }
+              "collapse": true,
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-10"
+                        },
+                        "height": 10,
+                        "width": 8,
+                        "x": 0,
+                        "y": 0
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-11"
+                        },
+                        "height": 10,
+                        "width": 8,
+                        "x": 8,
+                        "y": 0
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-12"
+                        },
+                        "height": 10,
+                        "width": 8,
+                        "x": 16,
+                        "y": 0
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-14"
+                        },
+                        "height": 10,
+                        "width": 8,
+                        "x": 0,
+                        "y": 10
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-13"
+                        },
+                        "height": 10,
+                        "width": 16,
+                        "x": 8,
+                        "y": 10
+                      }
+                    }
+                  ]
+                }
+              },
+              "title": "Enclosure / Compartment"
             }
           },
           {
-            "kind": "GridLayoutItem",
+            "kind": "RowsLayoutRow",
             "spec": {
-              "x": 0,
-              "y": 26,
-              "width": 6,
-              "height": 10,
-              "element": {
-                "kind": "ElementReference",
-                "name": "panel-21"
-              }
-            }
-          },
-          {
-            "kind": "GridLayoutItem",
-            "spec": {
-              "x": 6,
-              "y": 26,
-              "width": 6,
-              "height": 10,
-              "element": {
-                "kind": "ElementReference",
-                "name": "panel-7"
-              }
-            }
-          },
-          {
-            "kind": "GridLayoutItem",
-            "spec": {
-              "x": 12,
-              "y": 26,
-              "width": 6,
-              "height": 10,
-              "element": {
-                "kind": "ElementReference",
-                "name": "panel-8"
-              }
-            }
-          },
-          {
-            "kind": "GridLayoutItem",
-            "spec": {
-              "x": 18,
-              "y": 26,
-              "width": 6,
-              "height": 10,
-              "element": {
-                "kind": "ElementReference",
-                "name": "panel-9"
-              }
-            }
-          },
-          {
-            "kind": "GridLayoutItem",
-            "spec": {
-              "x": 0,
-              "y": 36,
-              "width": 8,
-              "height": 10,
-              "element": {
-                "kind": "ElementReference",
-                "name": "panel-10"
-              }
-            }
-          },
-          {
-            "kind": "GridLayoutItem",
-            "spec": {
-              "x": 8,
-              "y": 36,
-              "width": 8,
-              "height": 10,
-              "element": {
-                "kind": "ElementReference",
-                "name": "panel-11"
-              }
-            }
-          },
-          {
-            "kind": "GridLayoutItem",
-            "spec": {
-              "x": 16,
-              "y": 36,
-              "width": 8,
-              "height": 10,
-              "element": {
-                "kind": "ElementReference",
-                "name": "panel-12"
-              }
-            }
-          },
-          {
-            "kind": "GridLayoutItem",
-            "spec": {
-              "x": 0,
-              "y": 46,
-              "width": 16,
-              "height": 10,
-              "element": {
-                "kind": "ElementReference",
-                "name": "panel-13"
-              }
-            }
-          },
-          {
-            "kind": "GridLayoutItem",
-            "spec": {
-              "x": 16,
-              "y": 46,
-              "width": 8,
-              "height": 10,
-              "element": {
-                "kind": "ElementReference",
-                "name": "panel-14"
-              }
-            }
-          },
-          {
-            "kind": "GridLayoutItem",
-            "spec": {
-              "x": 0,
-              "y": 56,
-              "width": 6,
-              "height": 6,
-              "element": {
-                "kind": "ElementReference",
-                "name": "panel-15"
-              }
-            }
-          },
-          {
-            "kind": "GridLayoutItem",
-            "spec": {
-              "x": 6,
-              "y": 56,
-              "width": 6,
-              "height": 6,
-              "element": {
-                "kind": "ElementReference",
-                "name": "panel-16"
-              }
-            }
-          },
-          {
-            "kind": "GridLayoutItem",
-            "spec": {
-              "x": 12,
-              "y": 56,
-              "width": 4,
-              "height": 6,
-              "element": {
-                "kind": "ElementReference",
-                "name": "panel-17"
-              }
-            }
-          },
-          {
-            "kind": "GridLayoutItem",
-            "spec": {
-              "x": 16,
-              "y": 56,
-              "width": 4,
-              "height": 6,
-              "element": {
-                "kind": "ElementReference",
-                "name": "panel-18"
-              }
-            }
-          },
-          {
-            "kind": "GridLayoutItem",
-            "spec": {
-              "x": 20,
-              "y": 56,
-              "width": 4,
-              "height": 6,
-              "element": {
-                "kind": "ElementReference",
-                "name": "panel-19"
-              }
-            }
-          },
-          {
-            "kind": "GridLayoutItem",
-            "spec": {
-              "x": 0,
-              "y": 62,
-              "width": 24,
-              "height": 10,
-              "element": {
-                "kind": "ElementReference",
-                "name": "panel-20"
-              }
+              "collapse": true,
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-20"
+                        },
+                        "height": 10,
+                        "width": 24,
+                        "x": 0,
+                        "y": 0
+                      }
+                    }
+                  ]
+                }
+              },
+              "title": "Connectivity \u0026 Lifecycle"
             }
           }
         ]
@@ -2861,6 +2957,14 @@
     },
     "links": [],
     "liveNow": false,
+    "preferences": {
+      "layout": {
+        "kind": "GridLayout",
+        "spec": {
+          "items": []
+        }
+      }
+    },
     "preload": false,
     "tags": [
       "r4875g1",
@@ -2868,9 +2972,6 @@
       "history"
     ],
     "timeSettings": {
-      "timezone": "browser",
-      "from": "now-6h",
-      "to": "now",
       "autoRefresh": "10s",
       "autoRefreshIntervals": [
         "5s",
@@ -2884,73 +2985,68 @@
         "2h",
         "1d"
       ],
+      "fiscalYearStartMonth": 0,
+      "from": "now-6h",
       "hideTimepicker": false,
-      "fiscalYearStartMonth": 0
+      "timezone": "browser",
+      "to": "now"
     },
     "title": "R4875G1 Charger History",
     "variables": [
       {
         "kind": "DatasourceVariable",
         "spec": {
-          "name": "datasource",
-          "pluginId": "influxdb",
-          "refresh": "onDashboardLoad",
-          "regex": "",
-          "options": [],
-          "multi": false,
-          "includeAll": false,
-          "label": "Data source",
-          "hide": "dontHide",
-          "skipUrlSync": false,
           "allowCustomValue": true,
           "current": {
             "text": "",
             "value": ""
-          }
+          },
+          "hide": "dontHide",
+          "includeAll": false,
+          "label": "Data source",
+          "multi": false,
+          "name": "datasource",
+          "options": [],
+          "pluginId": "influxdb",
+          "refresh": "onDashboardLoad",
+          "regex": "",
+          "skipUrlSync": false
         }
       },
       {
         "kind": "QueryVariable",
         "spec": {
-          "name": "instance",
-          "label": "Charger",
-          "hide": "dontHide",
-          "refresh": "onDashboardLoad",
-          "skipUrlSync": false,
-          "query": {
-            "kind": "DataQuery",
-            "group": "influxdb",
-            "version": "v0",
-            "datasource": {
-              "name": "${datasource}"
-            },
-            "spec": {
-              "query": "SHOW TAG VALUES FROM \"V\" WITH KEY = \"entity_id\" WHERE \"entity_id\" =~ /_ac_voltage_unit_1$/",
-              "refId": "InfluxVariableQueryEditor-VariableQuery"
-            }
-          },
-          "regex": "/^(.*)_ac_voltage_unit_1$/",
-          "regexApplyTo": "value",
-          "sort": "disabled",
-          "definition": "SHOW TAG VALUES FROM \"V\" WITH KEY = \"entity_id\" WHERE \"entity_id\" =~ /_ac_voltage_unit_1$/",
-          "options": [],
-          "multi": false,
-          "includeAll": false,
           "allowCustomValue": true,
           "current": {
             "text": "",
             "value": ""
-          }
+          },
+          "definition": "SHOW TAG VALUES FROM \"V\" WITH KEY = \"entity_id\" WHERE \"entity_id\" =~ /_ac_voltage_unit_1$/",
+          "hide": "dontHide",
+          "includeAll": false,
+          "label": "Charger",
+          "multi": false,
+          "name": "instance",
+          "options": [],
+          "query": {
+            "datasource": {
+              "name": "${datasource}"
+            },
+            "group": "influxdb",
+            "kind": "DataQuery",
+            "spec": {
+              "query": "SHOW TAG VALUES FROM \"V\" WITH KEY = \"entity_id\" WHERE \"entity_id\" =~ /_ac_voltage_unit_1$/",
+              "refId": "InfluxVariableQueryEditor-VariableQuery"
+            },
+            "version": "v0"
+          },
+          "refresh": "onDashboardLoad",
+          "regex": "/^(.*)_ac_voltage_unit_1$/",
+          "regexApplyTo": "value",
+          "skipUrlSync": false,
+          "sort": "disabled"
         }
       }
-    ],
-    "preferences": {
-      "layout": {
-        "kind": "GridLayout",
-        "spec": {
-          "items": []
-        }
-      }
-    }
+    ]
   }
 }

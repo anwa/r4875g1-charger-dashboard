@@ -157,6 +157,26 @@ InfluxDB history
 
 The current dashboard contains the first production history views.
 
+### Dashboard sections
+
+The dashboard uses Grafana Rows to organize historical telemetry by functional
+area. Rows keep related data together and provide a stable structure for
+future telemetry additions.
+
+The current sections are:
+
+- Overview
+- AC Input
+- Setpoints & Limits
+- DC Output
+- Rectifier Thermal & Fans
+- Enclosure / Compartment
+- Connectivity & Lifecycle
+
+Overview and AC Input remain expanded by default. The larger detailed sections
+are collapsed by default so the dashboard stays compact while still allowing
+deeper analysis when needed.
+
 ### Overview
 
 - AC Power
