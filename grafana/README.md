@@ -180,14 +180,15 @@ applied limit remains directly comparable.
 
 ### Rectifiers
 
-Three comparison panels show Units 1-3 together:
+Four comparison panels show Units 1-3 together:
 
+- Rectifier AC Voltage
 - Rectifier DC Power
 - Rectifier DC Current
 - Rectifier Output Temperature
 
-This makes current sharing, per-unit power contribution and thermal balance
-directly comparable over the selected time range.
+This adds per-unit AC-input voltage visibility alongside current sharing,
+power contribution and thermal balance over the selected time range.
 
 ### Enclosure cooling
 

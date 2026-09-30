@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.0.7
+
+Grafana Rectifier AC-input voltage history.
+
+- add Rectifier AC Voltage comparison for Units 1-3
+- query the verified per-unit AC-voltage entities from the Home Assistant InfluxDB history
+- use the shared data-source and Charger-instance variables for portable queries
+- preserve sample-and-hold history with InfluxQL `fill(previous)`
+- align the new panel with the existing Rectifier comparison-panel presentation
+- update the Rectifier row to four equal-width comparison panels
+- update the Grafana dashboard documentation
+- bump the dashboard development version to 1.0.7
+
 ## 1.0.6
 
 Grafana current connectivity status and CAN state history.
