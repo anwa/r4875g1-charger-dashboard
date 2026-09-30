@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.0.6
+
+Grafana current connectivity status and CAN state history.
+
+- add time-range-independent Stats for Available Units and Running Units
+- add time-range-independent Online/Offline Stats for Rectifier CAN Units 1-3
+- query the last known current status without `$timeFilter`
+- add a State timeline for actual Rectifier CAN state changes in the selected time range
+- query unitless and binary Home Assistant entities from the verified `state` measurement
+- filter status data by the `domain` and `entity_id` tags
+- map binary CAN values to Online and Offline
+- keep current status separate from historical transition visualization
+- update the Grafana dashboard documentation
+- bump the dashboard development version to 1.0.6
+
 ## 1.0.5
 
 Grafana enclosure-cooling history.

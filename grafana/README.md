@@ -96,6 +96,11 @@ used by the project installation:
 - numeric value stored in the `value` field
 - Home Assistant entity ID stored in the `entity_id` tag
 - measurements grouped by unit, for example `V` for voltage
+- unitless sensors and binary sensors stored in the `state` measurement
+- Home Assistant domain stored in the `domain` tag
+
+The unitless and binary status queries therefore use `FROM "state"` and
+filter by both `domain` and the portable `${instance}` entity-ID prefix.
 
 These assumptions must be kept explicit when additional panels are added.
 
@@ -211,9 +216,32 @@ drawing a long linear ramp between two distant samples.
 Grafana-side `spanNulls` remains disabled. Time-series panels use a consistent
 light area fill below their lines.
 
-A communication loss can also leave the last numeric value visible. Connection
-and availability history should therefore be used to distinguish a stable
-value from stale telemetry.
+### Connectivity and availability
+
+A compact current-status row shows values independently of the selected
+dashboard time range:
+
+- Available Units
+- Running Units
+- CAN Unit 1
+- CAN Unit 2
+- CAN Unit 3
+
+These Stat panels intentionally query `last(value)` without `$timeFilter`.
+They therefore continue to show the last known state even when it was last
+written days before the currently selected history range.
+
+The CAN Stat panels map `0` to `Offline` and `1` to `Online`.
+
+`Rectifier CAN Connectivity History` is a State timeline that follows the
+selected dashboard time range and shows actual CAN state-change events for
+Units 1-3. It does not invent samples for unchanged states. If no CAN state
+change occurred inside the selected range, the timeline can be empty while
+the current-status Stats still show the last known state.
+
+A communication loss can leave other `fill(previous)` telemetry at its last
+known value, while the current CAN Stats and State timeline provide the
+connectivity context needed to interpret that data.
 
 Additional historical sections are added in small reviewed steps while
 preserving normal-import and Git-Sync compatibility.
