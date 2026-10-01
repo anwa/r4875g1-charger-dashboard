@@ -185,6 +185,28 @@ deeper analysis when needed.
 - DC Voltage
 - DC Current
 
+### AC Input
+
+The AC Input section prioritizes power and keeps voltage, current and frequency
+as supporting diagnostic values.
+
+Aggregate Charger telemetry:
+
+- AC Power
+- AC Voltage
+- AC Current
+
+Per-Rectifier comparison telemetry:
+
+- Rectifier AC Power
+- Rectifier AC Voltage
+- Rectifier AC Current
+- Rectifier AC Frequency
+
+The per-Rectifier panels compare Units 1-3 using the shared `${datasource}` and
+`${instance}` variables and retain sample-and-hold behavior with
+InfluxQL `fill(previous)`.
+
 ### DC Current Limits
 
 One combined time-series panel compares:

@@ -1,5 +1,22 @@
 # Changelog
 
+
+## 1.0.9
+
+Complete Grafana AC-input history.
+
+- add aggregate AC Voltage history
+- add aggregate AC Current history
+- add Rectifier AC Current comparison for Units 1-3
+- add Rectifier AC Power comparison for Units 1-3
+- add Rectifier AC Frequency comparison for Units 1-3
+- keep AC power as the primary value in aggregate and per-Rectifier layouts
+- preserve portable datasource and Charger-instance variables
+- preserve sample-and-hold history with InfluxQL `fill(previous)`
+- keep multi-series Rectifier tooltips consistent
+- update the AC Input dashboard section
+- bump the dashboard development version to 1.0.9
+
 ## 1.0.8
 
 Grafana dashboard section architecture.
