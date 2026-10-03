@@ -130,7 +130,7 @@
                   "showLegend": false
                 },
                 "tooltip": {
-                  "hideZeros": true,
+                  "hideZeros": false,
                   "mode": "multi",
                   "sort": "none"
                 }
@@ -790,7 +790,7 @@
                       }
                     ]
                   },
-                  "unit": "none"
+                  "unit": "suffix: / 3"
                 },
                 "overrides": []
               },
@@ -808,6 +808,7 @@
                   "values": false
                 },
                 "showPercentChange": false,
+                "text": {},
                 "textMode": "value",
                 "wideLayout": true
               }
@@ -871,7 +872,7 @@
                       }
                     ]
                   },
-                  "unit": "none"
+                  "unit": "suffix: / 3"
                 },
                 "overrides": []
               },
@@ -889,6 +890,7 @@
                   "values": false
                 },
                 "showPercentChange": false,
+                "text": {},
                 "textMode": "value",
                 "wideLayout": true
               }
@@ -915,6 +917,7 @@
                       "group": "influxdb",
                       "kind": "DataQuery",
                       "spec": {
+                        "alias": "Unit 1",
                         "query": "SELECT last(\"value\") AS \"Unit 1\" FROM \"state\" WHERE (\"domain\"::tag = 'binary_sensor') AND (\"entity_id\"::tag = '${instance}_can_communication_unit_1')",
                         "rawQuery": true,
                         "resultFormat": "time_series"
@@ -922,6 +925,48 @@
                       "version": "v0"
                     },
                     "refId": "A"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "${datasource}"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "alias": "Unit 2",
+                        "query": "SELECT last(\"value\") AS \"Unit 2\" FROM \"state\" WHERE (\"domain\"::tag = 'binary_sensor') AND (\"entity_id\"::tag = '${instance}_can_communication_unit_2')",
+                        "rawQuery": true,
+                        "resultFormat": "time_series"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "B"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "${datasource}"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "alias": "Unit 3",
+                        "query": "SELECT last(\"value\") AS \"Unit 3\" FROM \"state\" WHERE (\"domain\"::tag = 'binary_sensor') AND (\"entity_id\"::tag = '${instance}_can_communication_unit_3')",
+                        "rawQuery": true,
+                        "resultFormat": "time_series"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "C"
                   }
                 }
               ],
@@ -932,7 +977,7 @@
           "description": "Last known CAN connectivity state for Rectifier Unit 1.",
           "id": 17,
           "links": [],
-          "title": "CAN Unit 1",
+          "title": "CAN communication",
           "vizConfig": {
             "group": "stat",
             "kind": "VizConfig",
@@ -940,6 +985,7 @@
               "fieldConfig": {
                 "defaults": {
                   "color": {
+                    "fixedColor": "#ad46ff",
                     "mode": "thresholds"
                   },
                   "decimals": 0,
@@ -979,8 +1025,8 @@
               },
               "options": {
                 "colorMode": "value",
-                "graphMode": "none",
-                "justifyMode": "center",
+                "graphMode": "area",
+                "justifyMode": "auto",
                 "orientation": "auto",
                 "percentChangeColorMode": "standard",
                 "reduceOptions": {
@@ -991,211 +1037,8 @@
                   "values": false
                 },
                 "showPercentChange": false,
-                "textMode": "value",
-                "wideLayout": true
-              }
-            },
-            "version": "13.2.3"
-          }
-        }
-      },
-      "panel-18": {
-        "kind": "Panel",
-        "spec": {
-          "data": {
-            "kind": "QueryGroup",
-            "spec": {
-              "queries": [
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "hidden": false,
-                    "query": {
-                      "datasource": {
-                        "name": "${datasource}"
-                      },
-                      "group": "influxdb",
-                      "kind": "DataQuery",
-                      "spec": {
-                        "query": "SELECT last(\"value\") AS \"Unit 2\" FROM \"state\" WHERE (\"domain\"::tag = 'binary_sensor') AND (\"entity_id\"::tag = '${instance}_can_communication_unit_2')",
-                        "rawQuery": true,
-                        "resultFormat": "time_series"
-                      },
-                      "version": "v0"
-                    },
-                    "refId": "A"
-                  }
-                }
-              ],
-              "queryOptions": {},
-              "transformations": []
-            }
-          },
-          "description": "Last known CAN connectivity state for Rectifier Unit 2.",
-          "id": 18,
-          "links": [],
-          "title": "CAN Unit 2",
-          "vizConfig": {
-            "group": "stat",
-            "kind": "VizConfig",
-            "spec": {
-              "fieldConfig": {
-                "defaults": {
-                  "color": {
-                    "mode": "thresholds"
-                  },
-                  "decimals": 0,
-                  "mappings": [
-                    {
-                      "options": {
-                        "0": {
-                          "color": "red",
-                          "index": 0,
-                          "text": "Offline"
-                        },
-                        "1": {
-                          "color": "green",
-                          "index": 1,
-                          "text": "Online"
-                        }
-                      },
-                      "type": "value"
-                    }
-                  ],
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "color": "red",
-                        "value": 0
-                      },
-                      {
-                        "color": "green",
-                        "value": 1
-                      }
-                    ]
-                  },
-                  "unit": "none"
-                },
-                "overrides": []
-              },
-              "options": {
-                "colorMode": "value",
-                "graphMode": "none",
-                "justifyMode": "center",
-                "orientation": "auto",
-                "percentChangeColorMode": "standard",
-                "reduceOptions": {
-                  "calcs": [
-                    "lastNotNull"
-                  ],
-                  "fields": "",
-                  "values": false
-                },
-                "showPercentChange": false,
-                "textMode": "value",
-                "wideLayout": true
-              }
-            },
-            "version": "13.2.3"
-          }
-        }
-      },
-      "panel-19": {
-        "kind": "Panel",
-        "spec": {
-          "data": {
-            "kind": "QueryGroup",
-            "spec": {
-              "queries": [
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "hidden": false,
-                    "query": {
-                      "datasource": {
-                        "name": "${datasource}"
-                      },
-                      "group": "influxdb",
-                      "kind": "DataQuery",
-                      "spec": {
-                        "query": "SELECT last(\"value\") AS \"Unit 3\" FROM \"state\" WHERE (\"domain\"::tag = 'binary_sensor') AND (\"entity_id\"::tag = '${instance}_can_communication_unit_3')",
-                        "rawQuery": true,
-                        "resultFormat": "time_series"
-                      },
-                      "version": "v0"
-                    },
-                    "refId": "A"
-                  }
-                }
-              ],
-              "queryOptions": {},
-              "transformations": []
-            }
-          },
-          "description": "Last known CAN connectivity state for Rectifier Unit 3.",
-          "id": 19,
-          "links": [],
-          "title": "CAN Unit 3",
-          "vizConfig": {
-            "group": "stat",
-            "kind": "VizConfig",
-            "spec": {
-              "fieldConfig": {
-                "defaults": {
-                  "color": {
-                    "mode": "thresholds"
-                  },
-                  "decimals": 0,
-                  "mappings": [
-                    {
-                      "options": {
-                        "0": {
-                          "color": "red",
-                          "index": 0,
-                          "text": "Offline"
-                        },
-                        "1": {
-                          "color": "green",
-                          "index": 1,
-                          "text": "Online"
-                        }
-                      },
-                      "type": "value"
-                    }
-                  ],
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "color": "red",
-                        "value": 0
-                      },
-                      {
-                        "color": "green",
-                        "value": 1
-                      }
-                    ]
-                  },
-                  "unit": "none"
-                },
-                "overrides": []
-              },
-              "options": {
-                "colorMode": "value",
-                "graphMode": "none",
-                "justifyMode": "center",
-                "orientation": "auto",
-                "percentChangeColorMode": "standard",
-                "reduceOptions": {
-                  "calcs": [
-                    "lastNotNull"
-                  ],
-                  "fields": "",
-                  "values": false
-                },
-                "showPercentChange": false,
-                "textMode": "value",
+                "text": {},
+                "textMode": "auto",
                 "wideLayout": true
               }
             },
@@ -1632,7 +1475,7 @@
                     "hidden": false,
                     "query": {
                       "datasource": {
-                        "name": "cdvvmt3acd8g0c"
+                        "name": "${datasource}"
                       },
                       "group": "influxdb",
                       "kind": "DataQuery",
@@ -1724,7 +1567,7 @@
                   "showLegend": true
                 },
                 "tooltip": {
-                  "hideZeros": true,
+                  "hideZeros": false,
                   "mode": "multi",
                   "sort": "none"
                 }
@@ -1747,7 +1590,7 @@
                     "hidden": false,
                     "query": {
                       "datasource": {
-                        "name": "cdvvmt3acd8g0c"
+                        "name": "${datasource}"
                       },
                       "group": "influxdb",
                       "kind": "DataQuery",
@@ -1839,7 +1682,7 @@
                   "showLegend": true
                 },
                 "tooltip": {
-                  "hideZeros": true,
+                  "hideZeros": false,
                   "mode": "multi",
                   "sort": "none"
                 }
@@ -1862,7 +1705,7 @@
                     "hidden": false,
                     "query": {
                       "datasource": {
-                        "name": "cdvvmt3acd8g0c"
+                        "name": "${datasource}"
                       },
                       "group": "influxdb",
                       "kind": "DataQuery",
@@ -1882,7 +1725,7 @@
                     "hidden": false,
                     "query": {
                       "datasource": {
-                        "name": "cdvvmt3acd8g0c"
+                        "name": "${datasource}"
                       },
                       "group": "influxdb",
                       "kind": "DataQuery",
@@ -1902,7 +1745,7 @@
                     "hidden": false,
                     "query": {
                       "datasource": {
-                        "name": "cdvvmt3acd8g0c"
+                        "name": "${datasource}"
                       },
                       "group": "influxdb",
                       "kind": "DataQuery",
@@ -2017,7 +1860,7 @@
                     "hidden": false,
                     "query": {
                       "datasource": {
-                        "name": "cdvvmt3acd8g0c"
+                        "name": "${datasource}"
                       },
                       "group": "influxdb",
                       "kind": "DataQuery",
@@ -2037,7 +1880,7 @@
                     "hidden": false,
                     "query": {
                       "datasource": {
-                        "name": "cdvvmt3acd8g0c"
+                        "name": "${datasource}"
                       },
                       "group": "influxdb",
                       "kind": "DataQuery",
@@ -2057,7 +1900,7 @@
                     "hidden": false,
                     "query": {
                       "datasource": {
-                        "name": "cdvvmt3acd8g0c"
+                        "name": "${datasource}"
                       },
                       "group": "influxdb",
                       "kind": "DataQuery",
@@ -2172,7 +2015,7 @@
                     "hidden": false,
                     "query": {
                       "datasource": {
-                        "name": "cdvvmt3acd8g0c"
+                        "name": "${datasource}"
                       },
                       "group": "influxdb",
                       "kind": "DataQuery",
@@ -2192,7 +2035,7 @@
                     "hidden": false,
                     "query": {
                       "datasource": {
-                        "name": "cdvvmt3acd8g0c"
+                        "name": "${datasource}"
                       },
                       "group": "influxdb",
                       "kind": "DataQuery",
@@ -2212,7 +2055,7 @@
                     "hidden": false,
                     "query": {
                       "datasource": {
-                        "name": "cdvvmt3acd8g0c"
+                        "name": "${datasource}"
                       },
                       "group": "influxdb",
                       "kind": "DataQuery",
@@ -2308,6 +2151,270 @@
                   "mode": "multi",
                   "sort": "none"
                 }
+              }
+            },
+            "version": "13.2.3"
+          }
+        }
+      },
+      "panel-27": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "${datasource}"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "SELECT last(\"value\") AS \"AC Current Limit\"\nFROM \"A\"\nWHERE (\"entity_id\"::tag = '${instance}_set_ac_current_limit')",
+                        "rawQuery": true,
+                        "resultFormat": "time_series"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 27,
+          "links": [],
+          "title": "AC Current Limit",
+          "vizConfig": {
+            "group": "stat",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "thresholds"
+                  },
+                  "decimals": 1,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      },
+                      {
+                        "color": "red",
+                        "value": 80
+                      }
+                    ]
+                  },
+                  "unit": "amp"
+                },
+                "overrides": []
+              },
+              "options": {
+                "colorMode": "value",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "percentChangeColorMode": "standard",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "showPercentChange": false,
+                "text": {
+                  "valueSize": 120
+                },
+                "textMode": "auto",
+                "wideLayout": true
+              }
+            },
+            "version": "13.2.3"
+          }
+        }
+      },
+      "panel-28": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "${datasource}"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "SELECT last(\"value\") AS \"DC Voltage Setpoint\"\nFROM \"V\"\nWHERE (\"entity_id\"::tag = '${instance}_set_dc_voltage_limit')",
+                        "rawQuery": true,
+                        "resultFormat": "time_series"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 28,
+          "links": [],
+          "title": "DC Voltage Setpoint",
+          "vizConfig": {
+            "group": "stat",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "thresholds"
+                  },
+                  "decimals": 2,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      },
+                      {
+                        "color": "red",
+                        "value": 80
+                      }
+                    ]
+                  },
+                  "unit": "volt"
+                },
+                "overrides": []
+              },
+              "options": {
+                "colorMode": "value",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "percentChangeColorMode": "standard",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "showPercentChange": false,
+                "text": {
+                  "valueSize": 120
+                },
+                "textMode": "auto",
+                "wideLayout": true
+              }
+            },
+            "version": "13.2.3"
+          }
+        }
+      },
+      "panel-29": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "${datasource}"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "SELECT last(\"value\") AS \"DC Sum Power Setpoint\"\nFROM \"kW\"\nWHERE (\"entity_id\"::tag = '${instance}_set_dc_sum_power')",
+                        "rawQuery": true,
+                        "resultFormat": "time_series"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 29,
+          "links": [],
+          "title": "DC Sum Power Setpoint",
+          "vizConfig": {
+            "group": "stat",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "thresholds"
+                  },
+                  "decimals": 1,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      },
+                      {
+                        "color": "red",
+                        "value": 80
+                      }
+                    ]
+                  },
+                  "unit": "kwatt"
+                },
+                "overrides": []
+              },
+              "options": {
+                "colorMode": "value",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "percentChangeColorMode": "standard",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "showPercentChange": false,
+                "text": {
+                  "valueSize": 120
+                },
+                "textMode": "auto",
+                "wideLayout": true
               }
             },
             "version": "13.2.3"
@@ -2419,6 +2526,182 @@
                   "mode": "single",
                   "sort": "none"
                 }
+              }
+            },
+            "version": "13.2.3"
+          }
+        }
+      },
+      "panel-30": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "${datasource}"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "SELECT last(\"value\") AS \"Fallback DC Voltage\"\nFROM \"V\"\nWHERE (\"entity_id\"::tag = '${instance}_set_dc_voltage_limit_fallback')",
+                        "rawQuery": true,
+                        "resultFormat": "time_series"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 30,
+          "links": [],
+          "title": "Fallback DC Voltage",
+          "vizConfig": {
+            "group": "stat",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "thresholds"
+                  },
+                  "decimals": 2,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      },
+                      {
+                        "color": "red",
+                        "value": 80
+                      }
+                    ]
+                  },
+                  "unit": "volt"
+                },
+                "overrides": []
+              },
+              "options": {
+                "colorMode": "value",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "percentChangeColorMode": "standard",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "showPercentChange": false,
+                "text": {
+                  "valueSize": 120
+                },
+                "textMode": "auto",
+                "wideLayout": true
+              }
+            },
+            "version": "13.2.3"
+          }
+        }
+      },
+      "panel-31": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "${datasource}"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "SELECT last(\"value\") AS \"Fallback DC Current\"\nFROM \"A\"\nWHERE (\"entity_id\"::tag = '${instance}_set_dc_current_limit_fallback')\n",
+                        "rawQuery": true,
+                        "resultFormat": "time_series"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 31,
+          "links": [],
+          "title": "Fallback DC Current",
+          "vizConfig": {
+            "group": "stat",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "thresholds"
+                  },
+                  "decimals": 1,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      },
+                      {
+                        "color": "red",
+                        "value": 80
+                      }
+                    ]
+                  },
+                  "unit": "amp"
+                },
+                "overrides": []
+              },
+              "options": {
+                "colorMode": "value",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "percentChangeColorMode": "standard",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "showPercentChange": false,
+                "text": {
+                  "valueSize": 120
+                },
+                "textMode": "auto",
+                "wideLayout": true
               }
             },
             "version": "13.2.3"
@@ -3291,8 +3574,8 @@
                           "kind": "ElementReference",
                           "name": "panel-15"
                         },
-                        "height": 6,
-                        "width": 6,
+                        "height": 4,
+                        "width": 4,
                         "x": 0,
                         "y": 0
                       }
@@ -3304,9 +3587,22 @@
                           "kind": "ElementReference",
                           "name": "panel-16"
                         },
-                        "height": 6,
-                        "width": 6,
-                        "x": 6,
+                        "height": 4,
+                        "width": 4,
+                        "x": 4,
+                        "y": 0
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-3"
+                        },
+                        "height": 10,
+                        "width": 16,
+                        "x": 8,
                         "y": 0
                       }
                     },
@@ -3318,48 +3614,9 @@
                           "name": "panel-17"
                         },
                         "height": 6,
-                        "width": 4,
-                        "x": 12,
-                        "y": 0
-                      }
-                    },
-                    {
-                      "kind": "GridLayoutItem",
-                      "spec": {
-                        "element": {
-                          "kind": "ElementReference",
-                          "name": "panel-18"
-                        },
-                        "height": 6,
-                        "width": 4,
-                        "x": 16,
-                        "y": 0
-                      }
-                    },
-                    {
-                      "kind": "GridLayoutItem",
-                      "spec": {
-                        "element": {
-                          "kind": "ElementReference",
-                          "name": "panel-19"
-                        },
-                        "height": 6,
-                        "width": 4,
-                        "x": 20,
-                        "y": 0
-                      }
-                    },
-                    {
-                      "kind": "GridLayoutItem",
-                      "spec": {
-                        "element": {
-                          "kind": "ElementReference",
-                          "name": "panel-3"
-                        },
-                        "height": 7,
-                        "width": 24,
+                        "width": 8,
                         "x": 0,
-                        "y": 6
+                        "y": 4
                       }
                     }
                   ]
@@ -3476,7 +3733,7 @@
           {
             "kind": "RowsLayoutRow",
             "spec": {
-              "collapse": true,
+              "collapse": false,
               "layout": {
                 "kind": "GridLayout",
                 "spec": {
@@ -3486,12 +3743,77 @@
                       "spec": {
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-6"
+                          "name": "panel-28"
                         },
-                        "height": 10,
-                        "width": 24,
+                        "height": 8,
+                        "width": 8,
                         "x": 0,
                         "y": 0
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-29"
+                        },
+                        "height": 8,
+                        "width": 8,
+                        "x": 8,
+                        "y": 0
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-27"
+                        },
+                        "height": 8,
+                        "width": 8,
+                        "x": 16,
+                        "y": 0
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-30"
+                        },
+                        "height": 8,
+                        "width": 8,
+                        "x": 0,
+                        "y": 8
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-31"
+                        },
+                        "height": 8,
+                        "width": 8,
+                        "x": 8,
+                        "y": 8
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-6"
+                        },
+                        "height": 8,
+                        "width": 8,
+                        "x": 16,
+                        "y": 8
                       }
                     }
                   ]
@@ -3503,7 +3825,7 @@
           {
             "kind": "RowsLayoutRow",
             "spec": {
-              "collapse": true,
+              "collapse": false,
               "layout": {
                 "kind": "GridLayout",
                 "spec": {
@@ -3582,7 +3904,7 @@
           {
             "kind": "RowsLayoutRow",
             "spec": {
-              "collapse": true,
+              "collapse": false,
               "layout": {
                 "kind": "GridLayout",
                 "spec": {
@@ -3688,7 +4010,7 @@
           {
             "kind": "RowsLayoutRow",
             "spec": {
-              "collapse": true,
+              "collapse": false,
               "layout": {
                 "kind": "GridLayout",
                 "spec": {

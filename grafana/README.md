@@ -207,18 +207,33 @@ The per-Rectifier panels compare Units 1-3 using the shared `${datasource}` and
 `${instance}` variables and retain sample-and-hold behavior with
 InfluxQL `fill(previous)`.
 
-### DC Current Limits
+### Setpoints & Limits
 
-One combined time-series panel compares:
+The Setpoints & Limits section separates current setpoint state from historical
+limit behavior.
+
+Current-value Stat panels show the last known value independently of the
+selected dashboard time range:
+
+- AC Current Limit
+- DC Voltage Setpoint
+- DC Sum Power Setpoint
+- Fallback DC Voltage
+- Fallback DC Current
+
+These panels intentionally use `last(value)` without `$timeFilter` because the
+setpoints may remain unchanged for days or weeks.
+
+DC Current Limits remains a time-series comparison of:
 
 - Requested
 - Effective
 - Thermal
 - Applied
 
-The limits panel uses one shared Ampere scale so the relationship between the
-requested setpoint, Controller capability limit, thermal limit and actually
-applied limit remains directly comparable.
+The limits panel follows the selected dashboard time range and keeps all four
+Ampere values on one shared scale so requested, capability, thermal and applied
+limits remain directly comparable.
 
 ### Rectifiers
 

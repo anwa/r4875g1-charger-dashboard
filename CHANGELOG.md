@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.0.10
+
+Complete Grafana setpoint and limit presentation.
+
+- add current-value Stats for AC Current Limit
+- add current-value Stats for DC Voltage and DC Sum Power setpoints
+- add current-value Stats for fallback DC Voltage and Current setpoints
+- query current setpoints with time-range-independent `last()` queries
+- keep DC Current Limits as historical Requested, Effective, Thermal and Applied time series
+- compact Available and Running Units presentation
+- consolidate current CAN communication status in Overview
+- keep CAN connectivity history as a separate State timeline
+- preserve portable datasource and Charger-instance variables
+- update Grafana dashboard layout and presentation
+- bump the dashboard development version to 1.0.10
 
 ## 1.0.9
 
