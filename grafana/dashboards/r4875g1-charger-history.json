@@ -3944,7 +3944,7 @@
                   ]
                 }
               },
-              "title": "Rectifier Thermal \u0026 Fans"
+              "title": "Rectifier Thermal"
             }
           },
           {
@@ -4029,7 +4029,7 @@
           {
             "kind": "RowsLayoutRow",
             "spec": {
-              "collapse": true,
+              "collapse": false,
               "layout": {
                 "kind": "GridLayout",
                 "spec": {
@@ -4050,7 +4050,7 @@
                   ]
                 }
               },
-              "title": "Connectivity \u0026 Lifecycle"
+              "title": "Connectivity"
             }
           }
         ]
