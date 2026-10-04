@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.0.11
+
+Improve historical telemetry consistency and dashboard documentation.
+
+- use dedicated heartbeat-enabled sensors for Rectifier CAN connectivity history
+- use Requested DC Current Limit telemetry for historical current-limit analysis
+- keep current CAN communication status on the authoritative binary sensors
+- complete and correct panel descriptions across the Grafana dashboard
+- align row titles with their actual telemetry content
+- expand the Rectifier thermal comparison to the full row width
+- align Grafana documentation with the current dashboard layout and history behavior
+- preserve portable datasource and Charger-instance variables
+- bump the dashboard version to 1.0.11
+
 ## 1.0.10
 
 Complete Grafana setpoint and limit presentation.
