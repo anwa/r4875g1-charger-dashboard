@@ -212,17 +212,21 @@ DC Current Limits remains a time-series comparison of:
 
 The limits panel follows the selected dashboard time range and keeps all four Ampere values on one shared scale so requested, capability, thermal and applied limits remain directly comparable.
 
-### Rectifiers
+### DC Output
 
-Four comparison panels show Units 1-3 together:
+The DC Output section contains aggregate Charger output telemetry and per-Rectifier comparisons:
 
-- Rectifier AC Voltage
+- DC Power
 - Rectifier DC Power
+- DC Voltage
+- DC Current
 - Rectifier DC Current
-- Rectifier Output Temperature
 
-This adds per-unit AC-input voltage visibility alongside current sharing,
-power contribution and thermal balance over the selected time range.
+The per-Rectifier panels compare Units 1-3 while the aggregate panels show the Charger-wide output behavior over the selected time range.
+
+### Rectifier Thermal
+
+The Rectifier Thermal section contains the output-temperature comparison for Rectifier Units 1-3 over the selected time range.
 
 ### Enclosure / Compartment
 
