@@ -3513,6 +3513,7 @@
                     "axisColorMode": "text",
                     "axisLabel": "",
                     "axisPlacement": "auto",
+                    "axisWidth": 24,
                     "barAlignment": 0,
                     "barWidthFactor": 0.6,
                     "drawStyle": "line",
@@ -3844,7 +3845,7 @@
           {
             "kind": "RowsLayoutRow",
             "spec": {
-              "collapse": true,
+              "collapse": false,
               "layout": {
                 "kind": "GridLayout",
                 "spec": {
@@ -3923,7 +3924,7 @@
           {
             "kind": "RowsLayoutRow",
             "spec": {
-              "collapse": true,
+              "collapse": false,
               "layout": {
                 "kind": "GridLayout",
                 "spec": {
@@ -3935,8 +3936,8 @@
                           "kind": "ElementReference",
                           "name": "panel-9"
                         },
-                        "height": 10,
-                        "width": 6,
+                        "height": 8,
+                        "width": 8,
                         "x": 0,
                         "y": 0
                       }
@@ -4029,7 +4030,7 @@
           {
             "kind": "RowsLayoutRow",
             "spec": {
-              "collapse": false,
+              "collapse": true,
               "layout": {
                 "kind": "GridLayout",
                 "spec": {
