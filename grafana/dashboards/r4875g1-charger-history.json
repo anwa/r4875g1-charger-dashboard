@@ -1175,7 +1175,8 @@
                       "group": "influxdb",
                       "kind": "DataQuery",
                       "spec": {
-                        "query": "SELECT \"value\" AS \"Unit 1\" FROM \"state\" WHERE (\"domain\"::tag = 'binary_sensor') AND (\"entity_id\"::tag = '${instance}_can_communication_unit_1') AND $timeFilter",
+                        "alias": "Unit 1",
+                        "query": "SELECT \"value\" AS \"Unit 1\" FROM \"state\" WHERE (\"domain\"::tag = 'sensor') AND (\"entity_id\"::tag = '${instance}_can_communication_state_unit_1') AND $timeFilter",
                         "rawQuery": true,
                         "resultFormat": "time_series"
                       },
@@ -1195,7 +1196,8 @@
                       "group": "influxdb",
                       "kind": "DataQuery",
                       "spec": {
-                        "query": "SELECT \"value\" AS \"Unit 2\" FROM \"state\" WHERE (\"domain\"::tag = 'binary_sensor') AND (\"entity_id\"::tag = '${instance}_can_communication_unit_2') AND $timeFilter",
+                        "alias": "Unit 2",
+                        "query": "SELECT \"value\" AS \"Unit 2\" FROM \"state\" WHERE (\"domain\"::tag = 'sensor') AND (\"entity_id\"::tag = '${instance}_can_communication_state_unit_2') AND $timeFilter",
                         "rawQuery": true,
                         "resultFormat": "time_series"
                       },
@@ -1215,7 +1217,8 @@
                       "group": "influxdb",
                       "kind": "DataQuery",
                       "spec": {
-                        "query": "SELECT \"value\" AS \"Unit 3\" FROM \"state\" WHERE (\"domain\"::tag = 'binary_sensor') AND (\"entity_id\"::tag = '${instance}_can_communication_unit_3') AND $timeFilter",
+                        "alias": "Unit 3",
+                        "query": "SELECT \"value\" AS \"Unit 3\" FROM \"state\" WHERE (\"domain\"::tag = 'sensor') AND (\"entity_id\"::tag = '${instance}_can_communication_state_unit_3') AND $timeFilter",
                         "rawQuery": true,
                         "resultFormat": "time_series"
                       },
@@ -3628,7 +3631,7 @@
           {
             "kind": "RowsLayoutRow",
             "spec": {
-              "collapse": false,
+              "collapse": true,
               "layout": {
                 "kind": "GridLayout",
                 "spec": {
@@ -3733,7 +3736,7 @@
           {
             "kind": "RowsLayoutRow",
             "spec": {
-              "collapse": false,
+              "collapse": true,
               "layout": {
                 "kind": "GridLayout",
                 "spec": {
@@ -3825,7 +3828,7 @@
           {
             "kind": "RowsLayoutRow",
             "spec": {
-              "collapse": false,
+              "collapse": true,
               "layout": {
                 "kind": "GridLayout",
                 "spec": {
@@ -3904,7 +3907,7 @@
           {
             "kind": "RowsLayoutRow",
             "spec": {
-              "collapse": false,
+              "collapse": true,
               "layout": {
                 "kind": "GridLayout",
                 "spec": {
