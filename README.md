@@ -130,6 +130,7 @@ The current frontend provides:
 - advanced DC current-setpoint control using Backend API Number metadata
 - internal rectifier-fan minimum-duty control using Backend API Number metadata
 - expandable live detail views for Rectifier Units 1-3
+- optional per-Rectifier Huawei `0x0183` alarm/status display with active-bit summary and full 32-bit detail
 - per-rectifier START and STOP with confirmation and observed-state completion
 - enclosure environment telemetry for the Charger housing
 - enclosure fan control with automatic mode, fan power, manual PWM and live fan telemetry
@@ -267,6 +268,11 @@ Each Rectifier has its own collapsible row. The collapsed row provides a compact
 - input and output temperatures
 - internal Rectifier fan speed, minimum duty and target duty
 - operating hours
+- optional Huawei `0x0183` alarm/status telemetry with the raw status word, currently active bits and a full 32-bit diagnostic view
+
+The **Alarm / Status** group is shown only when the backend exposes the optional `rectifier_alarm_status` capability. It displays diagnostic telemetry only. A set bit is presented as an active status condition and is not automatically interpreted by the dashboard as a Charger fault or safety decision.
+
+The bit meanings follow the Huawei reference mapping exposed by the Charger Controller. Only a subset can be safely reproduced and independently verified on the R4875G1.
 
 The **Thermal and fan** group in this section belongs to the Rectifier itself. It must not be confused with the separate enclosure fans described below.
 
@@ -514,7 +520,7 @@ Current baseline:
 
 - Home Assistant 2026.8 or newer
 - Backend API v1
-- R4875G1 Charger backend 1.3.0 or newer
+- R4875G1 Charger backend 1.4.0 or newer
 - Home Assistant Contract 1
 
 

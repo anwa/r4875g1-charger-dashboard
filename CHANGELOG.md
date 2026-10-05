@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.1.0
+
+Rectifier alarm/status live dashboard milestone.
+
+- consume the optional Backend API `rectifier_alarm_status` capability
+- add a per-Rectifier Alarm / Status section to the live dashboard
+- show the raw Huawei `0x0183` status word for each Rectifier
+- highlight currently active alarm/status bits
+- provide an expandable view of all 32 documented status bits
+- keep alarm/status presentation read-only and separate from Charger safety and control logic
+- remain compatible with Charger Controllers that do not expose the optional alarm/status capability
+- require R4875G1 Charger backend 1.4.0 or newer for alarm/status presentation
+- bump the dashboard version to 1.1.0
+
 ## 1.0.11
 
 Improve historical telemetry consistency and dashboard documentation.

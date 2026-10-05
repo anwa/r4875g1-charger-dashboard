@@ -18,6 +18,41 @@ const RECTIFIER_UNITS = [1, 2, 3] as const;
 
 type RectifierUnit = typeof RECTIFIER_UNITS[number];
 
+const RECTIFIER_ALARM_STATUS_BITS = [
+  { bit: 0, suffix: "output_overvoltage_lockout", label: "Output overvoltage lockout" },
+  { bit: 1, suffix: "overtemperature_shutdown", label: "Overtemperature shutdown" },
+  { bit: 2, suffix: "fault_shutdown", label: "Fault shutdown" },
+  { bit: 3, suffix: "protection_shutdown", label: "Protection shutdown" },
+  { bit: 4, suffix: "internal_fan_fault", label: "Internal fan fault" },
+  { bit: 5, suffix: "eeprom_error", label: "EEPROM error" },
+  { bit: 6, suffix: "output_overcurrent", label: "Output overcurrent" },
+  { bit: 7, suffix: "output_undervoltage", label: "Output undervoltage" },
+  { bit: 8, suffix: "low_temperature_shutdown", label: "Low temperature shutdown" },
+  { bit: 9, suffix: "module_power_off", label: "Module power off" },
+  { bit: 10, suffix: "fan_full_speed_mode", label: "Fan full speed mode" },
+  { bit: 11, suffix: "reserved_bit_11", label: "Reserved bit 11" },
+  { bit: 12, suffix: "internal_overtemperature", label: "Internal overtemperature" },
+  { bit: 13, suffix: "software_address_rearrangement", label: "Software address rearrangement" },
+  { bit: 14, suffix: "automatic_output_mode_switching", label: "Automatic output mode switching" },
+  { bit: 15, suffix: "can_communication_quality_poor", label: "CAN communication quality poor" },
+  { bit: 16, suffix: "sequential_startup_enabled", label: "Sequential startup enabled" },
+  { bit: 17, suffix: "input_undervoltage", label: "Input undervoltage" },
+  { bit: 18, suffix: "ac_imbalance_protection", label: "AC imbalance protection" },
+  { bit: 19, suffix: "ac_phase_loss", label: "AC phase loss" },
+  { bit: 20, suffix: "severe_ac_imbalance", label: "Severe AC imbalance" },
+  { bit: 21, suffix: "duplicate_serial_shutdown", label: "Duplicate serial shutdown" },
+  { bit: 22, suffix: "input_overvoltage", label: "Input overvoltage" },
+  { bit: 23, suffix: "pfc_fault", label: "PFC fault" },
+  { bit: 24, suffix: "current_sharing_imbalance", label: "Current sharing imbalance" },
+  { bit: 25, suffix: "efficiency_optimization_shutdown", label: "Efficiency optimization shutdown" },
+  { bit: 26, suffix: "internal_communication_error", label: "Internal communication error" },
+  { bit: 27, suffix: "output_current_limiting", label: "Output current limiting" },
+  { bit: 28, suffix: "current_limiting_mode", label: "Current limiting mode" },
+  { bit: 29, suffix: "input_power_failure", label: "Input power failure" },
+  { bit: 30, suffix: "pfc_bus_imbalance", label: "PFC bus imbalance" },
+  { bit: 31, suffix: "pfc_bus_voltage_fault", label: "PFC bus voltage fault" },
+] as const;
+
 const RECTIFIER_POWER_CONFIGS: Record<
   RectifierUnit,
   PowerCommandControlConfig
@@ -201,6 +236,106 @@ export class RectifierDetails extends LitElement {
       font-weight: 400;
     }
 
+    .alarm-status {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .alarm-summary {
+      display: grid;
+      gap: 0.5rem;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      background: var(--secondary-background-color, #f5f5f5);
+    }
+
+    .alarm-raw {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: baseline;
+    }
+
+    .alarm-raw-label {
+      color: var(--secondary-text-color, #727272);
+      font-size: 0.8rem;
+    }
+
+    .alarm-raw-value {
+      font-family: monospace;
+      font-weight: 600;
+    }
+
+    .active-alarms {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .alarm-chip {
+      padding: 0.3rem 0.5rem;
+      border: 1px solid var(--divider-color, #d0d0d0);
+      border-radius: 999px;
+      font-size: 0.8rem;
+    }
+
+    .alarm-chip-active {
+      border-color: var(--error-color, #db4437);
+      color: var(--error-color, #db4437);
+      font-weight: 600;
+    }
+
+    .alarm-none {
+      color: var(--secondary-text-color, #727272);
+      font-size: 0.85rem;
+    }
+
+    .alarm-details {
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+    }
+
+    .alarm-details > summary {
+      display: block;
+      padding: 0;
+      color: var(--secondary-text-color, #727272);
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .alarm-details > summary::after {
+      content: none;
+    }
+
+    .alarm-bit-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+      gap: 0.35rem;
+      margin-top: 0.65rem;
+    }
+
+    .alarm-bit {
+      display: grid;
+      grid-template-columns: 3.25rem 1fr auto;
+      gap: 0.5rem;
+      align-items: center;
+      padding: 0.4rem 0.5rem;
+      border-radius: 0.4rem;
+      background: var(--secondary-background-color, #f5f5f5);
+      font-size: 0.8rem;
+    }
+
+    .alarm-bit-number,
+    .alarm-bit-state {
+      color: var(--secondary-text-color, #727272);
+    }
+
+    .alarm-bit-active .alarm-bit-state {
+      color: var(--error-color, #db4437);
+      font-weight: 600;
+    }
+
     .message {
       padding: 1rem;
       border: 1px solid var(--divider-color, #d0d0d0);
@@ -335,9 +470,107 @@ export class RectifierDetails extends LitElement {
               </div>
             </section>
           `)}
+          ${this.renderAlarmStatus(unit)}
         </div>
       </details>
     `;
+  }
+
+  private renderAlarmStatus(unit: RectifierUnit) {
+    const capability =
+      this.chargerState?.capabilities.rectifier_alarm_status;
+
+    if (capability?.available !== true) {
+      return "";
+    }
+
+    const raw = this.chargerState?.roles[
+      `rectifier.${unit}.alarm.raw`
+    ];
+
+    const activeBits = RECTIFIER_ALARM_STATUS_BITS.filter(({ suffix }) =>
+      this.isAlarmBitActive(unit, suffix),
+    );
+
+    return html`
+      <section class="group">
+        <div class="group-title">Alarm / Status</div>
+
+        <div class="alarm-status">
+          <div class="alarm-summary">
+            <div class="alarm-raw">
+              <span class="alarm-raw-label">Raw 0x0183</span>
+              <span class="alarm-raw-value">
+                ${raw?.available === true && raw.state !== null
+                  ? raw.state
+                  : "—"}
+              </span>
+            </div>
+
+            <div class="active-alarms">
+              ${activeBits.length > 0
+                ? activeBits.map(({ bit, label }) => html`
+                    <span class="alarm-chip alarm-chip-active">
+                      Bit ${bit}: ${label}
+                    </span>
+                  `)
+                : html`
+                    <span class="alarm-none">
+                      No active alarm/status bits
+                    </span>
+                  `}
+            </div>
+          </div>
+
+          <details class="alarm-details">
+            <summary>Show all 32 status bits</summary>
+
+            <div class="alarm-bit-grid">
+              ${RECTIFIER_ALARM_STATUS_BITS.map(({ bit, suffix, label }) =>
+                this.renderAlarmBit(unit, bit, suffix, label),
+              )}
+            </div>
+          </details>
+        </div>
+      </section>
+    `;
+  }
+
+  private renderAlarmBit(
+    unit: RectifierUnit,
+    bit: number,
+    suffix: string,
+    label: string,
+  ) {
+    const role =
+      this.chargerState?.roles[`rectifier.${unit}.alarm.${suffix}`];
+
+    const available = role?.available === true;
+    const active = available && role.state === "on";
+
+    let state = "Unavailable";
+
+    if (available) {
+      state = active ? "Active" : "Inactive";
+    }
+
+    return html`
+      <div class="alarm-bit ${active ? "alarm-bit-active" : ""}">
+        <span class="alarm-bit-number">Bit ${bit}</span>
+        <span>${label}</span>
+        <span class="alarm-bit-state">${state}</span>
+      </div>
+    `;
+  }
+
+  private isAlarmBitActive(
+    unit: RectifierUnit,
+    suffix: string,
+  ): boolean {
+    const role =
+      this.chargerState?.roles[`rectifier.${unit}.alarm.${suffix}`];
+
+    return role?.available === true && role.state === "on";
   }
 
   private powerCommandState(
