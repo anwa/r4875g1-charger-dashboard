@@ -2732,8 +2732,8 @@
                       "group": "influxdb",
                       "kind": "DataQuery",
                       "spec": {
-                        "alias": "Unit 2",
-                        "query": "SELECT \"state\" AS \"Unit 2\"\nFROM \"state\"\nWHERE (\"domain\"::tag = 'sensor')\n  AND (\"entity_id\"::tag = '${instance}_rectifier_alarm_status_history_unit_2')\n  AND $timeFilter",
+                        "alias": "$col",
+                        "query": "SELECT\n  ((\"value\"::integer \u0026 1) / 1) AS \"00 Output Overvoltage Lockout\",\n  ((\"value\"::integer \u0026 2) / 2) AS \"01 Overtemperature Shutdown\",\n  ((\"value\"::integer \u0026 4) / 4) AS \"02 Fault Shutdown\",\n  ((\"value\"::integer \u0026 8) / 8) AS \"03 Protection Shutdown\",\n  ((\"value\"::integer \u0026 16) / 16) AS \"04 Internal Fan Fault\",\n  ((\"value\"::integer \u0026 32) / 32) AS \"05 EEPROM Error\",\n  ((\"value\"::integer \u0026 64) / 64) AS \"06 Output Overcurrent\",\n  ((\"value\"::integer \u0026 128) / 128) AS \"07 Output Undervoltage\",\n  ((\"value\"::integer \u0026 256) / 256) AS \"08 Low Temperature Shutdown\",\n  ((\"value\"::integer \u0026 512) / 512) AS \"09 Module Power Off\",\n  ((\"value\"::integer \u0026 1024) / 1024) AS \"10 Fan Full Speed Mode\",\n  ((\"value\"::integer \u0026 2048) / 2048) AS \"11 Reserved\",\n  ((\"value\"::integer \u0026 4096) / 4096) AS \"12 Internal Overtemperature\",\n  ((\"value\"::integer \u0026 8192) / 8192) AS \"13 Software Address Rearrangement\",\n  ((\"value\"::integer \u0026 16384) / 16384) AS \"14 Automatic Output Mode Switching\",\n  ((\"value\"::integer \u0026 32768) / 32768) AS \"15 CAN Communication Quality Poor\",\n  ((\"value\"::integer \u0026 65536) / 65536) AS \"16 Sequential Startup Enabled\",\n  ((\"value\"::integer \u0026 131072) / 131072) AS \"17 Input Undervoltage\",\n  ((\"value\"::integer \u0026 262144) / 262144) AS \"18 AC Imbalance Protection\",\n  ((\"value\"::integer \u0026 524288) / 524288) AS \"19 AC Phase Loss\",\n  ((\"value\"::integer \u0026 1048576) / 1048576) AS \"20 Severe AC Imbalance\",\n  ((\"value\"::integer \u0026 2097152) / 2097152) AS \"21 Duplicate Serial Shutdown\",\n  ((\"value\"::integer \u0026 4194304) / 4194304) AS \"22 Input Overvoltage\",\n  ((\"value\"::integer \u0026 8388608) / 8388608) AS \"23 PFC Fault\",\n  ((\"value\"::integer \u0026 16777216) / 16777216) AS \"24 Current Sharing Imbalance\",\n  ((\"value\"::integer \u0026 33554432) / 33554432) AS \"25 Efficiency Optimization Shutdown\",\n  ((\"value\"::integer \u0026 67108864) / 67108864) AS \"26 Internal Communication Error\",\n  ((\"value\"::integer \u0026 134217728) / 134217728) AS \"27 Output Current Limiting\",\n  ((\"value\"::integer \u0026 268435456) / 268435456) AS \"28 Current Limiting Mode\",\n  ((\"value\"::integer \u0026 536870912) / 536870912) AS \"29 Input Power Failure\",\n  ((\"value\"::integer \u0026 1073741824) / 1073741824) AS \"30 PFC Bus Imbalance\",\n  ((\"value\"::integer \u0026 2147483648) / 2147483648) AS \"31 PFC Bus Voltage Fault\"\nFROM \"state\"\nWHERE (\"domain\"::tag = 'sensor')\n  AND (\"entity_id\"::tag = '${instance}_rectifier_alarm_status_word_history_unit_2')\n  AND $timeFilter",
                         "rawQuery": true,
                         "resultFormat": "time_series"
                       },
@@ -2772,6 +2772,23 @@
                     "lineWidth": 0,
                     "spanNulls": false
                   },
+                  "mappings": [
+                    {
+                      "options": {
+                        "0": {
+                          "color": "dark-green",
+                          "index": 0,
+                          "text": "Clear"
+                        },
+                        "1": {
+                          "color": "dark-red",
+                          "index": 1,
+                          "text": "Set"
+                        }
+                      },
+                      "type": "value"
+                    }
+                  ],
                   "thresholds": {
                     "mode": "absolute",
                     "steps": [
@@ -2796,8 +2813,8 @@
                   "showLegend": false
                 },
                 "mergeValues": true,
-                "rowHeight": 0.9,
-                "showValue": "always",
+                "rowHeight": 0.7,
+                "showValue": "auto",
                 "tooltip": {
                   "hideZeros": false,
                   "mode": "single",
@@ -2827,8 +2844,8 @@
                       "group": "influxdb",
                       "kind": "DataQuery",
                       "spec": {
-                        "alias": "Unit 1",
-                        "query": "SELECT \"state\" AS \"Unit 1\"\nFROM \"state\"\nWHERE (\"domain\"::tag = 'sensor')\n  AND (\"entity_id\"::tag = '${instance}_rectifier_alarm_status_history_unit_1')\n  AND $timeFilter",
+                        "alias": "$col",
+                        "query": "SELECT\n  ((\"value\"::integer \u0026 1) / 1) AS \"00 Output Overvoltage Lockout\",\n  ((\"value\"::integer \u0026 2) / 2) AS \"01 Overtemperature Shutdown\",\n  ((\"value\"::integer \u0026 4) / 4) AS \"02 Fault Shutdown\",\n  ((\"value\"::integer \u0026 8) / 8) AS \"03 Protection Shutdown\",\n  ((\"value\"::integer \u0026 16) / 16) AS \"04 Internal Fan Fault\",\n  ((\"value\"::integer \u0026 32) / 32) AS \"05 EEPROM Error\",\n  ((\"value\"::integer \u0026 64) / 64) AS \"06 Output Overcurrent\",\n  ((\"value\"::integer \u0026 128) / 128) AS \"07 Output Undervoltage\",\n  ((\"value\"::integer \u0026 256) / 256) AS \"08 Low Temperature Shutdown\",\n  ((\"value\"::integer \u0026 512) / 512) AS \"09 Module Power Off\",\n  ((\"value\"::integer \u0026 1024) / 1024) AS \"10 Fan Full Speed Mode\",\n  ((\"value\"::integer \u0026 2048) / 2048) AS \"11 Reserved\",\n  ((\"value\"::integer \u0026 4096) / 4096) AS \"12 Internal Overtemperature\",\n  ((\"value\"::integer \u0026 8192) / 8192) AS \"13 Software Address Rearrangement\",\n  ((\"value\"::integer \u0026 16384) / 16384) AS \"14 Automatic Output Mode Switching\",\n  ((\"value\"::integer \u0026 32768) / 32768) AS \"15 CAN Communication Quality Poor\",\n  ((\"value\"::integer \u0026 65536) / 65536) AS \"16 Sequential Startup Enabled\",\n  ((\"value\"::integer \u0026 131072) / 131072) AS \"17 Input Undervoltage\",\n  ((\"value\"::integer \u0026 262144) / 262144) AS \"18 AC Imbalance Protection\",\n  ((\"value\"::integer \u0026 524288) / 524288) AS \"19 AC Phase Loss\",\n  ((\"value\"::integer \u0026 1048576) / 1048576) AS \"20 Severe AC Imbalance\",\n  ((\"value\"::integer \u0026 2097152) / 2097152) AS \"21 Duplicate Serial Shutdown\",\n  ((\"value\"::integer \u0026 4194304) / 4194304) AS \"22 Input Overvoltage\",\n  ((\"value\"::integer \u0026 8388608) / 8388608) AS \"23 PFC Fault\",\n  ((\"value\"::integer \u0026 16777216) / 16777216) AS \"24 Current Sharing Imbalance\",\n  ((\"value\"::integer \u0026 33554432) / 33554432) AS \"25 Efficiency Optimization Shutdown\",\n  ((\"value\"::integer \u0026 67108864) / 67108864) AS \"26 Internal Communication Error\",\n  ((\"value\"::integer \u0026 134217728) / 134217728) AS \"27 Output Current Limiting\",\n  ((\"value\"::integer \u0026 268435456) / 268435456) AS \"28 Current Limiting Mode\",\n  ((\"value\"::integer \u0026 536870912) / 536870912) AS \"29 Input Power Failure\",\n  ((\"value\"::integer \u0026 1073741824) / 1073741824) AS \"30 PFC Bus Imbalance\",\n  ((\"value\"::integer \u0026 2147483648) / 2147483648) AS \"31 PFC Bus Voltage Fault\"\nFROM \"state\"\nWHERE (\"domain\"::tag = 'sensor')\n  AND (\"entity_id\"::tag = '${instance}_rectifier_alarm_status_word_history_unit_1')\n  AND $timeFilter",
                         "rawQuery": true,
                         "resultFormat": "time_series"
                       },
@@ -2867,6 +2884,23 @@
                     "lineWidth": 0,
                     "spanNulls": false
                   },
+                  "mappings": [
+                    {
+                      "options": {
+                        "0": {
+                          "color": "dark-green",
+                          "index": 0,
+                          "text": "Clear"
+                        },
+                        "1": {
+                          "color": "dark-red",
+                          "index": 1,
+                          "text": "Set"
+                        }
+                      },
+                      "type": "value"
+                    }
+                  ],
                   "thresholds": {
                     "mode": "absolute",
                     "steps": [
@@ -2891,8 +2925,8 @@
                   "showLegend": false
                 },
                 "mergeValues": true,
-                "rowHeight": 0.9,
-                "showValue": "always",
+                "rowHeight": 0.7,
+                "showValue": "auto",
                 "tooltip": {
                   "hideZeros": false,
                   "mode": "single",
@@ -2922,8 +2956,8 @@
                       "group": "influxdb",
                       "kind": "DataQuery",
                       "spec": {
-                        "alias": "Unit 3",
-                        "query": "SELECT \"state\" AS \"Unit 3\"\nFROM \"state\"\nWHERE (\"domain\"::tag = 'sensor')\n  AND (\"entity_id\"::tag = '${instance}_rectifier_alarm_status_history_unit_3')\n  AND $timeFilter",
+                        "alias": "$col",
+                        "query": "SELECT\n  ((\"value\"::integer \u0026 1) / 1) AS \"00 Output Overvoltage Lockout\",\n  ((\"value\"::integer \u0026 2) / 2) AS \"01 Overtemperature Shutdown\",\n  ((\"value\"::integer \u0026 4) / 4) AS \"02 Fault Shutdown\",\n  ((\"value\"::integer \u0026 8) / 8) AS \"03 Protection Shutdown\",\n  ((\"value\"::integer \u0026 16) / 16) AS \"04 Internal Fan Fault\",\n  ((\"value\"::integer \u0026 32) / 32) AS \"05 EEPROM Error\",\n  ((\"value\"::integer \u0026 64) / 64) AS \"06 Output Overcurrent\",\n  ((\"value\"::integer \u0026 128) / 128) AS \"07 Output Undervoltage\",\n  ((\"value\"::integer \u0026 256) / 256) AS \"08 Low Temperature Shutdown\",\n  ((\"value\"::integer \u0026 512) / 512) AS \"09 Module Power Off\",\n  ((\"value\"::integer \u0026 1024) / 1024) AS \"10 Fan Full Speed Mode\",\n  ((\"value\"::integer \u0026 2048) / 2048) AS \"11 Reserved\",\n  ((\"value\"::integer \u0026 4096) / 4096) AS \"12 Internal Overtemperature\",\n  ((\"value\"::integer \u0026 8192) / 8192) AS \"13 Software Address Rearrangement\",\n  ((\"value\"::integer \u0026 16384) / 16384) AS \"14 Automatic Output Mode Switching\",\n  ((\"value\"::integer \u0026 32768) / 32768) AS \"15 CAN Communication Quality Poor\",\n  ((\"value\"::integer \u0026 65536) / 65536) AS \"16 Sequential Startup Enabled\",\n  ((\"value\"::integer \u0026 131072) / 131072) AS \"17 Input Undervoltage\",\n  ((\"value\"::integer \u0026 262144) / 262144) AS \"18 AC Imbalance Protection\",\n  ((\"value\"::integer \u0026 524288) / 524288) AS \"19 AC Phase Loss\",\n  ((\"value\"::integer \u0026 1048576) / 1048576) AS \"20 Severe AC Imbalance\",\n  ((\"value\"::integer \u0026 2097152) / 2097152) AS \"21 Duplicate Serial Shutdown\",\n  ((\"value\"::integer \u0026 4194304) / 4194304) AS \"22 Input Overvoltage\",\n  ((\"value\"::integer \u0026 8388608) / 8388608) AS \"23 PFC Fault\",\n  ((\"value\"::integer \u0026 16777216) / 16777216) AS \"24 Current Sharing Imbalance\",\n  ((\"value\"::integer \u0026 33554432) / 33554432) AS \"25 Efficiency Optimization Shutdown\",\n  ((\"value\"::integer \u0026 67108864) / 67108864) AS \"26 Internal Communication Error\",\n  ((\"value\"::integer \u0026 134217728) / 134217728) AS \"27 Output Current Limiting\",\n  ((\"value\"::integer \u0026 268435456) / 268435456) AS \"28 Current Limiting Mode\",\n  ((\"value\"::integer \u0026 536870912) / 536870912) AS \"29 Input Power Failure\",\n  ((\"value\"::integer \u0026 1073741824) / 1073741824) AS \"30 PFC Bus Imbalance\",\n  ((\"value\"::integer \u0026 2147483648) / 2147483648) AS \"31 PFC Bus Voltage Fault\"\nFROM \"state\"\nWHERE (\"domain\"::tag = 'sensor')\n  AND (\"entity_id\"::tag = '${instance}_rectifier_alarm_status_word_history_unit_3')\n  AND $timeFilter",
                         "rawQuery": true,
                         "resultFormat": "time_series"
                       },
@@ -2962,6 +2996,23 @@
                     "lineWidth": 0,
                     "spanNulls": false
                   },
+                  "mappings": [
+                    {
+                      "options": {
+                        "0": {
+                          "color": "dark-green",
+                          "index": 0,
+                          "text": "Clear"
+                        },
+                        "1": {
+                          "color": "dark-red",
+                          "index": 1,
+                          "text": "Set"
+                        }
+                      },
+                      "type": "value"
+                    }
+                  ],
                   "thresholds": {
                     "mode": "absolute",
                     "steps": [
@@ -2986,8 +3037,8 @@
                   "showLegend": false
                 },
                 "mergeValues": true,
-                "rowHeight": 0.9,
-                "showValue": "always",
+                "rowHeight": 0.7,
+                "showValue": "auto",
                 "tooltip": {
                   "hideZeros": false,
                   "mode": "single",
@@ -4355,7 +4406,7 @@
                           "kind": "ElementReference",
                           "name": "panel-33"
                         },
-                        "height": 7,
+                        "height": 27,
                         "width": 8,
                         "x": 0,
                         "y": 0
@@ -4368,7 +4419,7 @@
                           "kind": "ElementReference",
                           "name": "panel-32"
                         },
-                        "height": 7,
+                        "height": 27,
                         "width": 8,
                         "x": 8,
                         "y": 0
@@ -4381,7 +4432,7 @@
                           "kind": "ElementReference",
                           "name": "panel-34"
                         },
-                        "height": 7,
+                        "height": 27,
                         "width": 8,
                         "x": 16,
                         "y": 0
