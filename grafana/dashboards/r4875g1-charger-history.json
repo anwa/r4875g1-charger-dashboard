@@ -3933,7 +3933,7 @@
           {
             "kind": "RowsLayoutRow",
             "spec": {
-              "collapse": false,
+              "collapse": true,
               "layout": {
                 "kind": "GridLayout",
                 "spec": {
@@ -4209,7 +4209,7 @@
           {
             "kind": "RowsLayoutRow",
             "spec": {
-              "collapse": false,
+              "collapse": true,
               "layout": {
                 "kind": "GridLayout",
                 "spec": {
@@ -4342,7 +4342,7 @@
           {
             "kind": "RowsLayoutRow",
             "spec": {
-              "collapse": false,
+              "collapse": true,
               "hideHeader": false,
               "layout": {
                 "kind": "GridLayout",
