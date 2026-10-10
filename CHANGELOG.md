@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.1.1
+
+Add Grafana rectifier alarm/status history.
+
+- add a collapsed Alarms & Status row to the historical Grafana dashboard
+- add one State timeline panel for each Rectifier Unit
+- query the Home Assistant alarm/status history template sensors through portable `${instance}` entity prefixes
+- display combined active Huawei `0x0183` bit states such as `B09`, `B03,B09,B17` and `NONE`
+- rely on the hourly Home Assistant template heartbeat to keep stable states visible in longer history ranges
+- preserve portable `${datasource}` and `${instance}` variables
+- keep Grafana read-only and outside the Charger control path
+- bump the dashboard version to 1.1.1
+
 ## 1.1.0
 
 Rectifier alarm/status live dashboard milestone.

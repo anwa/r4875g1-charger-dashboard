@@ -154,6 +154,7 @@ The current sections are:
 - Rectifier Thermal
 - Enclosure / Compartment
 - Connectivity
+- Alarms & Status
 
 Overview remain expanded by default. All other sections are collapsed by default so the dashboard stays compact while still allowing deeper analysis when needed.
 
@@ -267,3 +268,28 @@ The State timeline follows the selected dashboard time range. The periodic heart
 A communication loss can leave other `fill(previous)` telemetry at its last known value, while the current CAN Communication Stat and the connectivity timeline provide the context needed to interpret that data.
 
 Additional historical sections are added in small reviewed steps while preserving normal-import and Git-Sync compatibility.
+
+### Alarms & Status
+
+The Alarms & Status section contains one State timeline for each Rectifier Unit.
+
+Each panel reads the dedicated Home Assistant alarm/status history template sensor:
+
+```text
+${instance}_rectifier_alarm_status_history_unit_1
+${instance}_rectifier_alarm_status_history_unit_2
+${instance}_rectifier_alarm_status_history_unit_3
+```
+
+The sensors store the currently active Huawei `0x0183` bit numbers as compact string states, for example:
+
+```text
+NONE
+B09
+B03,B09,B17
+B03,B09,B17,B29
+```
+
+The Home Assistant template sensors publish immediately when the raw alarm/status word changes and also repeat the current state hourly. The periodic heartbeat keeps otherwise stable alarm/status states visible in longer Grafana history ranges without requiring `fill(previous)`.
+
+The Grafana panels display these combined states directly and do not reinterpret them as Charger safety decisions. Detailed bit meanings remain part of the live Charger diagnostics.
