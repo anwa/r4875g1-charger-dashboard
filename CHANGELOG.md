@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.1.2
+
+Improve Grafana rectifier alarm/status history with per-bit timelines.
+
+- replace combined string-state alarm history with direct 32-bit status-word decoding in Grafana
+- decode all 32 Huawei `0x0183` bits into individual State timeline rows
+- use one numeric Home Assistant history sensor per Rectifier instead of one sensor per alarm bit
+- cast Home Assistant float values to integer in InfluxQL before bit extraction
+- use `Alias by: $col` so timeline rows show the documented bit names directly
+- map each bit to `Clear` or `Set`
+- preserve portable `${datasource}` and `${instance}` variables
+- keep Grafana read-only and outside the Charger control path
+- bump the dashboard version to 1.1.2
+
 ## 1.1.1
 
 Add Grafana rectifier alarm/status history.

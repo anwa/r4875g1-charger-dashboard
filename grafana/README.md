@@ -271,25 +271,27 @@ Additional historical sections are added in small reviewed steps while preservin
 
 ### Alarms & Status
 
-The Alarms & Status section contains one State timeline for each Rectifier Unit.
+The Alarms & Status section contains one 32-row State timeline for each Rectifier Unit.
 
-Each panel reads the dedicated Home Assistant alarm/status history template sensor:
-
-```text
-${instance}_rectifier_alarm_status_history_unit_1
-${instance}_rectifier_alarm_status_history_unit_2
-${instance}_rectifier_alarm_status_history_unit_3
-```
-
-The sensors store the currently active Huawei `0x0183` bit numbers as compact string states, for example:
+Each panel reads one numeric Home Assistant history sensor:
 
 ```text
-NONE
-B09
-B03,B09,B17
-B03,B09,B17,B29
+${instance}_rectifier_alarm_status_word_history_unit_1
+${instance}_rectifier_alarm_status_word_history_unit_2
+${instance}_rectifier_alarm_status_word_history_unit_3
 ```
 
-The Home Assistant template sensors publish immediately when the raw alarm/status word changes and also repeat the current state hourly. The periodic heartbeat keeps otherwise stable alarm/status states visible in longer Grafana history ranges without requiring `fill(previous)`.
+Each sensor stores the complete Huawei `0x0183` alarm/status word as a numeric value and repeats the current value hourly through the Home Assistant template heartbeat.
 
-The Grafana panels display these combined states directly and do not reinterpret them as Charger safety decisions. Detailed bit meanings remain part of the live Charger diagnostics.
+Home Assistant stores the numeric state as a float in InfluxDB. The Grafana InfluxQL queries therefore cast the value to integer before applying bitwise operations.
+
+Each of the 32 documented bits is extracted into a separate `0` / `1` field and displayed as its own State timeline row. The query aliases use the documented Huawei bit meanings directly, and Grafana maps the values to:
+
+```text
+0 -> Clear
+1 -> Set
+```
+
+`Alias by: $col` is used so the timeline displays the query column names without the InfluxDB measurement prefix.
+
+The per-bit history remains diagnostic only. Grafana does not reinterpret the reported states as Charger safety decisions.
