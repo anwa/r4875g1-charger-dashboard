@@ -101,4 +101,5 @@ This repository has two independent upstream paths:
 
 - A card change that needs new or changed semantic roles or Backend API fields must be implemented in the integration first. Keep `src/api/types.ts` aligned with the integration's documented Backend API v1.
 - A Grafana query change must use entity object IDs that exist in the current Controller firmware. Check the firmware entity names in the same task.
+- After changing semantic role references or Grafana entity IDs, run the cross-repository contract check from the firmware repository: `../esphome-r4875g1-3phase-charger/.venv/Scripts/python.exe ../esphome-r4875g1-3phase-charger/scripts/check-contract.py`. Grafana queries that use Home Assistant helper entities must be documented in `grafana/README.md` and registered in the check script.
 - Each repository keeps its own versioning, changelog and validation rules. Apply the rules of the repository being changed.
