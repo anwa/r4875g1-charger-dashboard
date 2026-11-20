@@ -546,7 +546,7 @@ export class RectifierDetails extends LitElement {
       this.chargerState?.roles[`rectifier.${unit}.alarm.${suffix}`];
 
     const available = role?.available === true;
-    const active = available && role.state === "on";
+    const active = this.isAlarmBitActive(unit, suffix);
 
     let state = "Unavailable";
 
@@ -570,7 +570,13 @@ export class RectifierDetails extends LitElement {
     const role =
       this.chargerState?.roles[`rectifier.${unit}.alarm.${suffix}`];
 
-    return role?.available === true && role.state === "on";
+    if (role?.available !== true || role.state === null) {
+      return false;
+    }
+
+    // The Controller exposes alarm bits as numeric sensors ("0.0" / "1.0").
+    // "on" is still accepted for older binary_sensor-based firmware.
+    return role.state === "on" || Number(role.state) === 1;
   }
 
   private powerCommandState(

@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.1.3
+
+Fix rectifier alarm bits never showing as active in the card.
+
+- treat numeric alarm-bit states (`1` / `1.0`) as active; the Controller exposes alarm bits as numeric sensors, and integration 1.4.1 resolves them as `sensor` roles
+- keep accepting `on` for older `binary_sensor`-based firmware
+- use one shared active check for the bit list and the alarm summary
+- bump the dashboard version to 1.1.3
+
 ## 1.1.2
 
 Improve Grafana rectifier alarm/status history with per-bit timelines.

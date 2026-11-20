@@ -2921,7 +2921,7 @@ class Rt extends m {
     `;
   }
   renderAlarmBit(e, t, r, i) {
-    const n = this.chargerState?.roles[`rectifier.${e}.alarm.${r}`], a = n?.available === !0, c = a && n.state === "on";
+    const a = this.chargerState?.roles[`rectifier.${e}.alarm.${r}`]?.available === !0, c = this.isAlarmBitActive(e, r);
     let l = "Unavailable";
     return a && (l = c ? "Active" : "Inactive"), o`
       <div class="alarm-bit ${c ? "alarm-bit-active" : ""}">
@@ -2933,7 +2933,7 @@ class Rt extends m {
   }
   isAlarmBitActive(e, t) {
     const r = this.chargerState?.roles[`rectifier.${e}.alarm.${t}`];
-    return r?.available === !0 && r.state === "on";
+    return r?.available !== !0 || r.state === null ? !1 : r.state === "on" || Number(r.state) === 1;
   }
   powerCommandState(e) {
     const t = `rectifier.${e}`, r = this.chargerState?.roles[`${t}.power_state`], i = r?.available === !0 ? r.state : null, n = `${t}.command.start`, a = `${t}.command.stop`;
