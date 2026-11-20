@@ -7,3 +7,6 @@ dist/*
 .env.*
 !.env.example
 *.patch
+
+# Claude Code per-user settings
+.claude/settings.local.json

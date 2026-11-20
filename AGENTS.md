@@ -27,14 +27,18 @@ These rules apply to the complete `r4875g1-charger-dashboard` repository.
 ## Change workflow
 
 - Work in small, reviewable functional steps.
-- Before implementing a change, inspect the current branch and relevant repository rules.
-- For implementation changes, provide a downloadable patch that can be checked with `git apply --check`.
-- Generate patches only against the exact current target-branch files read from GitHub; never generate a user patch from synthetic, shortened or reconstructed substitute source files.
-- Before delivering a patch, validate `git apply --check` against those exact target-branch file contents and confirm the target branch/commit used for validation.
-- Run or request `npm run typecheck`, `npm run build` and `git diff --check` before committing functional frontend changes.
+- Before implementing a change, inspect the current local branch and relevant repository rules.
+- Edit files directly in the local working tree. Keep each change limited to the current concern and review the resulting diff before reporting it as complete.
+- Run `npm run typecheck`, `npm run build` and `git diff --check` locally before committing functional frontend changes, and report the results.
 - Rebuild and include `dist/r4875g1-charger-dashboard.js` whenever source changes affect the distributable bundle.
 - Do not claim runtime testing that has not actually been performed in Home Assistant.
-- Treat GitHub as read-only for the assistant. The user performs commits, pushes, merges, tags, releases and branch deletion.
+- Provide a patch that passes `git apply --check` only when the user asks for one or the working tree cannot be edited directly.
+
+## Repository access
+
+- Treat GitHub as read-only for the assistant. Do not perform repository mutations through GitHub or a GitHub integration.
+- The assistant may create a local feature branch and local commits when the user asks for commits. Do not commit directly on `main` unless the user says so.
+- The assistant must not push, merge into `main`, create or move tags, publish GitHub Releases, delete branches or rewrite commits that already exist on the remote. The user performs these steps.
 
 ## Versioning
 
@@ -52,8 +56,8 @@ These rules apply to the complete `r4875g1-charger-dashboard` repository.
 - Minor and major versions must be merged to `main`.
 - After the merge, create an annotated Git tag named `v<version>` that points to the exact release commit.
 - Publish a GitHub Release for the same tag and version.
-- The assistant must provide the user with all required release material, including:
-  - commit message
+- The user performs the merge, tag and GitHub Release. The assistant must provide the user with all required release material, including:
+  - commit message, or the local commit when the user asked the assistant to commit
   - merge commands
   - tag command and tag message
   - release title
@@ -69,4 +73,19 @@ These rules apply to the complete `r4875g1-charger-dashboard` repository.
 
 - Use descriptive feature branches for active development.
 - Keep release commits coherent: the functional change, required version bump, changelog/release documentation and rebuilt distributable should be committed together when they belong to the same release checkpoint.
-- After a released feature branch has been merged and verified, it may be deleted locally and remotely.
+- After a released feature branch has been merged and verified, the user may delete it locally and remotely.
+
+## Related repositories
+
+This repository is one part of a project family. The sibling repositories are expected next to this one:
+
+| Repository | Local path | Role |
+|---|---|---|
+| `esphome-r4875g1-3phase-charger` | `../esphome-r4875g1-3phase-charger` | Charger Controller and Remote HMI firmware; defines the Home Assistant entity contract in `HomeAssistant/ENTITY_CONTRACT.md` |
+| `homeassistant-r4875g1-charger` | `../homeassistant-r4875g1-charger` | Home Assistant integration; resolves Controller entities into semantic roles and exposes Backend API v1 |
+| `r4875g1-charger-dashboard` | `.` | Dashboard card and Grafana history dashboard; consumes Backend API semantic roles |
+
+- The contract chain is: firmware entities -> `ENTITY_CONTRACT.md` -> integration roles / Backend API -> dashboard.
+- A change that needs new or changed semantic roles, Backend API fields or Controller entities must check the upstream repositories in the same task.
+- A Grafana query change that depends on Home Assistant entity names must be checked against the Controller entity contract.
+- Each repository keeps its own versioning, changelog and validation rules. Apply the rules of the repository being changed.
