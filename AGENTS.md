@@ -85,7 +85,20 @@ This repository is one part of a project family. The sibling repositories are ex
 | `homeassistant-r4875g1-charger` | `../homeassistant-r4875g1-charger` | Home Assistant integration; resolves Controller entities into semantic roles and exposes Backend API v1 |
 | `r4875g1-charger-dashboard` | `.` | Dashboard card and Grafana history dashboard; consumes Backend API semantic roles |
 
-- The contract chain is: firmware entities -> `ENTITY_CONTRACT.md` -> integration roles / Backend API -> dashboard.
-- A change that needs new or changed semantic roles, Backend API fields or Controller entities must check the upstream repositories in the same task.
-- A Grafana query change that depends on Home Assistant entity names must be checked against the Controller entity contract.
+### Contract surfaces
+
+This repository has two independent upstream paths:
+
+| Part | Binds to | Upstream source |
+|---|---|---|
+| Dashboard card (`src/api/`) | Backend API v1 WebSocket commands and semantic roles | `../homeassistant-r4875g1-charger/custom_components/r4875g1_charger/websocket_api.py` and `role_specs.py` |
+| Grafana history dashboard (`grafana/`) | Home Assistant entity IDs in InfluxDB (`${instance}_<object_id>`), bypassing the integration | Controller entity names in `../esphome-r4875g1-3phase-charger/packages/` |
+
+- `../esphome-r4875g1-3phase-charger/HomeAssistant/ENTITY_CONTRACT.md` is the authoritative description of the Controller entity contract.
+- Controller entity IDs derive from the ESPHome `name:`. A firmware entity rename changes the Grafana measurement series even when the integration still resolves the role.
+
+### Cross-repository rules
+
+- A card change that needs new or changed semantic roles or Backend API fields must be implemented in the integration first. Keep `src/api/types.ts` aligned with the integration's documented Backend API v1.
+- A Grafana query change must use entity object IDs that exist in the current Controller firmware. Check the firmware entity names in the same task.
 - Each repository keeps its own versioning, changelog and validation rules. Apply the rules of the repository being changed.
