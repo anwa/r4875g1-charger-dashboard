@@ -4,11 +4,22 @@
 
 These rules apply to the complete `r4875g1-charger-dashboard` repository.
 
-## Language
+## Inherited Rules
 
-- Source code, commit messages, changelog entries and project documentation are written in English.
-- Home Assistant user-facing translations must be maintained in at least English and German when translation files are introduced.
-- If one Home Assistant translation language changes, the corresponding English and German files must be checked and kept in sync.
+This repository lives in a rule hierarchy. Apply these files in addition to the rules below, in this order of increasing precedence:
+
+| Level | File | Applies to |
+|---|---|---|
+| Global | `../../../../AGENTS.md` | everything: language, Git authority, branches, commits, versioning principles, documentation style, evidence |
+| ESPHome | `../../../AGENTS.md` | only its "HMI Over Home Assistant" principles |
+
+The Waveshare rules (`../../AGENTS.md`) do not apply to this repository. This file contains only what is specific to this repository and takes precedence over the inherited files.
+
+If the inherited files are not present, for example in a fresh clone: write all repository content in English, never commit secrets, and never push, tag or publish without the user's approval.
+
+## Translations
+
+- Home Assistant user-facing translations must be maintained in at least English and German when translation files are introduced, and kept in sync.
 
 ## Architecture
 
@@ -24,56 +35,19 @@ These rules apply to the complete `r4875g1-charger-dashboard` repository.
 - Keep the version-controlled Grafana dashboard importable through normal Grafana dashboard import and compatible with Grafana Git Sync.
 - Prefer the Grafana V2 dashboard resource model and remove volatile server-generated metadata and installation-specific current variable selections before committing exported JSON.
 
-## Change workflow
+## Local checks
 
-- Work in small, reviewable functional steps.
-- Before implementing a change, inspect the current local branch and relevant repository rules.
-- Edit files directly in the local working tree. Keep each change limited to the current concern and review the resulting diff before reporting it as complete.
-- Run `npm run typecheck`, `npm run build` and `git diff --check` locally before committing functional frontend changes, and report the results.
+- Run `npm run typecheck`, `npm run build` and `git diff --check` before committing functional frontend changes, and report the results.
 - Rebuild and include `dist/r4875g1-charger-dashboard.js` whenever source changes affect the distributable bundle.
-- Do not claim runtime testing that has not actually been performed in Home Assistant.
-- Provide a patch that passes `git apply --check` only when the user asks for one or the working tree cannot be edited directly.
 
-## Repository access
+## Versioning and releases
 
-- Treat GitHub as read-only for the assistant. Do not perform repository mutations through GitHub or a GitHub integration.
-- The assistant may create a local feature branch and local commits when the user asks for commits. Do not commit directly on `main` unless the user says so.
-- The assistant must not push, merge into `main`, create or move tags, publish GitHub Releases, delete branches or rewrite commits that already exist on the remote. The user performs these steps.
-
-## Versioning
-
-- Every commit that changes runtime behavior, source code, packaging, build output or other functionality must increase the project version.
-- Documentation-only commits may omit a version increase.
-- Keep `package.json` and the root package version in `package-lock.json` synchronized.
-- Use a patch increment for small fixes, refinements and narrowly scoped functional changes.
-- Use a minor increment for substantial new functionality, new user-facing capabilities or larger backward-compatible feature milestones.
-- A major increment is reserved for breaking compatibility or a major architectural milestone. The assistant must propose and discuss a major version with the user before applying it.
-- Do not defer a required version increment to a later commit.
-
-## Release workflow
-
-- A minor or major version commit is a release checkpoint.
-- Minor and major versions must be merged to `main`.
-- After the merge, create an annotated Git tag named `v<version>` that points to the exact release commit.
-- Publish a GitHub Release for the same tag and version.
-- The user performs the merge, tag and GitHub Release. The assistant must provide the user with all required release material, including:
-  - commit message, or the local commit when the user asked the assistant to commit
-  - merge commands
-  - tag command and tag message
-  - release title
-  - release notes
-  - verification commands
-  - branch cleanup commands when appropriate
-- Patch increments do not require a GitHub Release unless explicitly chosen for that change.
-- Any dashboard version intended to be distributed or offered as an update through HACS must be published as a full GitHub Release; a Git tag alone is not sufficient for the HACS release workflow.
-- Before publishing a HACS-facing release, verify that `dist/r4875g1-charger-dashboard.js` exists and still matches the repository filename expected by HACS.
-- `CHANGELOG.md` and user-facing release documentation must be updated for minor and major releases.
-
-## Branching
-
-- Use descriptive feature branches for active development.
-- Keep release commits coherent: the functional change, required version bump, changelog/release documentation and rebuilt distributable should be committed together when they belong to the same release checkpoint.
-- After a released feature branch has been merged and verified, the user may delete it locally and remotely.
+- The version is defined in `package.json`. Keep the root package version in `package-lock.json` synchronized.
+- A minor or major version is a release checkpoint: merge it to `main`, create the annotated tag `v<version>` on the release commit and publish a GitHub Release.
+- Patch versions do not require a GitHub Release unless one is chosen for that change. A version that HACS should offer as an update must always be a full GitHub Release; a tag alone is not sufficient.
+- Before publishing a HACS-facing release, verify that `dist/r4875g1-charger-dashboard.js` exists and matches the filename in `hacs.json`.
+- Update `CHANGELOG.md` and user-facing release documentation for minor and major releases.
+- Keep a release commit coherent: functional change, version bump, changelog and rebuilt bundle belong together.
 
 ## Related repositories
 
